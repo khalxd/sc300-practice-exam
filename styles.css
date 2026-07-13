@@ -1,0 +1,26 @@
+
+:root {
+  --bg:#f3f6fb; --panel:#fff; --text:#172033; --muted:#64748b; --line:#d8e0ea;
+  --primary:#2563eb; --primary-soft:#dbeafe; --danger:#b91c1c; --success:#15803d;
+  --success-bg:#ecfdf5; --danger-bg:#fef2f2; --warning:#d97706; --warning-bg:#fff7ed;
+  --shadow:0 6px 22px rgba(15,23,42,.08);
+}
+html[data-theme="dark"] {
+  --bg:#0b1120; --panel:#111827; --text:#f8fafc; --muted:#94a3b8; --line:#334155;
+  --primary-soft:#1e3a5f; --success-bg:#052e24; --danger-bg:#450a0a; --warning-bg:#431407;
+  --shadow:0 6px 22px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif}
+button,select{font:inherit}.topbar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 20px;background:#111827;color:#fff;border-bottom:1px solid #334155}
+.topbar small{display:block;color:#cbd5e1;margin-top:2px}.top-actions{display:flex;align-items:center;gap:14px}.icon-btn{border:1px solid #475569;background:transparent;color:#fff;border-radius:8px;padding:7px 10px}
+main{max-width:1100px;margin:24px auto;padding:0 14px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}.hidden{display:none!important}
+.settings-grid,.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}.settings-grid label{font-weight:650}.settings-grid select{display:block;width:100%;margin-top:7px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--text)}
+.feature-grid div{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}.notice{padding:14px;background:var(--warning-bg);border-left:4px solid var(--warning);margin:16px 0}
+.btn{border:0;border-radius:9px;padding:10px 15px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.48;cursor:not-allowed}.primary{background:var(--primary);color:#fff}.secondary{background:var(--primary-soft);color:var(--text)}.danger{background:var(--danger);color:#fff}.large{padding:13px 19px}.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.question-header{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--primary-soft);font-size:12px}.question-text{font-size:1.08rem;line-height:1.55}
+.option{display:block;padding:14px;border:1px solid var(--line);border-radius:10px;margin:10px 0;cursor:pointer;line-height:1.45}.option:hover{background:var(--bg)}.option input{margin-right:10px}.option.correct{background:var(--success-bg);border-color:#22c55e}.option.wrong{background:var(--danger-bg);border-color:#ef4444}
+.feedback{padding:14px;border-radius:10px;margin-top:15px}.feedback.good{display:block;background:var(--success-bg);color:var(--success)}.feedback.bad{display:block;background:var(--danger-bg);color:#ef4444}
+.progress{height:9px;background:var(--line);border-radius:999px;overflow:hidden;margin:18px 0}.progress span{display:block;height:100%;background:var(--primary)}
+.question-nav{display:grid;grid-template-columns:repeat(12,1fr);gap:7px}.question-nav button{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:7px;padding:8px;cursor:pointer}.question-nav button.answered{background:var(--primary-soft)}.question-nav button.flagged{outline:2px solid var(--warning)}.question-nav button.active{background:var(--primary);color:#fff}
+.score{font-size:52px;font-weight:850}.meter{height:12px;background:var(--line);border-radius:999px;overflow:hidden}.meter span{display:block;height:100%;background:var(--primary)}.domain-row{margin:16px 0}.study-tip{padding:12px;background:var(--warning-bg);border-left:4px solid var(--warning);margin:10px 0}details{border-bottom:1px solid var(--line);padding:10px 0}summary{cursor:pointer;font-weight:700}
+@media(max-width:760px){.settings-grid,.feature-grid{grid-template-columns:1fr}.question-nav{grid-template-columns:repeat(6,1fr)}.panel{padding:17px}.sticky-actions{position:sticky;bottom:0;background:var(--panel);padding:10px 0;border-top:1px solid var(--line)}}
