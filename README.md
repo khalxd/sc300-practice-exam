@@ -1,31 +1,50 @@
-# SC-300 Practice Exam v2
+# SC-300 Microsoft-Style Practice Exam v3
 
-A mobile-friendly, interactive SC-300 practice exam for Microsoft Identity and Access Administrator.
+A mobile-friendly GitHub Pages exam simulator with **52 original questions**.
 
-## Features
+## Improvements in v3
 
-- Exam mode and practice mode
-- Randomized questions and answers
-- Focus quizzes by SC-300 domain
+- Harder Microsoft-style business scenarios
+- Case-study blocks
+- BEST, MOST, minimum-effort, and least-privilege wording
+- Stronger distractors between similar Microsoft Entra features
+- Exam and practice modes
+- Domain-focused quizzes
 - Autosave and resume
 - Dark/light mode
-- Question flags and navigator
-- Domain scoring
-- Weak-topic recommendations
-- Missed-question review
+- Detailed domain results and weak-topic recommendations
 
-## Deploy with GitHub Pages
+## Replace your current GitHub project
 
-1. Upload all four files to the root of the repository:
-   - `index.html`
-   - `styles.css`
-   - `app.js`
-   - `questions.js`
-2. Open **Settings → Pages**.
-3. Choose **Deploy from a branch**.
-4. Choose `main` and `/ (root)`.
-5. Save.
+Upload these files to the root of the repository and replace existing files:
 
-The site will be available at:
+- `index.html`
+- `styles.css`
+- `app.js`
+- `questions.js`
+- `README.md`
+
+GitHub Pages will redeploy automatically after you commit the files.
+
+Site URL:
 
 `https://khalxd.github.io/sc300-practice-exam/`
+
+## Adding more questions later
+
+Open `questions.js`. Each question uses this structure:
+
+```javascript
+{
+  "domain": "Plan and implement identity governance",
+  "type": "single",
+  "case": "Optional case-study background",
+  "q": "Question text",
+  "o": ["Option A", "Option B", "Option C", "Option D"],
+  "a": [1],
+  "e": "Explanation",
+  "r": "Topic to review"
+}
+```
+
+For a select-two question, use `"type": "multi"` and provide two indexes, such as `"a": [0, 2]`.

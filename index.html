@@ -21,8 +21,8 @@
 
 <main>
 <section id="home" class="panel">
-  <h1>SC-300 Exam Simulator</h1>
-  <p>Scenario-based practice aligned to the current four SC-300 skill areas.</p>
+  <h1>SC-300 Microsoft-Style Exam Simulator</h1>
+  <p>Harder business scenarios with realistic distractors, case studies, and wording such as <strong>BEST</strong>, <strong>MOST</strong>, <strong>MINIMUM</strong>, and <strong>least privilege</strong>.</p>
 
   <div class="settings-grid">
     <label>
@@ -38,7 +38,7 @@
       <select id="countSelect">
         <option value="20">20 questions</option>
         <option value="30">30 questions</option>
-        <option value="36" selected>Full bank</option>
+        <option value="36">36 questions</option><option value="52" selected>Full bank (52)</option>
       </select>
     </label>
 
@@ -66,8 +66,8 @@
 
   <h2>Included features</h2>
   <div class="feature-grid">
-    <div>Randomized questions and answers</div>
-    <div>Single-answer and select-two questions</div>
+    <div>Microsoft-style case studies and business scenarios</div>
+    <div>Strong distractors and BEST/MOST wording</div>
     <div>Autosave and resume</div>
     <div>Question flags and navigator</div>
     <div>Domain scoring</div>
@@ -78,13 +78,13 @@
 <section id="exam" class="panel hidden">
   <div class="question-header">
     <div>
-      <span id="domainBadge" class="badge"></span>
+      <span id="domainBadge" class="badge"></span><span id="caseBadge" class="badge case-badge hidden">Case study</span>
       <h2 id="questionNumber"></h2>
     </div>
     <span id="answeredCount"></span>
   </div>
 
-  <p id="questionText" class="question-text"></p>
+  <div id="caseText" class="case-card hidden"></div><p id="questionText" class="question-text"></p>
   <div id="options"></div>
   <div id="feedback" class="feedback hidden"></div>
 

@@ -9,7 +9,7 @@ const els = {
   mode:$("modeSelect"), count:$("countSelect"), domain:$("domainSelect"),
   resumeBox:$("resumeBox"), domainBadge:$("domainBadge"), questionNumber:$("questionNumber"),
   answeredCount:$("answeredCount"), questionText:$("questionText"), options:$("options"),
-  feedback:$("feedback"), check:$("checkBtn"), prev:$("prevBtn"), next:$("nextBtn"),
+  feedback:$("feedback"), caseText:$("caseText"), caseBadge:$("caseBadge"), check:$("checkBtn"), prev:$("prevBtn"), next:$("nextBtn"),
   progress:$("progressBar"), nav:$("questionNav")
 };
 
@@ -62,6 +62,8 @@ function render(){
   els.domainBadge.textContent=q.domain+(q.type==="multi"?" • Select TWO":" • Select one");
   els.questionNumber.textContent=`Question ${state.index+1} of ${state.questions.length}`;
   els.questionText.textContent=q.q;
+  if(q.case){els.caseText.textContent=q.case;els.caseText.classList.remove("hidden");els.caseBadge.classList.remove("hidden")}
+  else{els.caseText.textContent="";els.caseText.classList.add("hidden");els.caseBadge.classList.add("hidden")}
   els.answeredCount.textContent=`${Object.values(state.answers).filter(a=>a.length).length} answered`;
   els.options.innerHTML="";
   q.o.forEach((text,i)=>{
