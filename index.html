@@ -1,109 +1,168 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111827">
-  <title>SC-300 Practice Exam</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Professional SC-300 Microsoft-style exam simulator with original scenario questions, case studies, detailed explanations, progress tracking, and domain analytics.">
+  <title>SC-300 Exam Simulator Pro</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="topbar">
-  <div>
-    <strong>SC-300 Practice Exam</strong>
-    <small>Microsoft Identity and Access Administrator</small>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="SC-300 home">
+        <span class="brand-mark">ID</span>
+        <span><strong>SC-300 Exam Lab</strong><small>Identity & Access Administrator</small></span>
+      </a>
+      <div class="top-actions">
+        <button id="themeBtn" class="ghost-btn" title="Toggle theme">☀︎</button>
+        <button id="resetBtn" class="ghost-btn">Reset progress</button>
+      </div>
+    </header>
+
+    <main id="app">
+      <section id="homeView" class="view active">
+        <div class="hero">
+          <div>
+            <span class="eyebrow">MICROSOFT-STYLE • ORIGINAL QUESTIONS • 2026 BLUEPRINT</span>
+            <h1>Prepare with realistic IAM decisions—not memorized definitions.</h1>
+            <p>Practice long business scenarios, BEST/MOST/least-privilege wording, case studies, and mixed-domain decisions. Every answer includes a plain-English explanation.</p>
+            <div class="hero-actions">
+              <button id="quickStartBtn" class="primary-btn">Start 20-question exam</button>
+              <button id="practiceStartBtn" class="secondary-btn">Start guided practice</button>
+            </div>
+          </div>
+          <div class="readiness-card">
+            <div class="ring" id="readinessRing"><span id="readinessScore">0%</span></div>
+            <h3>Readiness snapshot</h3>
+            <p id="readinessText">Complete an exam to build your readiness profile.</p>
+          </div>
+        </div>
+
+        <section class="stats-grid">
+          <article><span class="stat-num" id="questionCount">—</span><span>Original questions</span></article>
+          <article><span class="stat-num">4</span><span>Official skill domains</span></article>
+          <article><span class="stat-num">2</span><span>Case studies</span></article>
+          <article><span class="stat-num" id="bestScore">—</span><span>Best score</span></article>
+        </section>
+
+        <section class="panel setup-panel">
+          <div class="section-heading">
+            <div><span class="eyebrow">BUILD A SESSION</span><h2>Choose how you want to practice</h2></div>
+            <span class="blueprint-pill">Aligned to SC-300 study guide • Mar 2026</span>
+          </div>
+          <div class="setup-grid">
+            <label>Mode
+              <select id="modeSelect">
+                <option value="exam">Exam mode — explanations after submission</option>
+                <option value="practice">Practice mode — instant feedback</option>
+                <option value="confidence">Confidence mode — rate every answer</option>
+              </select>
+            </label>
+            <label>Question set
+              <select id="countSelect">
+                <option value="10">Quick set (10)</option>
+                <option value="20" selected>Standard set (20)</option>
+                <option value="40">Full exam (40)</option>
+                <option value="all">Complete bank</option>
+                <option value="case">Case studies (10)</option>
+                <option value="incorrect">Review missed questions</option>
+              </select>
+            </label>
+            <label>Focus area
+              <select id="domainSelect"><option value="all">All domains — weighted mix</option></select>
+            </label>
+            <label>Difficulty
+              <select id="difficultySelect">
+                <option value="all">Mixed difficulty</option>
+                <option value="Easy">Foundation</option>
+                <option value="Medium">Exam-ready</option>
+                <option value="Hard">Challenge</option>
+              </select>
+            </label>
+          </div>
+          <div class="start-row">
+            <label class="toggle"><input type="checkbox" id="shuffleToggle" checked><span></span> Shuffle questions & answers</label>
+            <button id="customStartBtn" class="primary-btn">Start session</button>
+          </div>
+          <div id="resumeBox" class="resume-box hidden">
+            <div><strong>Unfinished session found</strong><p>Your answers were saved automatically.</p></div>
+            <div><button id="resumeBtn" class="primary-btn small">Resume</button><button id="discardBtn" class="ghost-btn small">Discard</button></div>
+          </div>
+        </section>
+
+        <section class="domain-section">
+          <div class="section-heading"><div><span class="eyebrow">BLUEPRINT COVERAGE</span><h2>Your performance by domain</h2></div></div>
+          <div id="domainCards" class="domain-grid"></div>
+        </section>
+
+        <section class="feature-grid">
+          <article><span class="feature-icon">◫</span><h3>Microsoft-style scenarios</h3><p>Original questions built around business requirements, least privilege, minimum effort, and competing solutions.</p></article>
+          <article><span class="feature-icon">◎</span><h3>Actionable explanations</h3><p>Understand why the correct answer wins and why each distractor fails.</p></article>
+          <article><span class="feature-icon">↗</span><h3>Interview-ready portfolio</h3><p>Use this project to discuss front-end development, IAM study strategy, blueprint mapping, and learning analytics.</p></article>
+        </section>
+      </section>
+
+      <section id="examView" class="view">
+        <div class="exam-layout">
+          <aside class="exam-sidebar">
+            <div class="timer-card"><span>TIME REMAINING</span><strong id="timer">90:00</strong><div class="timer-track"><i id="timerBar"></i></div></div>
+            <div class="progress-card"><div><span>Progress</span><strong id="answeredText">0 / 0</strong></div><div class="progress-track"><i id="progressBar"></i></div></div>
+            <div class="legend"><span><i class="answered-dot"></i>Answered</span><span><i class="flag-dot"></i>Flagged</span></div>
+            <div id="navigator" class="navigator"></div>
+            <button id="submitBtn" class="danger-btn">Submit exam</button>
+            <button id="exitBtn" class="ghost-btn full">Save & exit</button>
+          </aside>
+
+          <section class="question-area">
+            <div class="question-topline">
+              <div><span id="questionDomain" class="domain-tag"></span><span id="difficultyTag" class="difficulty-tag"></span></div>
+              <button id="flagBtn" class="flag-btn">⚑ Flag for review</button>
+            </div>
+            <div id="caseBrief" class="case-brief hidden"></div>
+            <article class="question-card">
+              <div class="question-number">QUESTION <span id="questionNumber">1</span> OF <span id="questionTotal">20</span></div>
+              <p id="scenarioText" class="scenario"></p>
+              <h2 id="questionText"></h2>
+              <p id="selectHint" class="select-hint"></p>
+              <div id="options" class="options"></div>
+              <div id="confidenceBox" class="confidence-box hidden">
+                <span>How confident are you?</span>
+                <button data-confidence="1">Guessing</button><button data-confidence="2">Somewhat sure</button><button data-confidence="3">Very sure</button>
+              </div>
+              <div id="feedback" class="feedback hidden"></div>
+            </article>
+            <div class="question-actions">
+              <button id="prevBtn" class="secondary-btn">← Previous</button>
+              <div class="keyboard-hint">Keyboard: 1–4 choose • F flag • ←/→ navigate</div>
+              <button id="checkBtn" class="primary-btn hidden">Check answer</button>
+              <button id="nextBtn" class="primary-btn">Next →</button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="resultsView" class="view">
+        <div class="results-hero">
+          <div class="score-orbit"><strong id="finalScore">0%</strong><span id="scoreLabel">Result</span></div>
+          <div><span class="eyebrow">SESSION COMPLETE</span><h1 id="resultHeading">Your results</h1><p id="resultSummary"></p>
+            <div class="result-actions"><button id="reviewMissedBtn" class="primary-btn">Review missed questions</button><button id="newExamBtn" class="secondary-btn">Build another session</button><button id="exportBtn" class="ghost-btn">Export result</button></div>
+          </div>
+        </div>
+        <div class="result-stat-grid" id="resultStats"></div>
+        <section class="panel">
+          <div class="section-heading"><div><span class="eyebrow">DOMAIN ANALYSIS</span><h2>Where to focus next</h2></div></div>
+          <div id="resultDomains" class="result-domains"></div>
+        </section>
+        <section class="panel">
+          <div class="section-heading"><div><span class="eyebrow">ANSWER REVIEW</span><h2>Question-by-question breakdown</h2></div><select id="reviewFilter"><option value="all">All questions</option><option value="wrong">Incorrect only</option><option value="flagged">Flagged only</option></select></div>
+          <div id="reviewList" class="review-list"></div>
+        </section>
+      </section>
+    </main>
+    <footer><span>SC-300 Exam Lab v4</span><span>Original educational content • Not affiliated with Microsoft</span></footer>
   </div>
-  <div class="top-actions">
-    <button id="themeBtn" class="icon-btn" type="button">Light mode</button>
-    <span id="timer">90:00</span>
-  </div>
-</header>
-
-<main>
-<section id="home" class="panel">
-  <h1>SC-300 Microsoft-Style Exam Simulator</h1>
-  <p>Harder business scenarios with realistic distractors, case studies, and wording such as <strong>BEST</strong>, <strong>MOST</strong>, <strong>MINIMUM</strong>, and <strong>least privilege</strong>.</p>
-
-  <div class="settings-grid">
-    <label>
-      Mode
-      <select id="modeSelect">
-        <option value="exam">Exam mode — explanations after submission</option>
-        <option value="practice">Practice mode — instant explanations</option>
-      </select>
-    </label>
-
-    <label>
-      Questions
-      <select id="countSelect">
-        <option value="20">20 questions</option>
-        <option value="30">30 questions</option>
-        <option value="36">36 questions</option><option value="52" selected>Full bank (52)</option>
-      </select>
-    </label>
-
-    <label>
-      Focus area
-      <select id="domainSelect">
-        <option value="all">All domains</option>
-        <option value="Implement and manage user identities">User identities</option>
-        <option value="Implement authentication and access management">Authentication and access</option>
-        <option value="Plan and implement workload identities">Workload identities</option>
-        <option value="Plan and implement identity governance">Identity governance</option>
-      </select>
-    </label>
-  </div>
-
-  <div id="resumeBox" class="notice hidden">
-    <strong>Unfinished attempt found.</strong>
-    <div class="button-row">
-      <button id="resumeBtn" class="btn primary" type="button">Resume</button>
-      <button id="discardBtn" class="btn secondary" type="button">Discard</button>
-    </div>
-  </div>
-
-  <button id="startBtn" class="btn primary large" type="button">Start new exam</button>
-
-  <h2>Included features</h2>
-  <div class="feature-grid">
-    <div>Microsoft-style case studies and business scenarios</div>
-    <div>Strong distractors and BEST/MOST wording</div>
-    <div>Autosave and resume</div>
-    <div>Question flags and navigator</div>
-    <div>Domain scoring</div>
-    <div>Weak-topic recommendations</div>
-  </div>
-</section>
-
-<section id="exam" class="panel hidden">
-  <div class="question-header">
-    <div>
-      <span id="domainBadge" class="badge"></span><span id="caseBadge" class="badge case-badge hidden">Case study</span>
-      <h2 id="questionNumber"></h2>
-    </div>
-    <span id="answeredCount"></span>
-  </div>
-
-  <div id="caseText" class="case-card hidden"></div><p id="questionText" class="question-text"></p>
-  <div id="options"></div>
-  <div id="feedback" class="feedback hidden"></div>
-
-  <div class="button-row sticky-actions">
-    <button id="checkBtn" class="btn primary" type="button">Check answer</button>
-    <button id="flagBtn" class="btn secondary" type="button">Flag</button>
-    <button id="prevBtn" class="btn secondary" type="button">Previous</button>
-    <button id="nextBtn" class="btn secondary" type="button">Next</button>
-    <button id="finishBtn" class="btn danger" type="button">Finish exam</button>
-  </div>
-
-  <div class="progress"><span id="progressBar"></span></div>
-  <div id="questionNav" class="question-nav"></div>
-</section>
-
-<section id="results" class="panel hidden"></section>
-</main>
-
-<script src="questions.js"></script>
-<script src="app.js"></script>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

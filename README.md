@@ -1,50 +1,60 @@
-# SC-300 Microsoft-Style Practice Exam v3
+# SC-300 Exam Simulator Pro
 
-A mobile-friendly GitHub Pages exam simulator with **52 original questions**.
+A professional, mobile-friendly practice platform built to prepare for **Microsoft Exam SC-300: Microsoft Identity and Access Administrator**.
 
-## Improvements in v3
+## What changed in v4
 
-- Harder Microsoft-style business scenarios
-- Case-study blocks
-- BEST, MOST, minimum-effort, and least-privilege wording
-- Stronger distractors between similar Microsoft Entra features
-- Exam and practice modes
-- Domain-focused quizzes
-- Autosave and resume
-- Dark/light mode
-- Detailed domain results and weak-topic recommendations
+- 64 original, scenario-based questions
+- Current four-domain blueprint alignment
+- Weighted mixed exams, domain drills, difficulty filters, and case studies
+- Exam, guided practice, and confidence-rating modes
+- Detailed explanations for every correct and incorrect option
+- Autosave/resume, question navigator, flags, keyboard shortcuts, and timer
+- Domain analytics, weak-topic review, missed-question bank, and JSON result export
+- Responsive dark/light design with no frameworks or build process
 
-## Replace your current GitHub project
+## Run locally
 
-Upload these files to the root of the repository and replace existing files:
+Open `index.html` in a browser.
 
-- `index.html`
-- `styles.css`
-- `app.js`
-- `questions.js`
-- `README.md`
+For the most reliable local behavior, serve the folder:
 
-GitHub Pages will redeploy automatically after you commit the files.
-
-Site URL:
-
-`https://khalxd.github.io/sc300-practice-exam/`
-
-## Adding more questions later
-
-Open `questions.js`. Each question uses this structure:
-
-```javascript
-{
-  "domain": "Plan and implement identity governance",
-  "type": "single",
-  "case": "Optional case-study background",
-  "q": "Question text",
-  "o": ["Option A", "Option B", "Option C", "Option D"],
-  "a": [1],
-  "e": "Explanation",
-  "r": "Topic to review"
-}
+```bash
+python -m http.server 8000
 ```
 
-For a select-two question, use `"type": "multi"` and provide two indexes, such as `"a": [0, 2]`.
+Then browse to `http://localhost:8000`.
+
+## Deploy to GitHub Pages
+
+1. Replace the files in the root of your existing repository with:
+   - `index.html`
+   - `styles.css`
+   - `app.js`
+   - `questions.js`
+   - `README.md`
+2. Commit and push.
+3. In GitHub, open **Settings → Pages**.
+4. Deploy from the `main` branch and `/ (root)`.
+
+## Interview talking points
+
+- Designed a single-page exam simulator in vanilla HTML, CSS, and JavaScript.
+- Mapped original questions to Microsoft’s published SC-300 skill domains and approximate blueprint weights.
+- Implemented client-side state management with `localStorage`, including autosave, resume, score history, and a missed-question bank.
+- Added learning analytics to convert practice results into domain-level recommendations.
+- Built accessibility-friendly controls, responsive layouts, keyboard shortcuts, and light/dark themes.
+- Used IAM scenarios to reinforce least privilege, Zero Trust, identity governance, workload identities, and troubleshooting.
+
+## Content notice
+
+All questions are original educational content. This project does not contain leaked or copied exam questions and is not affiliated with or endorsed by Microsoft. Microsoft product names are trademarks of their respective owners.
+
+## Blueprint reference
+
+Question coverage was aligned to the official Microsoft SC-300 study guide published March 27, 2026:
+
+- Implement and manage user identities: 20–25%
+- Implement authentication and access management: 25–30%
+- Plan and implement workload identities: 20–25%
+- Plan and automate identity governance: 20–25%
