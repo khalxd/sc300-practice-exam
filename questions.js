@@ -1,8 +1,8 @@
 window.SC300_META = {
   "title": "SC-300 Microsoft Identity & Access Administrator Exam Simulator",
-  "version": "4.0",
-  "updated": "2026-07-16",
-  "sourceNote": "Original practice questions aligned to Microsoft's published SC-300 skills measured as of March 27, 2026. Not affiliated with or endorsed by Microsoft.",
+  "version": "5.0",
+  "updated": "2026-07-17",
+  "sourceNote": "Original content aligned to Microsoft SC-300 skills measured as of April 27, 2026.",
   "domains": [
     {
       "name": "Implement and manage user identities",
@@ -1623,6 +1623,406 @@ window.SC300_QUESTIONS = [
       "These are authentication features.",
       "These manage scope and group membership."
     ]
+  },
+  {
+    "id": "X01",
+    "domain": "Implement and manage user identities",
+    "topic": "Cross-tenant synchronization",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A partner tenant must automatically provision, update, and remove B2B users in your tenant as employment status changes.",
+    "question": "Which feature should you configure?",
+    "options": [
+      "Cross-tenant synchronization",
+      "B2B direct connect",
+      "Application Proxy",
+      "Password hash synchronization"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Cross-tenant synchronization automates the lifecycle of B2B collaboration users between tenants.",
+    "whyWrong": [
+      "Correct.",
+      "Direct connect is for Teams shared channels.",
+      "App Proxy publishes internal apps.",
+      "PHS is for hybrid password authentication."
+    ]
+  },
+  {
+    "id": "X02",
+    "domain": "Implement and manage user identities",
+    "topic": "Role-assignable groups",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A security group will receive a Microsoft Entra directory role and its membership will be controlled by PIM for Groups.",
+    "question": "What kind of group is required?",
+    "options": [
+      "Role-assignable security group",
+      "Distribution group",
+      "Dynamic Microsoft 365 group",
+      "Mail-enabled security group"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Directory roles can be assigned to protected role-assignable security groups.",
+    "whyWrong": [
+      "Correct.",
+      "Cannot receive directory roles.",
+      "Dynamic membership is not supported for role-assignable groups.",
+      "Not the required object."
+    ]
+  },
+  {
+    "id": "X03",
+    "domain": "Implement and manage user identities",
+    "topic": "Source of authority",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A synchronized user attribute is edited in the cloud but later returns to the old value. The attribute is mastered on-premises.",
+    "question": "What is the most likely cause?",
+    "options": [
+      "The on-premises source overwrote the cloud edit during synchronization",
+      "Conditional Access reversed it",
+      "PIM expired",
+      "The domain was unverified"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "On-premises mastered attributes can overwrite unsupported cloud-side edits.",
+    "whyWrong": [
+      "Correct.",
+      "CA does not edit attributes.",
+      "PIM affects roles.",
+      "Domain verification is unrelated."
+    ]
+  },
+  {
+    "id": "X04",
+    "domain": "Implement and manage user identities",
+    "topic": "Administrative units",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A regional help desk administrator is scoped to an administrative unit containing East-region users.",
+    "question": "What does the scope control?",
+    "options": [
+      "Supported Entra administrative actions on objects in that unit",
+      "Azure subscription access in the East region",
+      "Sign-in locations",
+      "Dynamic group membership"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Administrative units scope supported directory administration to selected objects.",
+    "whyWrong": [
+      "Correct.",
+      "Azure RBAC controls subscriptions.",
+      "Conditional Access controls sign-in locations.",
+      "Dynamic groups control membership."
+    ]
+  },
+  {
+    "id": "X05",
+    "domain": "Implement authentication and access management",
+    "topic": "Authentication context",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A sensitive SharePoint site must require phishing-resistant MFA, while normal SharePoint content should continue using standard MFA.",
+    "question": "Which design is best?",
+    "options": [
+      "Use an authentication context for the sensitive site and a Conditional Access policy requiring phishing-resistant MFA",
+      "Require phishing-resistant MFA for every app",
+      "Use an administrative unit",
+      "Use Password Protection"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Authentication context applies stronger Conditional Access controls only when sensitive content requests that context.",
+    "whyWrong": [
+      "Correct.",
+      "Broader than necessary.",
+      "AUs do not scope SharePoint content.",
+      "Password Protection is unrelated."
+    ]
+  },
+  {
+    "id": "X06",
+    "domain": "Implement authentication and access management",
+    "topic": "Conditional Access precedence",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A sign-in matches one Conditional Access policy that requires MFA and another that blocks access.",
+    "question": "What happens?",
+    "options": [
+      "Access is blocked",
+      "MFA overrides the block",
+      "The newest policy wins",
+      "The user chooses"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Applicable policies are evaluated together and an applicable block takes precedence.",
+    "whyWrong": [
+      "Correct.",
+      "MFA cannot override block.",
+      "No newest-policy-wins model.",
+      "Users do not choose policies."
+    ]
+  },
+  {
+    "id": "X07",
+    "domain": "Implement authentication and access management",
+    "topic": "Continuous Access Evaluation",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A compromised user is disabled and supported cloud apps should revoke access quickly rather than waiting for token expiry.",
+    "question": "Which capability helps?",
+    "options": [
+      "Continuous Access Evaluation",
+      "Group-based licensing",
+      "Password Protection",
+      "Cloud Sync"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "CAE lets supported services react quickly to critical identity events.",
+    "whyWrong": [
+      "Correct.",
+      "Licensing does not revoke sessions.",
+      "Password Protection controls password choices.",
+      "Cloud Sync synchronizes identities."
+    ]
+  },
+  {
+    "id": "X08",
+    "domain": "Implement authentication and access management",
+    "topic": "Legacy authentication",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "An old mail client uses a legacy protocol and cannot complete MFA. The company requires MFA for Exchange Online.",
+    "question": "What should you do?",
+    "options": [
+      "Block legacy authentication and modernize the client",
+      "Exclude the user permanently",
+      "Assign Exchange Administrator",
+      "Enable PHS twice"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Legacy authentication cannot satisfy modern MFA and should be blocked.",
+    "whyWrong": [
+      "Correct.",
+      "Weakens security.",
+      "Role assignment is unrelated.",
+      "PHS does not add MFA support."
+    ]
+  },
+  {
+    "id": "X09",
+    "domain": "Plan and implement workload identities",
+    "topic": "Managed identity authorization",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A VM has a managed identity but receives Access Denied when reading a Key Vault secret.",
+    "question": "What is still required?",
+    "options": [
+      "Grant the managed identity a Key Vault data-plane role",
+      "Assign Global Administrator",
+      "Enable SSPR",
+      "Verify a custom domain"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Managed identity provides authentication, but authorization must still be granted on the target resource.",
+    "whyWrong": [
+      "Correct.",
+      "Excessive and irrelevant.",
+      "SSPR is for users.",
+      "Domain verification is unrelated."
+    ]
+  },
+  {
+    "id": "X10",
+    "domain": "Plan and implement workload identities",
+    "topic": "Delegated permissions",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "A web app should read only the signed-in user\u2019s calendar and never operate without a user.",
+    "question": "Which permission model should it use?",
+    "options": [
+      "Delegated permissions",
+      "Application permissions",
+      "Azure Owner",
+      "Subscription Contributor"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Delegated permissions let an app act on behalf of a signed-in user.",
+    "whyWrong": [
+      "Correct.",
+      "App-only permissions can operate without a user.",
+      "Azure RBAC does not grant Graph calendar access.",
+      "Also unrelated."
+    ]
+  },
+  {
+    "id": "X11",
+    "domain": "Plan and implement workload identities",
+    "topic": "Admin consent workflow",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "Users cannot grant app consent but need a controlled way to request approval for legitimate apps.",
+    "question": "Which feature should be configured?",
+    "options": [
+      "Admin consent workflow",
+      "PIM for Groups",
+      "Password Protection",
+      "Administrative units"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "The admin consent workflow lets users request review when they cannot grant consent.",
+    "whyWrong": [
+      "Correct.",
+      "Controls group membership.",
+      "Controls password choices.",
+      "Scopes administration."
+    ]
+  },
+  {
+    "id": "X12",
+    "domain": "Plan and implement workload identities",
+    "topic": "Automatic provisioning",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "Users assigned to a SaaS app must be created, updated, and disabled automatically in that app.",
+    "question": "Which feature should be configured?",
+    "options": [
+      "Automatic user provisioning, commonly using SCIM",
+      "Application Proxy",
+      "Password hash synchronization",
+      "PIM"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Automatic provisioning manages account lifecycle in supported SaaS apps.",
+    "whyWrong": [
+      "Correct.",
+      "Publishes internal apps.",
+      "Supports hybrid authentication.",
+      "Controls privileged access."
+    ]
+  },
+  {
+    "id": "X13",
+    "domain": "Plan and automate identity governance",
+    "topic": "Multiple access package policies",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "Employees and vendors need the same resource bundle, but vendors require approval and 30-day expiration while employees receive one-year access.",
+    "question": "What should you configure?",
+    "options": [
+      "One access package with separate assignment policies",
+      "Two tenants",
+      "One dynamic group",
+      "One permanent policy"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "One package can have multiple assignment policies for different requester populations and lifecycle rules.",
+    "whyWrong": [
+      "Correct.",
+      "Unnecessary.",
+      "Cannot supply approval and expiration workflows.",
+      "Cannot meet both requirements."
+    ]
+  },
+  {
+    "id": "X14",
+    "domain": "Plan and automate identity governance",
+    "topic": "PIM active assignment",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "An administrator needs immediate privileged access for a scheduled two-day migration and should lose it automatically afterward.",
+    "question": "Which assignment is best?",
+    "options": [
+      "Time-bound active assignment",
+      "Permanent active assignment",
+      "Eligible assignment with no end date",
+      "Dynamic group"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "A time-bound active assignment provides immediate access only for the scheduled period.",
+    "whyWrong": [
+      "Correct.",
+      "Too much standing access.",
+      "Would require activation and lacks the scheduled immediate state.",
+      "Not a PIM assignment type."
+    ]
+  },
+  {
+    "id": "X15",
+    "domain": "Plan and automate identity governance",
+    "topic": "Event Hub",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "Microsoft Entra logs must stream to a third-party SIEM in near real time.",
+    "question": "Which diagnostic destination is best?",
+    "options": [
+      "Event Hub",
+      "Storage account only",
+      "Access Reviews",
+      "Identity Secure Score"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Event Hubs are commonly used to stream logs to external SIEM integrations.",
+    "whyWrong": [
+      "Correct.",
+      "Better for archival than streaming.",
+      "Govern access.",
+      "Provides recommendations."
+    ]
+  },
+  {
+    "id": "X16",
+    "domain": "Plan and automate identity governance",
+    "topic": "Lifecycle Workflows",
+    "difficulty": "Hard",
+    "type": "single",
+    "scenario": "When an employee changes department, old access should be removed and new access tasks should start automatically.",
+    "question": "Which feature is designed for this mover process?",
+    "options": [
+      "Lifecycle Workflows",
+      "Sign-in frequency",
+      "Application Proxy",
+      "B2B direct connect"
+    ],
+    "answer": [
+      0
+    ],
+    "explanation": "Lifecycle Workflows automate joiner, mover, and leaver tasks.",
+    "whyWrong": [
+      "Correct.",
+      "Session control only.",
+      "Publishes apps.",
+      "Shared channel collaboration."
+    ]
   }
 ];
 window.SC300_CASE_STUDIES = [
@@ -1660,6 +2060,24 @@ window.SC300_CASE_STUDIES = [
       "W06",
       "W12",
       "G15"
+    ]
+  },
+  {
+    "title": "Case Study \u2014 Alpine Financial Services",
+    "brief": "Alpine has regulated finance workloads, external vendors, SaaS apps, and Azure workloads. The company requires Zero Trust, least privilege, and full auditability.",
+    "requirements": [
+      "Sensitive SharePoint content must require phishing-resistant MFA without affecting ordinary content.",
+      "Vendors need approval and expiration for a shared resource bundle.",
+      "A SaaS app must provision and deprovision accounts automatically.",
+      "Microsoft Entra logs must stream to a third-party SIEM.",
+      "A scheduled migration needs immediate time-bound admin access."
+    ],
+    "question_ids": [
+      "X05",
+      "X13",
+      "X12",
+      "X15",
+      "X14"
     ]
   }
 ];

@@ -16,7 +16,7 @@
       </a>
       <div class="top-actions">
         <button id="themeBtn" class="ghost-btn" title="Toggle theme">☀︎</button>
-        <button id="resetBtn" class="ghost-btn">Reset progress</button>
+        <button id="dashboardBtn" class="ghost-btn">Dashboard</button><button id="interviewBtn" class="ghost-btn">Interview mode</button><button id="resetBtn" class="ghost-btn">Reset progress</button>
       </div>
     </header>
 
@@ -56,7 +56,7 @@
               <select id="modeSelect">
                 <option value="exam">Exam mode — explanations after submission</option>
                 <option value="practice">Practice mode — instant feedback</option>
-                <option value="confidence">Confidence mode — rate every answer</option>
+                <option value="confidence">Confidence mode — rate every answer</option><option value="adaptive">Adaptive mastery — targets weak domains</option>
               </select>
             </label>
             <label>Question set
@@ -159,10 +159,16 @@
           <div id="reviewList" class="review-list"></div>
         </section>
       </section>
+
+      <section id="interviewView" class="view">
+        <div class="interview-hero"><div><span class="eyebrow">IAM ADMINISTRATOR INTERVIEW MODE</span><h1>Practice explaining what you know.</h1><p>Type your response as though you are speaking to a hiring manager. The local rubric checks for important concepts and then shows a polished model answer.</p></div><div class="interview-score-card"><strong id="interviewMastery">0%</strong><span>Communication mastery</span></div></div>
+        <div class="interview-layout"><aside class="interview-list" id="interviewList"></aside><article class="panel interview-card"><span id="interviewCategory" class="domain-tag"></span><h2 id="interviewPrompt"></h2><textarea id="interviewAnswer" placeholder="Explain your answer in your own words..."></textarea><div class="interview-actions"><button id="evaluateInterviewBtn" class="primary-btn">Evaluate response</button><button id="showModelBtn" class="secondary-btn">Show model answer</button></div><div id="interviewFeedback" class="feedback hidden"></div></article></div>
+      </section>
     </main>
     <footer><span>SC-300 Exam Lab v4</span><span>Original educational content • Not affiliated with Microsoft</span></footer>
   </div>
   <script src="questions.js"></script>
+  <script src="interview.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

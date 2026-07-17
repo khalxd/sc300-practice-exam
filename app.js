@@ -7,7 +7,8 @@ const store = {
   del:k=>localStorage.removeItem(k)
 };
 let state = null, timerId = null;
-const views = {home:$("#homeView"),exam:$("#examView"),results:$("#resultsView")};
+const views = {home:$("#homeView"),exam:$("#examView"),results:$("#resultsView"),interview:$("#interviewView")};
+let interviewIndex=0;
 function showView(name){Object.values(views).forEach(v=>v.classList.remove("active"));views[name].classList.add("active");scrollTo(0,0)}
 function shuffle(a){let x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
@@ -42,6 +43,8 @@ function bind(){
   });
   $("#resumeBtn").onclick=resume; $("#discardBtn").onclick=()=>{store.del("sc300_active");$("#resumeBox").classList.add("hidden")};
   $("#themeBtn").onclick=()=>applyTheme(document.documentElement.dataset.theme==="light"?"dark":"light");
+  $("#dashboardBtn").onclick=()=>showView("home");
+  $("#interviewBtn").onclick=()=>openInterview();
   $("#resetBtn").onclick=()=>{if(confirm("Delete saved progress and score history?")){["sc300_active","sc300_history","sc300_missed"].forEach(store.del);location.reload()}};
   $("#prevBtn").onclick=()=>go(-1);$("#nextBtn").onclick=()=>go(1);$("#checkBtn").onclick=checkPractice;
   $("#flagBtn").onclick=toggleFlag;$("#submitBtn").onclick=()=>confirm("Submit your exam now?")&&finish();
@@ -51,6 +54,15 @@ function bind(){
   document.addEventListener("keydown",keyboard);
 }
 function buildSet(cfg){
+  if(cfg.mode==="adaptive"){
+    const hist=store.get("sc300_history")||[], weakness={};
+    META.domains.forEach(d=>weakness[d.name]=0);
+    hist.slice(-5).forEach(h=>Object.entries(h.domains||{}).forEach(([d,v])=>{if(weakness[d]!==undefined&&v.total)weakness[d]+=(1-v.correct/v.total)}));
+    const ranked=Object.entries(weakness).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+    let pool=Q.filter(q=>ranked.slice(0,2).includes(q.domain)&&q.difficulty!=="Easy");
+    if(pool.length<20)pool=Q.filter(q=>q.difficulty!=="Easy");
+    return shuffle(pool).slice(0,20).map(q=>({...q,displayOptions:shuffle(q.options.map((t,i)=>({t,orig:i})))}));
+  }
   if(cfg.count==="case"){
     let selected=[]; CASES.forEach((c,ci)=>c.question_ids.forEach(id=>{const q=Q.find(x=>x.id===id);if(q)selected.push({...q,caseIndex:ci})}));return selected;
   }
@@ -174,5 +186,20 @@ function keyboard(e){
   if(e.key.toLowerCase()==="f")toggleFlag();if(e.key==="ArrowRight")go(1);if(e.key==="ArrowLeft")go(-1)
 }
 function applyTheme(t){document.documentElement.dataset.theme=t;store.set("sc300_theme",t);$("#themeBtn").textContent=t==="light"?"☾":"☀︎"}
+function openInterview(){interviewIndex=0;showView("interview");renderInterview()}
+function renderInterview(){
+  const bank=window.SC300_INTERVIEW||[],saved=store.get("sc300_interview")||{},q=bank[interviewIndex];
+  $("#interviewList").innerHTML=bank.map((x,i)=>`<button data-i="${i}" class="${i===interviewIndex?"active":""} ${saved[x.id]?.score>=60?"complete":""}">${i+1}. ${esc(x.category)}</button>`).join("");
+  $$("#interviewList button").forEach(b=>b.onclick=()=>{interviewIndex=Number(b.dataset.i);renderInterview()});
+  $("#interviewCategory").textContent=q.category;$("#interviewPrompt").textContent=q.prompt;$("#interviewAnswer").value=saved[q.id]?.answer||"";$("#interviewFeedback").classList.add("hidden");
+  $("#evaluateInterviewBtn").onclick=evaluateInterview;$("#showModelBtn").onclick=()=>showInterviewModel(q);
+  const scores=Object.values(saved).map(x=>x.score||0);$("#interviewMastery").textContent=(scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0)+"%";
+}
+function evaluateInterview(){
+  const q=window.SC300_INTERVIEW[interviewIndex],ans=$("#interviewAnswer").value.trim();if(ans.length<25){alert("Write at least a few sentences so the rubric can evaluate your explanation.");return}
+  const low=ans.toLowerCase(),hits=q.keywords.filter(k=>low.includes(k.toLowerCase())),score=Math.round(hits.length/q.keywords.length*100),saved=store.get("sc300_interview")||{};saved[q.id]={answer:ans,score,hits};store.set("sc300_interview",saved);renderInterview();
+  const f=$("#interviewFeedback");f.className="feedback "+(score>=60?"good":"bad");f.innerHTML=`<h3>${score>=80?"Strong interview answer":score>=60?"Good foundation":"Add more technical detail"} — ${score}%</h3><p>The rubric found ${hits.length} of ${q.keywords.length} important concepts.</p><div class="keyword-chips">${q.keywords.map(k=>`<span class="keyword-chip ${hits.includes(k)?"hit":"miss"}">${esc(k)}</span>`).join("")}</div><p><strong>Model answer:</strong> ${esc(q.model)}</p>`;f.classList.remove("hidden");
+}
+function showInterviewModel(q){const f=$("#interviewFeedback");f.className="feedback good";f.innerHTML=`<h3>Interview-ready model</h3><p>${esc(q.model)}</p>`;f.classList.remove("hidden")}
 init();
 })();
