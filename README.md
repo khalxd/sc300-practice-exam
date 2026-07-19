@@ -1,42 +1,28 @@
-# SC-300 Exam Lab v5
+# SC-300 Master
 
-A portfolio-ready, browser-based learning platform for **Microsoft Exam SC-300: Microsoft Identity and Access Administrator**.
+Scenario-based Microsoft Identity and Access Administrator training platform.
 
-## What is included
+## Included
+- 24 original layered questions
+- Yes/No matrix questions
+- Exact-match choose-two scoring
+- 3 connected case studies
+- 4 lab-logic simulations
+- IAM interview mode
+- Domain and mistake analytics
+- Local progress storage
+- Mobile-friendly layout
 
-- **80 original scenario questions** mapped to the four current SC-300 skill domains
-- Timed exam, guided practice, confidence-rating, and **adaptive mastery** modes
-- Domain drills, difficulty filters, missed-question review, and three multi-question case studies
-- **IAM Administrator interview mode** with a local concept rubric and model answers
-- Detailed explanation of the correct answer and every distractor
-- Autosave/resume, timer, flags, keyboard shortcuts, score history, readiness analytics, and JSON export
-- Responsive dark/light interface built entirely with vanilla HTML, CSS, and JavaScript
+## Run
+Open `index.html`, or run `python -m http.server 8000` and visit `http://localhost:8000`.
 
-## Deploy to GitHub Pages
+## GitHub Pages
+Upload every file to the repository root. In **Settings > Pages**, deploy from the `main` branch and `/ (root)`.
 
-Replace the files in the root of the existing repository with:
+## Portfolio talking points
+- Built a responsive single-page application in HTML, CSS, and JavaScript.
+- Implemented exact-match grading for multi-select questions and row-level matrix questions.
+- Used localStorage for persistent progress and analytics.
+- Modeled Microsoft Entra concepts including Conditional Access, PIM, administrative units, entitlement management, app registrations, managed identities, and access reviews.
 
-- `index.html`
-- `styles.css`
-- `app.js`
-- `questions.js`
-- `interview.js`
-- `README.md`
-
-Commit and push. GitHub Pages will redeploy from the configured branch.
-
-## Run locally
-
-```bash
-python -m http.server 8000
-```
-
-Then open `http://localhost:8000`.
-
-## Interview talking point
-
-> I built a responsive SC-300 learning platform in vanilla JavaScript and mapped original IAM scenarios to Microsoft’s published exam blueprint. I added timed simulations, adaptive weak-domain selection, case studies, localStorage persistence, detailed distractor analysis, and an interview-response rubric. The project helped me move from memorizing Entra features to applying least privilege, Zero Trust, identity governance, Conditional Access, and workload-identity decisions.
-
-## Integrity notice
-
-All questions are original educational content. No exam dumps or copied certification questions are included. This project is not affiliated with or endorsed by Microsoft.
+Independent project; not affiliated with Microsoft. Questions are original and are not copied from the certification exam.
