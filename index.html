@@ -22,7 +22,7 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 <body>
 <div class="shell">
 <aside>
-<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Hard & Varied Edition</span></div></div>
+<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Uploaded Scenario Edition · Build 2</span></div></div>
 <nav>
 <button class="active" data-view="dashboard">Dashboard</button>
 <button data-view="regular">Regular Questions</button>
@@ -33,10 +33,11 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 </nav>
 </aside>
 <main>
+<div id="errorBanner" style="display:none;margin-bottom:14px;padding:12px;border-radius:10px;background:#4b1720;border:1px solid #a94452;color:#fff"></div>
 <header><div><h1 id="pageTitle">Dashboard</h1><div id="pageSub" class="muted">Harder questions with more variety.</div></div><button id="reset" class="secondary">Reset progress</button></header>
 
 <section id="dashboard" class="view active">
-<div class="panel hero"><span class="tag">SC-300 RETAKE MODE</span><span class="tag">HARDER QUESTIONS</span><h2>Train beyond memorization.</h2><p class="muted">This edition combines difficult concept questions, choose-two and choose-three questions, User1/User2 relationship matrices, least-privilege decisions, application-permission reasoning, governance workflows, and mixed timed exams.</p><div class="buttons"><button class="primary" onclick="go('regular')">Start Regular Questions</button><button class="secondary" onclick="go('scenario')">Start Scenario Questions</button><button class="secondary" onclick="go('uploaded')">Uploaded Exam-Style Bank</button><button class="secondary" onclick="go('exam')">Start Mixed Exam</button></div></div>
+<div class="panel hero"><span class="tag">SC-300 RETAKE MODE</span><span class="tag">HARDER QUESTIONS</span><h2>Train beyond memorization.</h2><p class="muted">This edition combines difficult concept questions, choose-two and choose-three questions, User1/User2 relationship matrices, least-privilege decisions, application-permission reasoning, governance workflows, and mixed timed exams.</p><div class="buttons"><button class="primary" data-go="regular">Start Regular Questions</button><button class="secondary" data-go="scenario">Start Scenario Questions</button><button class="secondary" data-go="uploaded">Uploaded Exam-Style Bank</button><button class="secondary" data-go="exam">Start Mixed Exam</button></div></div>
 <div class="grid">
 <div class="panel stat"><span>Regular bank</span><strong id="regBank">0</strong><small>Single and multi-select</small></div>
 <div class="panel stat"><span>Scenario bank</span><strong id="scnBank">0</strong><small>Matrices and layered decisions</small></div>
@@ -54,7 +55,7 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 <div class="panel toolbar">
 <label>Domain<select id="regularDomain"><option>All</option><option>Identity</option><option>Authentication</option><option>Applications</option><option>Governance</option></select></label>
 <label>Question count<select id="regularCount"><option>5</option><option selected>10</option><option>20</option><option>30</option><option>60</option></select></label>
-<button class="primary" onclick="start('regular')">Build Regular Quiz</button>
+<button class="primary" data-start="regular">Build Regular Quiz</button>
 </div>
 <div id="regularStage" class="panel"><h3>Hard regular-question mode</h3><p class="muted">Use this mode to strengthen terminology and service selection before layered scenarios.</p></div>
 </section>
@@ -63,7 +64,7 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 <div class="panel toolbar">
 <label>Domain<select id="scenarioDomain"><option>All</option><option>Identity</option><option>Authentication</option><option>Applications</option><option>Governance</option></select></label>
 <label>Question count<select id="scenarioCount"><option>5</option><option selected>10</option><option>20</option><option>40</option></select></label>
-<button class="primary" onclick="start('scenario')">Build Scenario Quiz</button>
+<button class="primary" data-start="scenario">Build Scenario Quiz</button>
 </div>
 <div id="scenarioStage" class="panel"><h3>Microsoft-style scenario mode</h3><p class="muted">Identify the role, assignment path, target object, scope, exclusions, and every stated requirement.</p></div>
 </section>
@@ -73,13 +74,13 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 <div class="panel toolbar">
 <label>Topic<select id="uploadedDomain"><option>All</option><option>Identity</option><option>Authentication</option><option>Applications</option><option>Governance</option><option>Azure RBAC</option><option>Azure Governance</option><option>Monitoring</option><option>Security</option></select></label>
 <label>Question count<select id="uploadedCount"><option>5</option><option selected>10</option><option>20</option><option>40</option></select></label>
-<button class="primary" onclick="start('uploaded')">Build Uploaded Scenario Quiz</button>
+<button class="primary" data-start="uploaded">Build Uploaded Scenario Quiz</button>
 </div>
 <div id="uploadedStage" class="panel"><h3>Uploaded exam-style scenario bank</h3><p class="muted">Contains all 40 questions from the uploaded PDF, with verified answer logic, explanations, and notes where the source uses legacy Azure terminology.</p></div>
 </section>
 
 <section id="exam" class="view">
-<div class="panel toolbar"><label>Exam size<select id="examCount"><option>20</option><option selected>40</option><option>60</option></select></label><button class="primary" onclick="start('exam')">Start Mixed Exam</button></div>
+<div class="panel toolbar"><label>Exam size<select id="examCount"><option>20</option><option selected>40</option><option>60</option></select></label><button class="primary" data-start="exam">Start Mixed Exam</button></div>
 <div id="examStage" class="panel"><h3>Mixed exam mode</h3><p class="muted">Randomly combines regular and scenario questions. Feedback appears after every question so this remains a learning simulator.</p></div>
 </section>
 
@@ -95,79 +96,355 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 </main>
 </div>
 
+
 <script>
 const DATA = {"regular": [{"id": "r01", "domain": "Identity", "difficulty": "Medium", "type": "single", "q": "Which Microsoft Entra role follows least privilege for managing users and groups without full tenant control?", "options": ["Global Administrator", "User Administrator", "Security Reader", "Directory Readers"], "answer": 1, "explanation": "User Administrator is designed for user and group administration without granting full tenant-wide control."}, {"id": "r02", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "What is the primary purpose of an administrative unit?", "options": ["Limit the scope of directory administration", "Limit Azure subscription costs", "Store application secrets", "Configure federation metadata"], "answer": 0, "explanation": "Administrative units let supported directory roles be scoped to a subset of users, groups, or devices."}, {"id": "r03", "domain": "Identity", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO statements about role-assignable groups are correct?", "options": ["They must be security groups", "They can receive supported Microsoft Entra directory roles", "They can be nested in another group", "Any existing Microsoft 365 group can be converted into one"], "answers": [0, 1], "explanation": "Role-assignable groups are specially created security groups and can receive supported Entra directory roles."}, {"id": "r04", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which value provides a stable link between an on-premises AD DS user and the corresponding Microsoft Entra user?", "options": ["Display name", "Source anchor / ImmutableID", "Job title", "Last sign-in time"], "answer": 1, "explanation": "A stable source anchor ensures the same on-premises identity consistently matches the same cloud identity."}, {"id": "r05", "domain": "Identity", "difficulty": "Medium", "type": "single", "q": "Which group membership type automatically adds users based on attributes?", "options": ["Assigned", "Dynamic user", "Mail-enabled security", "Distribution"], "answer": 1, "explanation": "Dynamic user groups evaluate membership rules based on user attributes."}, {"id": "r06", "domain": "Identity", "difficulty": "Hard", "type": "multi", "select": 2, "q": "A helpdesk team must reset passwords only for users in the Europe division. Which TWO actions provide least privilege?", "options": ["Create an administrative unit containing Europe users", "Assign User Administrator scoped to that administrative unit", "Assign Global Administrator tenant-wide", "Assign Owner on the Azure subscription"], "answers": [0, 1], "explanation": "An administrative unit plus a scoped User Administrator assignment limits authority to the required population."}, {"id": "r07", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which synchronization approach validates a user's password against on-premises agents during sign-in?", "options": ["Password Hash Synchronization", "Pass-through Authentication", "Seamless SSO", "Password Writeback"], "answer": 1, "explanation": "Pass-through Authentication validates cloud sign-ins against on-premises agents."}, {"id": "r08", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which feature allows a cloud password reset to update the password in on-premises AD DS?", "options": ["Password Writeback", "Smart Lockout", "Seamless SSO", "Cross-tenant synchronization"], "answer": 0, "explanation": "Password Writeback sends supported cloud password changes to on-premises AD DS."}, {"id": "r09", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which feature is intended to automate joiner, mover, and leaver tasks?", "options": ["Lifecycle Workflows", "Access Reviews", "Conditional Access", "App Proxy"], "answer": 0, "explanation": "Lifecycle Workflows automate identity lifecycle processes."}, {"id": "r10", "domain": "Identity", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO are appropriate uses of cross-tenant access settings?", "options": ["Control inbound B2B collaboration from another tenant", "Trust MFA claims from a partner tenant", "Create Azure RBAC assignments", "Synchronize on-premises passwords"], "answers": [0, 1], "explanation": "Cross-tenant settings control inbound/outbound collaboration and trust of partner authentication claims."}, {"id": "r11", "domain": "Authentication", "difficulty": "Medium", "type": "single", "q": "Which authentication method is phishing-resistant?", "options": ["SMS", "Voice call", "FIDO2 security key", "Security questions"], "answer": 2, "explanation": "FIDO2 security keys are phishing-resistant."}, {"id": "r12", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which Microsoft Entra service produces user-risk and sign-in-risk detections?", "options": ["Identity Protection", "Conditional Access", "PIM", "Access Reviews"], "answer": 0, "explanation": "Identity Protection detects and reports risky users and risky sign-ins."}, {"id": "r13", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which feature should consume sign-in-risk signals and require MFA when risk is medium or high?", "options": ["Conditional Access", "Lifecycle Workflows", "Entitlement Management", "App Proxy"], "answer": 0, "explanation": "Conditional Access uses risk signals from Identity Protection to enforce controls."}, {"id": "r14", "domain": "Authentication", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO deployment practices reduce Conditional Access lockout risk?", "options": ["Exclude emergency access accounts", "Start in report-only mode", "Enable the policy for everyone immediately", "Delete all exclusions"], "answers": [0, 1], "explanation": "Emergency exclusions and report-only validation are standard deployment safeguards."}, {"id": "r15", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "What does Conditional Access report-only mode do?", "options": ["Evaluates without enforcing", "Blocks all sign-ins", "Deletes the policy after testing", "Disables authentication strengths"], "answer": 0, "explanation": "Report-only mode records what a policy would do without enforcing it."}, {"id": "r16", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which feature limits a Conditional Access policy to approved authentication methods such as FIDO2 and Windows Hello for Business?", "options": ["Authentication strength", "Named location", "Access review", "Administrative unit"], "answer": 0, "explanation": "Authentication strengths let Conditional Access require a defined set of authentication methods."}, {"id": "r17", "domain": "Authentication", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO actions can force a user to reauthenticate so a changed Conditional Access policy is reevaluated?", "options": ["Revoke user sign-in sessions", "Run Revoke-MgUserSignIn", "Create a named location", "Enable Seamless SSO"], "answers": [0, 1], "explanation": "Both actions revoke refresh tokens and require the user to sign in again."}, {"id": "r18", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which feature prompts targeted users during sign-in to register Microsoft Authenticator?", "options": ["Authentication methods registration campaign", "Access Reviews", "PIM", "Terms of Use"], "answer": 0, "explanation": "Registration campaigns guide users toward Microsoft Authenticator registration."}, {"id": "r19", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which Conditional Access client-app condition should be targeted to block legacy authentication?", "options": ["Exchange ActiveSync clients and other clients", "Browser only", "Mobile apps and desktop clients only", "Service principals only"], "answer": 0, "explanation": "Legacy authentication is targeted through the legacy client-app categories."}, {"id": "r20", "domain": "Authentication", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO characteristics are recommended for emergency access accounts?", "options": ["Cloud-only accounts", "Strong phishing-resistant credentials and monitoring", "Daily administrative use", "Dependence on the same federation service as normal admins"], "answers": [0, 1], "explanation": "Emergency accounts should be independent, protected, monitored, and reserved for recovery."}, {"id": "r21", "domain": "Applications", "difficulty": "Medium", "type": "single", "q": "What is the local tenant instance of an application called?", "options": ["Service principal", "Application object", "Administrative unit", "Access package"], "answer": 0, "explanation": "The service principal is the local representation of an application in a tenant."}, {"id": "r22", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which permission type is normally used by a daemon application with no signed-in user?", "options": ["Delegated permissions", "Application permissions", "Device permissions", "Guest permissions"], "answer": 1, "explanation": "Daemon and background applications use application permissions."}, {"id": "r23", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which permission type acts on behalf of a signed-in user?", "options": ["Delegated permissions", "Application permissions", "Azure RBAC", "Password Writeback"], "answer": 0, "explanation": "Delegated permissions operate in the context of the signed-in user."}, {"id": "r24", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which identity should an Azure VM use when its identity must be deleted automatically with the VM?", "options": ["System-assigned managed identity", "User-assigned managed identity", "Client secret", "Guest user"], "answer": 0, "explanation": "A system-assigned managed identity follows the lifecycle of one Azure resource."}, {"id": "r25", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which identity should multiple Azure Functions share when the identity must survive deletion of any one function?", "options": ["User-assigned managed identity", "System-assigned managed identity", "Device identity", "Guest account"], "answer": 0, "explanation": "A user-assigned managed identity is independent and reusable across resources."}, {"id": "r26", "domain": "Applications", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO actions remove the need for a long-lived GitHub Actions client secret?", "options": ["Configure workload identity federation", "Create a federated credential", "Store the secret in the repository", "Use password-based SSO"], "answers": [0, 1], "explanation": "Workload identity federation and a federated credential allow token exchange without a stored secret."}, {"id": "r27", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which protocol is the identity layer commonly used with OAuth 2.0 for modern web sign-in?", "options": ["OpenID Connect", "SAML", "WS-Federation", "LDAP"], "answer": 0, "explanation": "OpenID Connect adds identity tokens and authentication to OAuth 2.0."}, {"id": "r28", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which protocol is commonly selected when a legacy SaaS application supports federation but not OpenID Connect?", "options": ["SAML", "FTP", "SNMP", "RDP"], "answer": 0, "explanation": "SAML is widely used for federated enterprise application SSO."}, {"id": "r29", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which feature securely publishes an on-premises web application without inbound firewall ports?", "options": ["Microsoft Entra Application Proxy", "Password Protection", "PIM", "Access Reviews"], "answer": 0, "explanation": "Application Proxy uses outbound connectors and Entra preauthentication."}, {"id": "r30", "domain": "Applications", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO statements about application ownership are correct?", "options": ["An owner can manage the app registration", "Ownership does not automatically grant tenant-wide admin consent", "Ownership automatically grants Global Administrator", "Ownership makes the user a member of every assigned group"], "answers": [0, 1], "explanation": "Owners can manage application configuration, but tenant-wide consent requires appropriate directory authority."}, {"id": "r31", "domain": "Governance", "difficulty": "Medium", "type": "single", "q": "Which feature provides just-in-time activation of privileged directory roles?", "options": ["Privileged Identity Management", "Access Reviews", "Conditional Access", "Entitlement Management"], "answer": 0, "explanation": "PIM provides eligible assignments and time-limited activation."}, {"id": "r32", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO controls satisfy a requirement for temporary privileged access with MFA and approval?", "options": ["Create an eligible PIM assignment", "Require MFA and approval during activation", "Create a permanent active assignment", "Create an access review only"], "answers": [0, 1], "explanation": "Eligibility plus activation controls removes standing access and enforces the required safeguards."}, {"id": "r33", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which feature packages groups, applications, and SharePoint sites into one requestable bundle?", "options": ["Entitlement Management access package", "Administrative unit", "Authentication strength", "Named location"], "answer": 0, "explanation": "Access packages bundle multiple resource roles into one governed request."}, {"id": "r34", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which feature periodically asks reviewers whether users should retain access?", "options": ["Access Reviews", "Lifecycle Workflows", "Conditional Access", "Password Protection"], "answer": 0, "explanation": "Access Reviews validate ongoing access and can apply removal decisions."}, {"id": "r35", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Where are approval requirements and access expiration configured for an access package?", "options": ["Assignment policy", "Catalog resource role", "Named location", "App registration manifest"], "answer": 0, "explanation": "The access package assignment policy controls requestors, approval, duration, and expiration."}, {"id": "r36", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which object represents an external partner population in Entitlement Management?", "options": ["Connected organization", "Administrative unit", "Authentication context", "Named location"], "answer": 0, "explanation": "Connected organizations represent external partner populations."}, {"id": "r37", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 2, "q": "Which TWO actions are appropriate for reviewing privileged group membership?", "options": ["Create an access review for the group", "Configure denied users to be removed automatically", "Create a named location", "Enable password writeback"], "answers": [0, 1], "explanation": "Access Reviews can evaluate group membership and automatically apply decisions."}, {"id": "r38", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which logs should be reviewed for privileged role activation and assignment events?", "options": ["PIM audit history and Microsoft Entra audit logs", "Only device registration logs", "Only DNS logs", "Only billing exports"], "answer": 0, "explanation": "PIM and Entra audit logs record privileged role events."}, {"id": "r39", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which feature should identify applications with unused or excessive Microsoft Graph permissions?", "options": ["App governance", "Administrative units", "Password Protection", "Cross-tenant synchronization"], "answer": 0, "explanation": "App governance helps identify overprivileged applications and permission risk."}, {"id": "r40", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 2, "q": "A contractor access package requires manager approval and must expire after 60 days. Which TWO settings are required?", "options": ["Manager approval in the assignment policy", "Assignment expiration of 60 days", "A permanent PIM assignment", "A named location"], "answers": [0, 1], "explanation": "Approval and expiration are configured in the assignment policy."}, {"id": "r41", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which feature can automatically synchronize selected users into another Microsoft Entra tenant?", "options": ["Password Hash Synchronization", "Cross-tenant synchronization", "App Proxy", "PIM"], "answer": 1, "explanation": "Cross-tenant synchronization automates B2B user provisioning between tenants."}, {"id": "r42", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which control can require acceptance of a legal agreement before access to a cloud app?", "options": ["Access Review", "Terms of Use through Conditional Access", "Administrative unit", "PIM"], "answer": 1, "explanation": "Terms of Use is enforced through Conditional Access."}, {"id": "r43", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which application permission normally requires tenant administrator consent?", "options": ["Delegated User.Read", "Directory-wide Graph application permission", "OIDC ID token", "SAML NameID"], "answer": 1, "explanation": "Powerful directory-wide application permissions require admin consent."}, {"id": "r44", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which assignment state provides potential privileged access but no effective privileges until activation?", "options": ["Active permanent", "Eligible", "Expired", "Removed"], "answer": 1, "explanation": "Eligible PIM assignments require activation."}, {"id": "r45", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which method can be used as a temporary bootstrap credential for passwordless onboarding?", "options": ["SMS", "Temporary Access Pass", "Security questions", "App password"], "answer": 1, "explanation": "Temporary Access Pass helps bootstrap passwordless registration."}, {"id": "r46", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which object type can be placed inside an administrative unit for scoped management?", "options": ["Azure subscriptions only", "Users, groups, and devices", "Resource groups only", "Service principals only"], "answer": 1, "explanation": "Administrative units can contain supported directory objects such as users, groups, and devices."}, {"id": "r47", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "What is required before an application permission becomes effective in a tenant?", "options": ["User assignment only", "Admin consent", "Dynamic membership", "Password writeback"], "answer": 1, "explanation": "Application permissions require administrator consent."}, {"id": "r48", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which feature automatically removes access package resources when an assignment expires?", "options": ["PIM", "Entitlement Management", "App Proxy", "Authentication strength"], "answer": 1, "explanation": "Entitlement Management removes resources granted by the package when the assignment ends."}, {"id": "r49", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which sign-in log section shows whether a Conditional Access policy applied?", "options": ["Device inventory", "Conditional Access details", "Billing profile", "Group writeback"], "answer": 1, "explanation": "The sign-in record includes Conditional Access evaluation details."}, {"id": "r50", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which group membership fact is important for Conditional Access targeting?", "options": ["Nested groups are always expanded", "Nested groups are not expanded", "Only device groups work", "Only Microsoft 365 groups work"], "answer": 1, "explanation": "Conditional Access does not expand nested group membership."}, {"id": "r51", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which credential type is preferable to a client secret for a long-running confidential app?", "options": ["Plaintext password", "Certificate", "Security question", "SMS code"], "answer": 1, "explanation": "Certificates are generally stronger and easier to govern than long-lived client secrets."}, {"id": "r52", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which PIM activation control enforces a second person's authorization?", "options": ["Justification", "Approval", "Notification only", "Access review"], "answer": 1, "explanation": "Approval requires another authorized person to permit activation."}, {"id": "r53", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which authentication methods are included in phishing-resistant authentication strength?", "options": ["SMS and voice", "FIDO2, WHfB, and certificate-based authentication", "Password only", "Security questions"], "answer": 1, "explanation": "Those methods provide phishing-resistant authentication."}, {"id": "r54", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which synchronization feature provides cloud authentication resilience when on-premises agents are unavailable?", "options": ["Pass-through Authentication only", "Password Hash Synchronization", "App Proxy", "PIM"], "answer": 1, "explanation": "Password Hash Synchronization allows authentication in the cloud independently of on-premises agents."}, {"id": "r55", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which enterprise application setting can restrict access to explicitly assigned users and groups?", "options": ["Visible to users", "User assignment required", "Logo URL", "Publisher domain"], "answer": 1, "explanation": "The assignment-required setting restricts sign-in to assigned users and groups."}, {"id": "r56", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which access review decision behavior removes users who do not respond by the deadline?", "options": ["Create a named location", "Apply a configured default decision", "Enable federation", "Create an app secret"], "answer": 1, "explanation": "Access Reviews can apply a default decision to nonresponders."}, {"id": "r57", "domain": "Authentication", "difficulty": "Hard", "type": "single", "q": "Which Conditional Access control can require a compliant device?", "options": ["Session control only", "Grant control", "Named location only", "User risk only"], "answer": 1, "explanation": "Require device to be marked compliant is a grant control."}, {"id": "r58", "domain": "Identity", "difficulty": "Hard", "type": "single", "q": "Which role is designed to manage Microsoft Entra role assignments?", "options": ["User Administrator", "Privileged Role Administrator", "Security Reader", "Directory Reader"], "answer": 1, "explanation": "Privileged Role Administrator manages role assignments and PIM settings."}, {"id": "r59", "domain": "Applications", "difficulty": "Hard", "type": "single", "q": "Which protocol primarily provides authorization rather than user authentication?", "options": ["OpenID Connect", "OAuth 2.0", "SAML", "WS-Federation"], "answer": 1, "explanation": "OAuth 2.0 is an authorization framework; OpenID Connect adds authentication."}, {"id": "r60", "domain": "Governance", "difficulty": "Hard", "type": "single", "q": "Which feature should be used when users need to request multiple resources through one governed workflow?", "options": ["Access package", "Named location", "Authentication context", "Administrative unit"], "answer": 0, "explanation": "Access packages bundle resources and governance policies."}], "scenarios": [{"id": "s01", "domain": "Identity", "difficulty": "Hard", "type": "matrix", "scenario": "AU1 contains User2 and Group1. User1 has User Administrator scoped to AU1. User3 is outside AU1.", "rows": [{"statement": "User1 can reset User2's password.", "answer": true, "why": "User2 is inside AU1 and the role is scoped to AU1."}, {"statement": "User1 can reset User3's password.", "answer": false, "why": "User3 is outside the role scope."}, {"statement": "User1 can assign Global Administrator to User2.", "answer": false, "why": "User Administrator cannot assign Global Administrator."}]}, {"id": "s02", "domain": "Authentication", "difficulty": "Hard", "type": "matrix", "scenario": "Policy1 targets Group1 and requires MFA. User1 is a direct member of Group1. User2 is only a member of Group2, which is nested in Group1. User3 is explicitly excluded.", "rows": [{"statement": "Policy1 applies to User1.", "answer": true, "why": "User1 is directly included."}, {"statement": "Policy1 applies to User2 through nested membership.", "answer": false, "why": "Conditional Access does not expand nested groups."}, {"statement": "Policy1 applies to User3.", "answer": false, "why": "An explicit exclusion overrides inclusion."}]}, {"id": "s03", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "Admins require temporary Security Administrator access, MFA, approval, and a two-hour maximum activation. No standing privilege is allowed.", "q": "Which TWO configurations satisfy all requirements?", "options": ["Create an eligible PIM assignment", "Require MFA and approval with a two-hour activation limit", "Create a permanent active assignment", "Create an access review only"], "answers": [0, 1], "explanation": "Eligibility removes standing privilege, while activation controls enforce MFA, approval, and duration."}, {"id": "s04", "domain": "Applications", "difficulty": "Hard", "type": "matrix", "scenario": "App1 was registered in TenantA and consented to in TenantB. User1 owns App1 in TenantA.", "rows": [{"statement": "The application object is in TenantA.", "answer": true, "why": "The home tenant contains the application object."}, {"statement": "A service principal exists in TenantB.", "answer": true, "why": "A local service principal is created where the app is used."}, {"statement": "User1 can always grant tenant-wide admin consent in TenantB.", "answer": false, "why": "Ownership in TenantA does not grant consent authority in TenantB."}]}, {"id": "s05", "domain": "Applications", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "GitHub Actions deploys to Azure. Security prohibits stored client secrets and wants short-lived token exchange.", "q": "Which TWO actions should be performed?", "options": ["Configure workload identity federation", "Create a federated credential", "Store a client secret in GitHub", "Use password-based SSO"], "answers": [0, 1], "explanation": "Federation plus a federated credential enables secretless token exchange."}, {"id": "s06", "domain": "Governance", "difficulty": "Hard", "type": "matrix", "scenario": "Package1 grants Group1, App1, and Site1. Policy1 allows ConnectedOrg1 users to request access for 30 days with sponsor approval.", "rows": [{"statement": "A ConnectedOrg1 user can request Package1.", "answer": true, "why": "The assignment policy permits that connected organization."}, {"statement": "The assignment can expire automatically after 30 days.", "answer": true, "why": "Expiration is configured in the assignment policy."}, {"statement": "An access review is required for expiration to occur.", "answer": false, "why": "Expiration and access reviews are separate controls."}]}, {"id": "s07", "domain": "Authentication", "difficulty": "Hard", "type": "matrix", "scenario": "Policy1 requires phishing-resistant MFA. User1 uses Authenticator push, User2 uses FIDO2, and User3 uses SMS.", "rows": [{"statement": "User1 satisfies Policy1 with push alone.", "answer": false, "why": "Push is not phishing-resistant."}, {"statement": "User2 satisfies Policy1.", "answer": true, "why": "FIDO2 is phishing-resistant."}, {"statement": "User3 satisfies Policy1.", "answer": false, "why": "SMS is not phishing-resistant."}]}, {"id": "s08", "domain": "Applications", "difficulty": "Hard", "type": "matrix", "scenario": "VM1 has a system-assigned managed identity. Function1 and Function2 share a user-assigned managed identity.", "rows": [{"statement": "Deleting VM1 deletes its managed identity.", "answer": true, "why": "A system-assigned identity follows the resource lifecycle."}, {"statement": "Deleting Function1 deletes the shared user-assigned identity.", "answer": false, "why": "A user-assigned identity is independent."}, {"statement": "The shared identity can be assigned to additional Azure resources.", "answer": true, "why": "User-assigned identities are reusable."}]}, {"id": "s09", "domain": "Authentication", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "A new Conditional Access policy will require MFA for all administrators. The team must minimize lockout risk.", "q": "Which TWO actions should be taken first?", "options": ["Exclude emergency access accounts", "Use report-only mode and review sign-ins", "Enable immediately for all users", "Remove all exclusions"], "answers": [0, 1], "explanation": "Emergency exclusions and report-only evaluation reduce deployment risk."}, {"id": "s10", "domain": "Identity", "difficulty": "Hard", "type": "matrix", "scenario": "Group1 is role-assignable and receives User Administrator. User1 owns Group1 but is not a member. User2 is a member.", "rows": [{"statement": "User1 receives User Administrator because User1 owns Group1.", "answer": false, "why": "Ownership is not membership."}, {"statement": "User2 receives User Administrator through Group1.", "answer": true, "why": "Members inherit the supported directory role assigned to the role-assignable group."}, {"statement": "Group1 can be nested in another group to pass the role onward.", "answer": false, "why": "Role-assignable groups have nesting restrictions."}]}, {"id": "s11", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 3, "scenario": "Contractors need Teams, SharePoint, and App1 access. Requests require manager approval, must expire after 90 days, and resource owners must review continued access quarterly.", "q": "Which THREE configurations are required?", "options": ["Create an access package containing the resources", "Configure manager approval and 90-day expiration", "Create a quarterly access review", "Assign Global Administrator to contractors", "Create a named location"], "answers": [0, 1, 2], "explanation": "The package bundles resources; its policy handles approval and expiration; an access review validates continued access."}, {"id": "s12", "domain": "Authentication", "difficulty": "Hard", "type": "matrix", "scenario": "Policy1 is in report-only mode and would require MFA. User1 signs in without MFA. The sign-in is otherwise allowed.", "rows": [{"statement": "Policy1 blocks the sign-in.", "answer": false, "why": "Report-only mode does not enforce."}, {"statement": "The sign-in logs can show the policy result.", "answer": true, "why": "Conditional Access details record report-only evaluation."}, {"statement": "Policy1 can be evaluated before production enforcement.", "answer": true, "why": "That is the purpose of report-only mode."}]}, {"id": "s13", "domain": "Applications", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "App2 is a daemon that reads all users from Microsoft Graph. No user signs in to App2.", "q": "Which TWO statements are correct?", "options": ["App2 should request an application permission", "Tenant-wide admin consent may be required", "App2 should use delegated permissions only", "App2 must use SAML"], "answers": [0, 1], "explanation": "A daemon uses application permissions, and powerful directory permissions require admin consent."}, {"id": "s14", "domain": "Identity", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "Contoso uses pass-through authentication. Microsoft Entra Smart Lockout must trigger before AD DS locks the account.", "q": "Which TWO settings support the requirement?", "options": ["Set the cloud lockout threshold lower than AD DS", "Set the cloud lockout duration longer than the AD DS reset counter window", "Deploy a read-only domain controller to every site", "Disable modern authentication"], "answers": [0, 1], "explanation": "The cloud threshold should trigger first and remain locked through the on-premises reset window."}, {"id": "s15", "domain": "Governance", "difficulty": "Hard", "type": "matrix", "scenario": "User1 has an eligible Security Administrator assignment. User2 has an active permanent assignment.", "rows": [{"statement": "User1 must activate before using the role.", "answer": true, "why": "Eligible assignments require activation."}, {"statement": "User2 has standing access.", "answer": true, "why": "The active permanent assignment is already effective."}, {"statement": "Both users present the same standing privilege risk.", "answer": false, "why": "Eligible access reduces standing privilege."}]}, {"id": "s16", "domain": "Applications", "difficulty": "Hard", "type": "matrix", "scenario": "User1 owns App1. User2 is Application Administrator. App1 requests tenant-wide Graph application permissions.", "rows": [{"statement": "User1 can modify App1 registration settings.", "answer": true, "why": "App owners can manage the app registration."}, {"statement": "User1 can always grant tenant-wide admin consent.", "answer": false, "why": "Ownership does not equal consent authority."}, {"statement": "User2 can manage enterprise applications within role limitations.", "answer": true, "why": "Application Administrator is intended for application management."}]}, {"id": "s17", "domain": "Identity", "difficulty": "Hard", "type": "matrix", "scenario": "Group1 is a dynamic user group with rule department equals Sales. User1 changes from Finance to Sales.", "rows": [{"statement": "User1 can be added automatically after processing.", "answer": true, "why": "Dynamic membership is recalculated automatically."}, {"statement": "The update is always instantaneous.", "answer": false, "why": "Dynamic group processing can be delayed."}, {"statement": "An administrator must manually add User1.", "answer": false, "why": "The dynamic rule handles membership."}]}, {"id": "s18", "domain": "Authentication", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "A sensitive app must require phishing-resistant authentication, but the requirement should apply only to that app.", "q": "Which TWO settings are needed?", "options": ["Target the sensitive cloud app in Conditional Access", "Require a phishing-resistant authentication strength", "Require every user to be Global Administrator", "Use password-based SSO"], "answers": [0, 1], "explanation": "Target the app and require the appropriate authentication strength."}, {"id": "s19", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "A role-assignable group grants a privileged directory role. Owners must review membership quarterly, and denied users must be removed automatically.", "q": "Which TWO configurations are required?", "options": ["Create an access review for group membership", "Enable automatic application of removal decisions", "Create a named location", "Enable password writeback"], "answers": [0, 1], "explanation": "The access review validates membership and can automatically remove denied users."}, {"id": "s20", "domain": "Applications", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "An on-premises web app must be available remotely without inbound firewall rules, and users must authenticate with Microsoft Entra ID.", "q": "Which TWO components are required?", "options": ["Microsoft Entra Application Proxy", "An Application Proxy connector with Entra preauthentication", "Password Hash Synchronization only", "A PIM assignment"], "answers": [0, 1], "explanation": "Application Proxy uses an outbound connector and can provide Entra preauthentication."}, {"id": "s21", "domain": "Authentication", "difficulty": "Hard", "type": "matrix", "scenario": "Policy1 targets all users, excludes Emergency1, and blocks legacy authentication. User1 uses a modern browser. User2 uses POP3. Emergency1 uses POP3.", "rows": [{"statement": "Policy1 blocks User1.", "answer": false, "why": "User1 uses modern authentication and the policy targets legacy clients."}, {"statement": "Policy1 blocks User2.", "answer": true, "why": "POP3 is a legacy authentication client."}, {"statement": "Policy1 blocks Emergency1.", "answer": false, "why": "Emergency1 is excluded."}]}, {"id": "s22", "domain": "Identity", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "Fabrikam users access Contoso resources. Contoso wants to trust Fabrikam MFA claims only for inbound B2B collaboration.", "q": "Which TWO actions are appropriate?", "options": ["Configure inbound cross-tenant settings for Fabrikam", "Trust MFA claims from Fabrikam", "Configure only outbound settings", "Enable password writeback"], "answers": [0, 1], "explanation": "Inbound cross-tenant settings govern partner users accessing your tenant and can trust their MFA claims."}, {"id": "s23", "domain": "Applications", "difficulty": "Hard", "type": "matrix", "scenario": "Enterprise App1 has 'user assignment required' enabled. User1 is assigned. User2 is not assigned. Both are in the tenant.", "rows": [{"statement": "User1 can sign in if other conditions are satisfied.", "answer": true, "why": "User1 is assigned."}, {"statement": "User2 can sign in solely because User2 is in the tenant.", "answer": false, "why": "Assignment is required."}, {"statement": "A Conditional Access policy can still apply to User1.", "answer": true, "why": "Assignment and Conditional Access are separate controls."}]}, {"id": "s24", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 3, "scenario": "A leaver workflow must disable the user, remove licenses, and remove group memberships after HR marks the employee as terminated.", "q": "Which THREE concepts are central to the design?", "options": ["Lifecycle Workflows", "A trigger based on lifecycle data", "Tasks for disablement and access removal", "Named locations", "SAML claims"], "answers": [0, 1, 2], "explanation": "Lifecycle Workflows use lifecycle triggers and task sequences for joiner/mover/leaver automation."}, {"id": "s25", "domain": "Authentication", "difficulty": "Hard", "type": "matrix", "scenario": "User1 has high user risk but low sign-in risk. PolicyA responds to user risk. PolicyB responds to sign-in risk.", "rows": [{"statement": "PolicyA can apply because of User1's high user risk.", "answer": true, "why": "User risk reflects the likelihood the identity is compromised."}, {"statement": "PolicyB must apply because user risk is high.", "answer": false, "why": "User risk and sign-in risk are separate signals."}, {"statement": "Identity Protection provides both risk signals.", "answer": true, "why": "Identity Protection generates user and sign-in risk."}]}, {"id": "s26", "domain": "Applications", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "Security finds that App1 has Graph permissions it has never used. The company wants to reduce application blast radius.", "q": "Which TWO actions should be taken?", "options": ["Use app governance insights to identify overprivilege", "Remove unused Graph permissions", "Assign Global Administrator to App1's owner", "Add more application permissions"], "answers": [0, 1], "explanation": "App governance identifies excessive permissions; remediation removes unnecessary access."}, {"id": "s27", "domain": "Governance", "difficulty": "Hard", "type": "matrix", "scenario": "Package1 expires after 45 days. Guest1 receives Group1 and App1 through the package. Guest-object deletion is not configured.", "rows": [{"statement": "Group1 and App1 access can be removed at expiration.", "answer": true, "why": "Package resources are removed when the assignment expires."}, {"statement": "Guest1's directory object must be deleted immediately.", "answer": false, "why": "Guest-object deletion is a separate setting."}, {"statement": "A later access review can still evaluate Guest1 if the object remains.", "answer": true, "why": "The guest object can remain available for governance."}]}, {"id": "s28", "domain": "Identity", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "Contoso wants authentication to continue if on-premises sign-in agents are unavailable and also wants users to access cloud apps with the same password.", "q": "Which TWO statements favor Password Hash Synchronization?", "options": ["Authentication can occur in Microsoft Entra ID", "Cloud sign-in does not depend on pass-through agents", "Every sign-in must reach an on-premises agent", "It requires AD FS for all users"], "answers": [0, 1], "explanation": "Password Hash Synchronization provides cloud authentication resilience."}, {"id": "s29", "domain": "Authentication", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "User1 must register passwordless authentication but does not yet have a usable strong method. The company wants a temporary bootstrap credential.", "q": "Which TWO actions fit the requirement?", "options": ["Issue a Temporary Access Pass", "Use the TAP to register a passwordless method", "Create a permanent app password", "Disable MFA registration"], "answers": [0, 1], "explanation": "TAP is a temporary bootstrap credential used to register strong passwordless methods."}, {"id": "s30", "domain": "Applications", "difficulty": "Hard", "type": "matrix", "scenario": "App1 is an interactive web app. App2 is a daemon. Both call Microsoft Graph.", "rows": [{"statement": "App1 commonly uses delegated permissions.", "answer": true, "why": "A signed-in user is present."}, {"statement": "App2 commonly uses application permissions.", "answer": true, "why": "A daemon runs without a signed-in user."}, {"statement": "App2 permissions are limited to a signed-in user's rights.", "answer": false, "why": "Application permissions are granted directly to the app."}]}, {"id": "s31", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "A user must not approve their own access request. Their manager must approve, and access must expire after 60 days.", "q": "Which TWO access-package policy settings are required?", "options": ["Manager approval", "60-day expiration", "Requestor as approver", "Permanent assignment"], "answers": [0, 1], "explanation": "Manager approval separates duties, and expiration limits access duration."}, {"id": "s32", "domain": "Authentication", "difficulty": "Hard", "type": "matrix", "scenario": "Policy1 requires a compliant device. User1 signs in from a compliant Windows device. User2 signs in from an unmanaged personal device.", "rows": [{"statement": "User1 can satisfy the device grant control.", "answer": true, "why": "The device is compliant."}, {"statement": "User2 satisfies the control because the password is correct.", "answer": false, "why": "Password correctness does not make the device compliant."}, {"statement": "The compliant-device requirement is a grant control.", "answer": true, "why": "Conditional Access device requirements are grant controls."}]}, {"id": "s33", "domain": "Identity", "difficulty": "Hard", "type": "matrix", "scenario": "User1 is Privileged Role Administrator. User2 is User Administrator. Both need to assign Global Administrator.", "rows": [{"statement": "User1 can manage supported directory role assignments.", "answer": true, "why": "Privileged Role Administrator manages role assignments."}, {"statement": "User2 can assign Global Administrator because User2 manages users.", "answer": false, "why": "User Administrator does not manage highly privileged role assignments."}, {"statement": "Least privilege favors User1 over Global Administrator for role-management duties.", "answer": true, "why": "Privileged Role Administrator is more limited than Global Administrator."}]}, {"id": "s34", "domain": "Applications", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "A confidential app currently uses a long-lived client secret. The security team wants stronger credential hygiene.", "q": "Which TWO improvements are appropriate?", "options": ["Replace the secret with a certificate where supported", "Use workload identity federation where supported", "Commit the secret to source control", "Share one secret across all environments"], "answers": [0, 1], "explanation": "Certificates and federation reduce long-lived secret risk."}, {"id": "s35", "domain": "Governance", "difficulty": "Hard", "type": "matrix", "scenario": "An access review is configured with a default decision of Deny for users who do not respond. Auto-apply results is enabled.", "rows": [{"statement": "A nonresponding user can lose access.", "answer": true, "why": "The default Deny decision is applied."}, {"statement": "Review results can be applied automatically.", "answer": true, "why": "Auto-apply is enabled."}, {"statement": "A named location controls the decision.", "answer": false, "why": "Named locations are unrelated."}]}, {"id": "s36", "domain": "Authentication", "difficulty": "Hard", "type": "multi", "select": 2, "scenario": "A sign-in is unexpectedly blocked. The administrator needs to determine which Conditional Access policy and risk signal caused the result.", "q": "Which TWO places should be reviewed?", "options": ["Sign-in logs and Conditional Access details", "Identity Protection risk details", "Only billing reports", "Only group creation logs"], "answers": [0, 1], "explanation": "Sign-in logs show policy evaluation, while Identity Protection shows risk context."}, {"id": "s37", "domain": "Identity", "difficulty": "Hard", "type": "matrix", "scenario": "User1 is synchronized from AD DS using a stable source anchor. The user's display name changes on-premises.", "rows": [{"statement": "The cloud identity can remain matched to the same on-premises identity.", "answer": true, "why": "Matching relies on the stable source anchor, not the display name."}, {"statement": "The display-name change must create a new cloud user.", "answer": false, "why": "A display name is not the stable source anchor."}, {"statement": "The source anchor should remain stable.", "answer": true, "why": "Changing it can break identity matching."}]}, {"id": "s38", "domain": "Applications", "difficulty": "Hard", "type": "matrix", "scenario": "An on-premises app is published through Application Proxy with Microsoft Entra preauthentication.", "rows": [{"statement": "Users can authenticate with Microsoft Entra ID before reaching the app.", "answer": true, "why": "Preauthentication occurs in Entra ID."}, {"statement": "An inbound firewall port must be opened to the connector.", "answer": false, "why": "The connector uses outbound connections."}, {"statement": "Conditional Access can protect the published app.", "answer": true, "why": "The app is represented in Entra and can be targeted."}]}, {"id": "s39", "domain": "Governance", "difficulty": "Hard", "type": "multi", "select": 3, "scenario": "A catalog owner must let external partners request a group, app, and SharePoint site with sponsor approval and quarterly review.", "q": "Which THREE items are needed?", "options": ["A catalog containing the resources", "An access package with an assignment policy", "A quarterly access review", "A password writeback policy", "A named location"], "answers": [0, 1, 2], "explanation": "Catalog, package/policy, and review together provide governed external access."}, {"id": "s40", "domain": "Authentication", "difficulty": "Hard", "type": "matrix", "scenario": "Policy1 targets App1 and requires Terms of Use. User1 accepted the current terms. User2 has not.", "rows": [{"statement": "User1 can satisfy the Terms of Use control.", "answer": true, "why": "User1 accepted the current agreement."}, {"statement": "User2 can access App1 without accepting the terms.", "answer": false, "why": "The Conditional Access requirement is unmet."}, {"statement": "Terms of Use can be scoped through Conditional Access.", "answer": true, "why": "Conditional Access enforces Terms of Use."}]}], "uploaded": [{"id": "u01", "domain": "Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.1", "q": "Your company recently created an Azure subscription. You must ensure that a specified user can implement Microsoft Entra Privileged Identity Management (PIM). Which role should you assign?", "options": ["Global Administrator", "Security Administrator", "Password Administrator", "Compliance Administrator"], "answer": 0, "explanation": "Of the available choices, Global Administrator can onboard and configure PIM. In current environments, Privileged Role Administrator is usually preferred for least privilege when available."}, {"id": "u02", "domain": "Identity", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.2", "q": "After synchronizing an on-premises AD forest to Microsoft Entra ID, users whose givenName starts with LAB must no longer synchronize. What should you use?", "options": ["Synchronization Rules Editor with attribute-based filtering", "A DNAT firewall rule", "A network traffic filtering rule", "Active Directory Users and Computers"], "answer": 0, "explanation": "Attribute-based synchronization filtering is configured through the Microsoft Entra Connect Synchronization Rules Editor, not through firewall rules or ADUC."}, {"id": "u03", "domain": "Authentication", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.3", "q": "Which risk level is associated with users whose credentials have been detected as leaked?", "options": ["None", "Low", "Medium", "High"], "answer": 3, "explanation": "Leaked credentials indicate a strong likelihood that the account is compromised and are treated as high user risk."}, {"id": "u04", "domain": "Authentication", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.4", "q": "Which risk level is commonly associated with sign-ins from IP addresses linked to suspicious or dubious activity?", "options": ["None", "Low", "Medium", "High"], "answer": 2, "explanation": "Suspicious IP-based sign-in detections are generally evaluated as medium sign-in risk unless stronger evidence raises the risk."}, {"id": "u05", "domain": "Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.5", "q": "You configure an access review for a group and want the resource owners to perform the review. What should Reviewers be set to?", "options": ["Selected users", "Members (Self)", "Group owners", "Anyone"], "answer": 2, "explanation": "For a group access review performed by the resource owners, select Group owners as the reviewers."}, {"id": "u06", "domain": "Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.6", "q": "You are onboarding Privileged Identity Management for Microsoft Entra roles. Which action must be completed first?", "options": ["Sign up PIM for Entra roles", "Consent to PIM", "Discover privileged roles", "Discover resources"], "answer": 1, "explanation": "In the legacy onboarding flow represented by this question, an authorized administrator first grants consent to PIM before role discovery and management can occur."}, {"id": "u07", "domain": "Azure RBAC", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.7", "q": "A user must upload images to Azure Container Registry with no more privilege than necessary. Which role should be assigned?", "options": ["Owner", "Contributor", "AcrPush", "AcrPull"], "answer": 2, "explanation": "AcrPush permits pushing and pulling container images without broad management permissions."}, {"id": "u08", "domain": "Azure RBAC", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.8", "q": "A user must download images from Azure Container Registry with no more privilege than necessary. Which role should be assigned?", "options": ["Reader", "Contributor", "AcrDelete", "AcrPull"], "answer": 3, "explanation": "AcrPull grants permission to pull images without granting push or administrative rights."}, {"id": "u09", "domain": "Azure Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.9", "q": "ARM templates deploy Windows VMs. Unused Windows features must be automatically disabled when each VM is provisioned. Which service should you use?", "options": ["Azure DevOps", "Azure Automation State Configuration", "Network security groups", "Azure Blueprints"], "answer": 1, "explanation": "Azure Automation State Configuration uses Desired State Configuration to enforce operating-system configuration such as disabled Windows features."}, {"id": "u10", "domain": "Azure Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.10", "q": "Every Windows Server VM must automatically receive a custom antimalware extension through Azure Policy. Which policy effect is required?", "options": ["Disabled", "Modify", "AuditIfNotExists", "DeployIfNotExists"], "answer": 3, "explanation": "DeployIfNotExists can deploy the missing VM extension when the required resource configuration is absent."}, {"id": "u11", "domain": "Security", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.11", "q": "Advanced threat protection for Azure SQL must detect all threat types. What occurs when an application generates a faulty SQL statement that indicates unsafe construction?", "options": ["A potential SQL injection alert is triggered", "A vulnerability to SQL injection alert is triggered", "An access from a harmful application alert is triggered", "A brute-force SQL credentials alert is triggered"], "answer": 1, "explanation": "A faulty statement generated by application code can trigger the SQL injection vulnerability detection, which identifies potentially exploitable query construction."}, {"id": "u12", "domain": "Azure RBAC", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.12", "q": "A user must configure advanced access policies on an Azure Key Vault while following least privilege. Which authorization mechanism should be used?", "options": ["Azure Information Protection", "Azure RBAC", "Privileged Identity Management", "Azure DevOps"], "answer": 1, "explanation": "Azure RBAC controls management-plane permissions on the vault, including who can configure vault settings and access configuration."}, {"id": "u13", "domain": "Azure RBAC", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.13", "q": "A user must add and delete certificates in an Azure Key Vault while following least privilege. Which option should be configured?", "options": ["A Key Vault access policy", "Azure Policy", "Privileged Identity Management", "Azure DevOps"], "answer": 0, "explanation": "In the access-policy authorization model represented by the question, certificate data-plane permissions are granted through a Key Vault access policy."}, {"id": "u14", "domain": "Security", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.14", "q": "Which statement is true about Azure Disk Encryption for a Windows VM?", "options": ["It is supported for Basic tier VMs", "It is supported for Standard tier VMs", "It is supported with software-based RAID", "It is supported with Storage Spaces Direct"], "answer": 1, "explanation": "Azure Disk Encryption is supported on supported Standard tier VM sizes; the other listed configurations are not supported in the scenario."}, {"id": "u15", "domain": "Security", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.15", "q": "Which statement is true about Azure Disk Encryption for a Linux VM?", "options": ["It is not supported for Basic tier VMs", "It is not supported for Standard tier VMs", "OS disk encryption for Linux VM scale sets is supported", "Custom image encryption is supported"], "answer": 0, "explanation": "The legacy Azure Disk Encryption requirements represented by the question exclude Basic tier VMs. The other statements do not describe supported scenarios."}, {"id": "u16", "domain": "Monitoring", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.16", "q": "A Log Analytics query must show users with more than five failed sign-in attempts. Which fields or aggregation should be included?", "options": ["EventID and countif()", "ActivityID and countif()", "EventID and count()", "ActivityID and count()"], "answer": 0, "explanation": "EventID identifies the failed sign-in event and countif() can count only rows that satisfy the failure condition before filtering for counts greater than five."}, {"id": "u17", "domain": "Monitoring", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.17", "q": "You need to create custom alert rules in Microsoft Defender for Cloud. What supporting resource should you create?", "options": ["Remove Identity Protection", "Create a DLP policy", "Create a Log Analytics workspace", "Only change the Defender pricing tier"], "answer": 2, "explanation": "Custom analytics and alert queries rely on a Log Analytics workspace that stores and queries the relevant security data."}, {"id": "u18", "domain": "Monitoring", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.18", "q": "You need to identify who deleted an Azure VM 15 days ago. Which Azure Monitor option should you use?", "options": ["Application log", "Metrics", "Activity log", "Logs"], "answer": 2, "explanation": "The Azure Activity Log records subscription-level control-plane operations, including resource deletion and the identity that initiated it."}, {"id": "u19", "domain": "Monitoring", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.19", "q": "You need to analyze security events from a Windows Server VM that has Azure diagnostics enabled. Which Azure Monitor option should you use?", "options": ["Application log", "Metrics", "Activity log", "Logs"], "answer": 3, "explanation": "Azure Monitor Logs and Log Analytics are used to query guest operating-system event data collected from VMs."}, {"id": "u20", "domain": "Security", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.20", "q": "You need Microsoft Defender for Cloud to modify operating-system security configuration. Which legacy pricing tier is required?", "options": ["Advanced", "Premium", "Standard", "Free"], "answer": 2, "explanation": "The legacy Security Center capability described in the question required the Standard tier. Current product naming and plans have since changed."}, {"id": "u21", "domain": "Azure Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.21", "q": "An Azure Policy effect requires a managed identity when the policy assignment is created. Which effect is it?", "options": ["AuditIfNotExists", "Disabled", "DeployIfNotExists", "EnforceOPAConstraint"], "answer": 2, "explanation": "DeployIfNotExists performs a remediation deployment and therefore requires an assignment identity with permissions to deploy the required resources."}, {"id": "u22", "domain": "Identity", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.22", "q": "Users whose givenName begins with TEST must be prevented from synchronizing to Microsoft Entra ID with minimum administration. What should you use?", "options": ["Synchronization Rules Editor", "Web Service Configuration Tool", "Microsoft Entra Connect wizard", "Active Directory Users and Computers"], "answer": 0, "explanation": "Attribute-based filtering is configured through the Synchronization Rules Editor."}, {"id": "u23", "domain": "Azure Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.23", "q": "Separate departmental subscriptions must receive the same role assignments. Which legacy service should be used?", "options": ["Microsoft Defender for Cloud", "Azure Policy", "Privileged Identity Management", "Azure Blueprints"], "answer": 3, "explanation": "Azure Blueprints could package role assignments, policy assignments, and artifacts for repeatable subscription deployment. Azure Blueprints is now deprecated, but it is the intended answer for this legacy question."}, {"id": "u24", "domain": "Authentication", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.24", "q": "Domain-joined developers must connect to Azure SQL with their on-premises AD accounts and minimal prompts. Which SSMS authentication method should be used?", "options": ["Active Directory - Password", "Active Directory - Universal with MFA", "SQL Server Authentication", "Active Directory - Integrated"], "answer": 3, "explanation": "Integrated authentication uses the signed-in domain credentials and minimizes additional prompts in a supported hybrid SSO configuration."}, {"id": "u25", "domain": "Azure Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.25", "q": "ARM template deployments must dynamically reference different Key Vault secrets using inline vault-name and secret-name parameters. What should you use?", "options": ["A Key Vault access policy", "A linked template", "A parameters file", "An Automation account"], "answer": 1, "explanation": "A linked template can accept parameters and construct the appropriate Key Vault resource ID dynamically for each deployment."}, {"id": "u26", "domain": "Security", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.26", "q": "Just-in-time VM access is enabled. Before connecting by RDP, what should you do first?", "options": ["Activate Security Administrator in PIM", "Activate Owner for the VM in PIM", "Open the VM Connect page and request access", "Install the Network Watcher Agent extension"], "answer": 2, "explanation": "With JIT enabled, request access from the VM connection workflow so the required management port is opened temporarily."}, {"id": "u27", "domain": "Identity", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.27", "q": "You create a custom Microsoft Entra directory role named Role1. Where can it be used for permission delegation?", "options": ["The Entra tenant only", "The tenant and one resource group", "The tenant and subscription", "The tenant, resource group, and subscription"], "answer": 0, "explanation": "A custom Microsoft Entra role applies to directory resources. It is not an Azure RBAC role and cannot be assigned at subscription or resource-group scope."}, {"id": "u28", "domain": "Identity", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.28", "q": "A domain administrator must modify Microsoft Entra Connect synchronization options. Which listed Entra role provides the required authority?", "options": ["Security Administrator", "Global Administrator", "User Administrator"], "answer": 1, "explanation": "Among the listed choices, Global Administrator has the required authority. In current designs, Hybrid Identity Administrator is the more targeted role when available."}, {"id": "u29", "domain": "Applications", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.29", "q": "You register an enterprise application in Microsoft Entra ID. Which additional directory resource is created?", "options": ["A service principal", "An X.509 certificate", "A managed identity", "A user account"], "answer": 0, "explanation": "The enterprise application is represented in the tenant by a service principal."}, {"id": "u30", "domain": "Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.30", "q": "PIM users receive authorization errors while viewing or creating Azure role assignments. Which least-privileged role should the PIM service principal receive at the subscription?", "options": ["Contributor", "User Access Administrator", "Managed Application Operator", "Resource Policy Contributor"], "answer": 1, "explanation": "User Access Administrator provides permission to view and manage Azure role assignments without broader resource-management privileges."}, {"id": "u31", "domain": "Applications", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.31", "q": "An Application Developer cannot enable token encryption for an app because the option is unavailable. What should be done?", "options": ["Upload a certificate for the app", "Modify the app's API permissions", "Add the app as an enterprise application", "Assign Cloud Application Administrator"], "answer": 0, "explanation": "Token encryption requires a certificate to be configured for the application; without it, the token-encryption option cannot be completed."}, {"id": "u32", "domain": "Applications", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.32", "q": "An application will modify Microsoft Entra user properties through Microsoft Graph. What should you configure first?", "options": ["An app registration", "An external identity", "A custom Azure RBAC role", "Application Proxy"], "answer": 0, "explanation": "Register the application first to establish its identity, credentials, and Microsoft Graph permissions."}, {"id": "u33", "domain": "Identity", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.33", "q": "Synced users cannot be assigned Azure or Microsoft 365 roles in a newly created subscription because it is linked to the wrong tenant. What should you do first?", "options": ["Enable pass-through authentication", "Enable federation", "Change the tenant used by the subscription", "Deploy a second Entra Connect server"], "answer": 2, "explanation": "Azure role assignments can target identities only from the tenant associated with the subscription. Link the subscription to the tenant containing the synchronized users."}, {"id": "u34", "domain": "Applications", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.34", "q": "Two web apps write to one storage account. Each app must use its own identity so access can be separated. What should you do?", "options": ["Give each app a system-assigned managed identity and use Entra authentication", "Give each app a separate storage account key", "Give both apps one user-assigned identity", "Give each app a custom AES key"], "answer": 0, "explanation": "Separate system-assigned identities allow distinct Azure RBAC assignments. Storage keys are shared account credentials and do not provide per-app identity isolation."}, {"id": "u35", "domain": "Authentication", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.35", "q": "Identity-based authentication is configured for Azure Files. A Windows device accesses the share through SMB. Which token or protocol authorizes the request?", "options": ["OAuth 2.0", "JSON Web Token", "SAML", "Kerberos"], "answer": 3, "explanation": "Azure Files identity-based SMB authentication uses Kerberos."}, {"id": "u36", "domain": "Authentication", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.36", "q": "A tenant has Microsoft Entra ID Premium P1. You need configurable user-risk and sign-in-risk policies. What must you do first?", "options": ["Purchase Premium P2 licenses for the affected users", "Register all users for MFA", "Enable security defaults", "Enable Defender for Cloud enhanced security"], "answer": 0, "explanation": "Microsoft Entra ID Protection risk policies require Premium P2 licensing for the users covered by the policies."}, {"id": "u37", "domain": "Authentication", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.37", "q": "You need to use the Conditional Access What If tool to evaluate a new policy while minimizing user impact. How should the policy be enabled?", "options": ["Off", "On", "Report-only"], "answer": 2, "explanation": "Report-only allows evaluation and logging without enforcing the policy against users."}, {"id": "u38", "domain": "Azure RBAC", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.38", "q": "User1 must be able to create managed identities with least privilege. What should you do?", "options": ["Assign Hybrid Identity Administrator at a management group", "Assign Managed Identity Operator at a management group", "Create a resource group and assign Managed Identity Contributor", "Create an OU and assign User Administrator"], "answer": 2, "explanation": "Managed Identity Contributor can create, read, update, and delete user-assigned managed identities. Scope it to the required resource group."}, {"id": "u39", "domain": "Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.39", "q": "User1 must create groups, create access reviews for role-assignable groups, and assign Microsoft Entra roles to groups. Which least-privileged role should be assigned?", "options": ["Groups Administrator", "Authentication Administrator", "Identity Governance Administrator", "Privileged Role Administrator"], "answer": 3, "explanation": "Privileged Role Administrator can manage role assignments and role-assignable groups, including the privileged governance operations described."}, {"id": "u40", "domain": "Governance", "difficulty": "Hard", "type": "single", "source": "Uploaded PDF p.40", "q": "User1 is eligible for Billing Administrator through PIM. Activation must be limited to a maximum of two hours. What should you edit?", "options": ["Create a new access review", "Edit role assignment settings", "Update the assignment end date", "Edit role activation settings"], "answer": 3, "explanation": "The maximum activation duration is configured in the PIM role activation settings, not by changing the eligibility end date."}]};
-const KEY='sc300-hard-variety-v1';
-let progress=JSON.parse(localStorage.getItem(KEY)||'{"results":[],"sets":0}');
-let quiz=null;
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-function save(){localStorage.setItem(KEY,JSON.stringify(progress));renderStats()}
-function go(v){$$('.view').forEach(x=>x.classList.toggle('active',x.id===v));$$('nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));const m={dashboard:['Dashboard','Harder questions with more variety.'],regular:['Regular Questions','Difficult concept and decision questions.'],scenario:['Scenario Questions','Layered User1/User2 and relationship reasoning.'],uploaded:['Uploaded Exam-Style Bank','All 40 screenshot-based scenario questions.'],exam:['Mixed Exam','Combined regular and scenario practice.'],analytics:['Analytics','Track weak domains and question formats.']};$('#pageTitle').textContent=m[v][0];$('#pageSub').textContent=m[v][1]}
-$$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.view));
-function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
-function start(mode){
- let pool, count, domain='All';
- if(mode==='regular'){pool=DATA.regular;count=Number($('#regularCount').value);domain=$('#regularDomain').value}
- else if(mode==='scenario'){pool=DATA.scenarios;count=Number($('#scenarioCount').value);domain=$('#scenarioDomain').value}
- else if(mode==='uploaded'){pool=DATA.uploaded;count=Number($('#uploadedCount').value);domain=$('#uploadedDomain').value}
- else {pool=[...DATA.regular,...DATA.scenarios,...DATA.uploaded];count=Number($('#examCount').value)}
- if(domain!=='All')pool=pool.filter(q=>q.domain===domain);
- pool=shuffle(pool).slice(0,Math.min(count,pool.length));
- quiz={mode,questions:pool,index:0,score:0,locked:false};
- renderQuestion();
+const KEY = 'sc300-uploaded-scenarios-build2';
+let progress = loadProgress();
+let quiz = null;
+
+function $(selector, root=document) { return root.querySelector(selector); }
+function $$(selector, root=document) { return Array.from(root.querySelectorAll(selector)); }
+
+function loadProgress() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(KEY) || '{"results":[],"sets":0}');
+    return {
+      results: Array.isArray(parsed.results) ? parsed.results : [],
+      sets: Number.isFinite(parsed.sets) ? parsed.sets : 0
+    };
+  } catch (error) {
+    return {results: [], sets: 0};
+  }
 }
-function stage(){return $('#'+quiz.mode+'Stage')}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function renderQuestion(){
- if(quiz.index>=quiz.questions.length)return finish();
- const q=quiz.questions[quiz.index];
- let body='';
- if(q.type==='matrix'){
-  body=`<table class="matrix"><thead><tr><th>Statement</th><th>Yes</th><th>No</th></tr></thead><tbody>${q.rows.map((r,i)=>`<tr><td>${esc(r.statement)}</td><td><input type="radio" name="row${i}" value="yes"></td><td><input type="radio" name="row${i}" value="no"></td></tr>`).join('')}</tbody></table>`;
- }else{
-  body=q.options.map((o,i)=>`<label class="option"><input type="${q.type==='single'?'radio':'checkbox'}" name="answer" value="${i}"><span>${esc(o)}</span></label>`).join('');
- }
- const title=q.q||'For each statement, select Yes or No.';
- stage().className='';
- stage().innerHTML=`<div class="progress"><div style="width:${quiz.index/quiz.questions.length*100}%"></div></div><div class="question"><div><span class="tag">${q.domain}</span><span class="tag">${q.difficulty}</span><span class="tag">${q.type==='matrix'?'Yes / No matrix':q.type==='multi'?'Choose '+q.select:'Single answer'}</span></div>${q.source?`<div class="muted" style="margin-top:10px">${esc(q.source)}</div>`:''}${q.scenario?`<div class="scenario">${esc(q.scenario)}</div>`:''}<h2>${esc(title)}</h2>${body}<div id="feedback"></div><div class="buttons" style="margin-top:15px"><button id="submit" class="primary">Submit answer</button><span class="muted">${quiz.index+1} of ${quiz.questions.length}</span></div></div>`;
- $('#submit').onclick=submitAnswer;
+
+function showError(message) {
+  const banner = $('#errorBanner');
+  if (!banner) return;
+  banner.textContent = message;
+  banner.style.display = 'block';
 }
-function submitAnswer(){
- if(quiz.locked){quiz.index++;quiz.locked=false;renderQuestion();return}
- const q=quiz.questions[quiz.index];let correct=false,detail='';
- if(q.type==='single'){
-  const x=$('input[name="answer"]:checked');if(!x)return alert('Choose an answer.');
-  correct=Number(x.value)===q.answer;detail=q.explanation;
- }else if(q.type==='multi'){
-  const vals=$$('input[name="answer"]:checked').map(x=>Number(x.value)).sort();
-  if(vals.length!==q.select)return alert(`Choose exactly ${q.select} answers.`);
-  correct=JSON.stringify(vals)===JSON.stringify([...q.answers].sort());detail=q.explanation;
- }else{
-  const vals=q.rows.map((r,i)=>$(`input[name="row${i}"]:checked`)?.value);
-  if(vals.some(v=>!v))return alert('Answer every row.');
-  correct=vals.every((v,i)=>(v==='yes')===q.rows[i].answer);
-  detail=q.rows.map(r=>`${r.answer?'Yes':'No'} — ${r.why}`).join('<br>');
- }
- if(correct)quiz.score++;
- progress.results.push({mode:quiz.mode==='exam'?(DATA.uploaded.some(x=>x.id===q.id)?'uploaded':(q.type==='matrix'?'scenario':'regular')):quiz.mode,type:q.type,domain:q.domain,correct,date:new Date().toISOString()});
- quiz.locked=true;save();
- $('#feedback').innerHTML=`<div class="feedback ${correct?'':'bad'}"><strong>${correct?'Correct':'Incorrect'}</strong><p>${detail}</p></div>`;
- $('#submit').textContent=quiz.index===quiz.questions.length-1?'Finish set':'Next question';
+
+window.addEventListener('error', event => {
+  showError('The page encountered an error: ' + event.message);
+});
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(progress));
+  } catch (error) {
+    showError('Progress could not be saved, but the quiz can still be used.');
+  }
+  renderStats();
 }
-function finish(){
- progress.sets++;save();const p=Math.round(quiz.score/quiz.questions.length*100);
- stage().innerHTML=`<div class="panel"><div class="muted">SET COMPLETE</div><div class="result">${p}%</div><h2>${quiz.score} / ${quiz.questions.length} correct</h2><p class="muted">${p>=80?'Strong result. Repeat with a different domain or mixed exam.':'Review the explanations and run another targeted set before your retake.'}</p><button class="primary" onclick="start('${quiz.mode}')">Start another set</button></div>`;
+
+function go(view) {
+  const target = document.getElementById(view);
+  if (!target) {
+    showError('The requested section could not be opened.');
+    return;
+  }
+
+  $$('.view').forEach(section => section.classList.toggle('active', section.id === view));
+  $$('nav button[data-view]').forEach(button => button.classList.toggle('active', button.dataset.view === view));
+
+  const pages = {
+    dashboard: ['Dashboard', 'Harder questions with more variety.'],
+    regular: ['Regular Questions', 'Difficult concept and decision questions.'],
+    scenario: ['Scenario Questions', 'Layered User1/User2 and relationship reasoning.'],
+    uploaded: ['Uploaded Exam-Style Bank', 'All 40 screenshot-based scenario questions.'],
+    exam: ['Mixed Exam', 'Combined regular and scenario practice.'],
+    analytics: ['Analytics', 'Track weak domains and question formats.']
+  };
+
+  const page = pages[view] || [view, ''];
+  $('#pageTitle').textContent = page[0];
+  $('#pageSub').textContent = page[1];
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
-function acc(arr){return arr.length?Math.round(arr.filter(x=>x.correct).length/arr.length*100):0}
-function renderStats(){
- const r=progress.results;
- $('#regBank').textContent=DATA.regular.length;$('#scnBank').textContent=DATA.scenarios.length;$('#uplBank').textContent=DATA.uploaded.length;$('#answered').textContent=r.length;$('#accuracy').textContent=acc(r)+'%';
- $('#regAcc').textContent=acc(r.filter(x=>x.mode==='regular'))+'%';$('#scnAcc').textContent=acc(r.filter(x=>x.mode==='scenario'))+'%';$('#multiAcc').textContent=acc(r.filter(x=>x.type==='multi'))+'%';$('#matrixAcc').textContent=acc(r.filter(x=>x.type==='matrix'))+'%';
- const domains=['Identity','Authentication','Applications','Governance'];
- $('#domainBars').innerHTML=domains.map(d=>{const v=acc(r.filter(x=>x.domain===d));return `<div><div class="bar-head"><span>${d}</span><strong>${v}%</strong></div><div class="bar"><div style="width:${v}%"></div></div></div>`}).join('');
+
+function shuffle(items) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
 }
-$('#reset').onclick=()=>{if(confirm('Reset all saved progress?')){progress={results:[],sets:0};save()}};
+
+function start(mode) {
+  let pool = [];
+  let count = 10;
+  let domain = 'All';
+
+  if (mode === 'regular') {
+    pool = DATA.regular;
+    count = Number($('#regularCount').value);
+    domain = $('#regularDomain').value;
+  } else if (mode === 'scenario') {
+    pool = DATA.scenarios;
+    count = Number($('#scenarioCount').value);
+    domain = $('#scenarioDomain').value;
+  } else if (mode === 'uploaded') {
+    pool = DATA.uploaded;
+    count = Number($('#uploadedCount').value);
+    domain = $('#uploadedDomain').value;
+  } else if (mode === 'exam') {
+    pool = [...DATA.regular, ...DATA.scenarios, ...DATA.uploaded];
+    count = Number($('#examCount').value);
+  } else {
+    showError('Unknown quiz mode.');
+    return;
+  }
+
+  if (domain !== 'All') {
+    pool = pool.filter(question => question.domain === domain);
+  }
+
+  if (!pool.length) {
+    const target = document.getElementById(mode + 'Stage');
+    if (target) {
+      target.className = 'panel';
+      target.innerHTML = '<h3>No questions were found</h3><p class="muted">Select All or choose a different topic.</p>';
+    }
+    return;
+  }
+
+  const selected = shuffle(pool).slice(0, Math.min(count, pool.length));
+  quiz = {mode, questions: selected, index: 0, score: 0, locked: false};
+  renderQuestion();
+}
+
+function stage() {
+  return quiz ? document.getElementById(quiz.mode + 'Stage') : null;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+  })[character]);
+}
+
+function renderQuestion() {
+  if (!quiz) return;
+  if (quiz.index >= quiz.questions.length) {
+    finish();
+    return;
+  }
+
+  const target = stage();
+  if (!target) {
+    showError('The quiz display area could not be found.');
+    return;
+  }
+
+  const question = quiz.questions[quiz.index];
+  let answerMarkup = '';
+
+  if (question.type === 'matrix') {
+    answerMarkup = `
+      <table class="matrix">
+        <thead><tr><th>Statement</th><th>Yes</th><th>No</th></tr></thead>
+        <tbody>
+          ${question.rows.map((row, index) => `
+            <tr>
+              <td>${escapeHtml(row.statement)}</td>
+              <td><input aria-label="Yes for statement ${index + 1}" type="radio" name="row${index}" value="yes"></td>
+              <td><input aria-label="No for statement ${index + 1}" type="radio" name="row${index}" value="no"></td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+  } else {
+    const inputType = question.type === 'single' ? 'radio' : 'checkbox';
+    answerMarkup = question.options.map((option, index) => `
+      <label class="option">
+        <input type="${inputType}" name="answer" value="${index}">
+        <span>${escapeHtml(option)}</span>
+      </label>`).join('');
+  }
+
+  const questionTitle = question.q || 'For each statement, select Yes or No.';
+  const typeLabel = question.type === 'matrix'
+    ? 'Yes / No matrix'
+    : question.type === 'multi'
+      ? 'Choose ' + question.select
+      : 'Single answer';
+
+  target.className = 'panel';
+  target.innerHTML = `
+    <div class="progress"><div style="width:${(quiz.index / quiz.questions.length) * 100}%"></div></div>
+    <div class="question">
+      <div>
+        <span class="tag">${escapeHtml(question.domain)}</span>
+        <span class="tag">${escapeHtml(question.difficulty)}</span>
+        <span class="tag">${escapeHtml(typeLabel)}</span>
+      </div>
+      ${question.source ? `<div class="muted" style="margin-top:10px">${escapeHtml(question.source)}</div>` : ''}
+      ${question.scenario ? `<div class="scenario">${escapeHtml(question.scenario)}</div>` : ''}
+      <h2>${escapeHtml(questionTitle)}</h2>
+      ${answerMarkup}
+      <div id="feedback"></div>
+      <div class="buttons" style="margin-top:15px">
+        <button type="button" id="submitAnswer" class="primary">Submit answer</button>
+        <span class="muted">${quiz.index + 1} of ${quiz.questions.length}</span>
+      </div>
+    </div>`;
+
+  $('#submitAnswer').addEventListener('click', submitAnswer);
+}
+
+function submitAnswer() {
+  if (!quiz) return;
+
+  if (quiz.locked) {
+    quiz.index += 1;
+    quiz.locked = false;
+    renderQuestion();
+    return;
+  }
+
+  const question = quiz.questions[quiz.index];
+  let correct = false;
+  let detail = '';
+
+  if (question.type === 'single') {
+    const selected = $('input[name="answer"]:checked', stage());
+    if (!selected) {
+      alert('Choose an answer first.');
+      return;
+    }
+    correct = Number(selected.value) === question.answer;
+    detail = question.explanation;
+  } else if (question.type === 'multi') {
+    const selected = $$('input[name="answer"]:checked', stage()).map(input => Number(input.value)).sort((a,b) => a-b);
+    if (selected.length !== question.select) {
+      alert(`Choose exactly ${question.select} answers.`);
+      return;
+    }
+    const expected = [...question.answers].sort((a,b) => a-b);
+    correct = JSON.stringify(selected) === JSON.stringify(expected);
+    detail = question.explanation;
+  } else if (question.type === 'matrix') {
+    const selected = question.rows.map((row, index) => $(`input[name="row${index}"]:checked`, stage())?.value);
+    if (selected.some(value => !value)) {
+      alert('Answer every row first.');
+      return;
+    }
+    correct = selected.every((value, index) => (value === 'yes') === question.rows[index].answer);
+    detail = question.rows.map(row => `${row.answer ? 'Yes' : 'No'} — ${escapeHtml(row.why)}`).join('<br>');
+  }
+
+  if (correct) quiz.score += 1;
+
+  let resultMode = quiz.mode;
+  if (quiz.mode === 'exam') {
+    if (DATA.uploaded.some(item => item.id === question.id)) resultMode = 'uploaded';
+    else if (question.type === 'matrix' || DATA.scenarios.some(item => item.id === question.id)) resultMode = 'scenario';
+    else resultMode = 'regular';
+  }
+
+  progress.results.push({
+    mode: resultMode,
+    type: question.type,
+    domain: question.domain,
+    correct,
+    date: new Date().toISOString()
+  });
+
+  quiz.locked = true;
+  save();
+
+  const feedback = $('#feedback', stage());
+  feedback.innerHTML = `
+    <div class="feedback ${correct ? '' : 'bad'}">
+      <strong>${correct ? 'Correct' : 'Incorrect'}</strong>
+      <p>${question.type === 'matrix' ? detail : escapeHtml(detail)}</p>
+    </div>`;
+
+  const submit = $('#submitAnswer', stage());
+  submit.textContent = quiz.index === quiz.questions.length - 1 ? 'Finish set' : 'Next question';
+}
+
+function finish() {
+  const target = stage();
+  if (!target || !quiz) return;
+
+  progress.sets += 1;
+  save();
+
+  const percent = quiz.questions.length ? Math.round((quiz.score / quiz.questions.length) * 100) : 0;
+  target.className = 'panel';
+  target.innerHTML = `
+    <div class="muted">SET COMPLETE</div>
+    <div class="result">${percent}%</div>
+    <h2>${quiz.score} / ${quiz.questions.length} correct</h2>
+    <p class="muted">${percent >= 80
+      ? 'Strong result. Repeat with a different topic or mixed exam.'
+      : 'Review the explanations and run another targeted set before your retake.'}</p>
+    <button type="button" class="primary" data-restart="${quiz.mode}">Start another set</button>`;
+}
+
+function accuracy(results) {
+  return results.length
+    ? Math.round((results.filter(item => item.correct).length / results.length) * 100)
+    : 0;
+}
+
+function renderStats() {
+  const results = progress.results;
+  $('#regBank').textContent = DATA.regular.length;
+  $('#scnBank').textContent = DATA.scenarios.length;
+  $('#uplBank').textContent = DATA.uploaded.length;
+  $('#answered').textContent = results.length;
+  $('#accuracy').textContent = accuracy(results) + '%';
+  $('#regAcc').textContent = accuracy(results.filter(item => item.mode === 'regular')) + '%';
+  $('#scnAcc').textContent = accuracy(results.filter(item => item.mode === 'scenario')) + '%';
+  $('#multiAcc').textContent = accuracy(results.filter(item => item.type === 'multi')) + '%';
+  $('#matrixAcc').textContent = accuracy(results.filter(item => item.type === 'matrix')) + '%';
+
+  const domains = ['Identity','Authentication','Applications','Governance','Azure RBAC','Azure Governance','Monitoring','Security'];
+  $('#domainBars').innerHTML = domains.map(domain => {
+    const value = accuracy(results.filter(item => item.domain === domain));
+    return `
+      <div>
+        <div class="bar-head"><span>${domain}</span><strong>${value}%</strong></div>
+        <div class="bar"><div style="width:${value}%"></div></div>
+      </div>`;
+  }).join('');
+}
+
+document.addEventListener('click', event => {
+  const goButton = event.target.closest('[data-go]');
+  if (goButton) {
+    go(goButton.dataset.go);
+    return;
+  }
+
+  const startButton = event.target.closest('[data-start]');
+  if (startButton) {
+    start(startButton.dataset.start);
+    return;
+  }
+
+  const restartButton = event.target.closest('[data-restart]');
+  if (restartButton) {
+    start(restartButton.dataset.restart);
+  }
+});
+
+$$('nav button[data-view]').forEach(button => {
+  button.addEventListener('click', () => go(button.dataset.view));
+});
+
+$('#reset').addEventListener('click', () => {
+  if (confirm('Reset all saved progress?')) {
+    progress = {results: [], sets: 0};
+    save();
+  }
+});
+
 renderStats();
 </script>
+
 </body>
 </html>
