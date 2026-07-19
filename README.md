@@ -1,5 +1,3 @@
-# SC-300 Master
+# SC-300 Master v2
 
-Single-file GitHub Pages build. Upload `index.html` to the repository root.
-
-All CSS, question data, and JavaScript are embedded in one file to avoid missing-file and browser-cache problems.
+Includes regular multiple-choice questions and scenario-based User1/User2 questions. Upload index.html and README.md to the repository root.
