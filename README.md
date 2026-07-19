@@ -1,17 +1,22 @@
-# SC-300 Master — Buttons Fixed (Build 2)
+# SC-300 Master — Exam Sprint Edition (Build 3)
 
-This build fixes navigation and quiz-button reliability.
+Built for immediate pre-exam review.
 
-Changes:
-- Removed fragile inline `onclick` handlers
-- Added delegated click handling
-- Added safer quiz initialization and empty-filter handling
-- Added visible error reporting
-- Restored the panel styling while questions are displayed
-- Added eight-domain analytics
-- Included all 40 uploaded exam-style questions
-- Mixed exam includes regular, original scenario, and uploaded banks
+Question banks:
+- 60 regular questions
+- 40 original scenario questions
+- 40 questions from the uploaded YouTube screenshots
+- 40 harder Microsoft-style rewrites of those uploaded questions
+- 20 very hard matrix and choose-two/three scenarios
+- **200 total questions**
 
-## GitHub
+New:
+- Advanced Scenarios section
+- 50-question Exam Sprint mode
+- Sprint heavily weights the uploaded YouTube questions and transformed variants
+- Single-answer, choose-two, choose-three, and Yes/No matrix formats
+- Working delegated button handling
+- Local progress and analytics
 
-Replace the existing `index.html` and `README.md` in the repository root, commit, wait for GitHub Pages to deploy, then open the site in an incognito window or use Ctrl+Shift+R.
+## GitHub update
+Replace `index.html` and `README.md` in the repository root. Commit, wait for GitHub Pages to deploy, then use an incognito window or Ctrl+Shift+R.
