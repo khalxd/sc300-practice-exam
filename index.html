@@ -73,19 +73,166 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 .result{font-size:54px;font-weight:800;color:var(--green)}.bars{display:grid;gap:14px}.bar-head{display:flex;justify-content:space-between;margin-bottom:6px}.bar{height:10px;background:var(--panel2);border-radius:99px;overflow:hidden}.bar div{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple))}
 @media(max-width:900px){.shell{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}nav{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.mode-grid{grid-template-columns:1fr}}
 @media(max-width:600px){main{padding:16px}.grid{grid-template-columns:1fr}.hero h2{font-size:30px}.toolbar{align-items:stretch;flex-direction:column}.toolbar select{width:100%}header{align-items:flex-start;gap:10px}.matrix th,.matrix td{padding:8px;font-size:13px}}
+
+
+/* Build 6 — professional orange interface */
+:root{
+  --bg:#11100e;
+  --panel:#1b1814;
+  --panel-2:#242019;
+  --line:#3b3228;
+  --text:#f8f5ef;
+  --muted:#b8aa99;
+  --blue:#e87924;
+  --blue-2:#ff9a45;
+  --green:#55c985;
+  --red:#ff6f72;
+  --orange:#e87924;
+  --orange-soft:rgba(232,121,36,.14);
+  --shadow:0 18px 45px rgba(0,0,0,.28);
+}
+body{
+  background:
+    radial-gradient(circle at top right, rgba(232,121,36,.12), transparent 30%),
+    linear-gradient(180deg,#11100e 0%,#17130f 100%);
+}
+aside{
+  background:linear-gradient(180deg,#1b1713 0%,#13110f 100%);
+  border-right:1px solid #3b3228;
+}
+.logo{
+  background:linear-gradient(135deg,#e87924,#ffae66);
+  color:#1c1209;
+  box-shadow:0 8px 24px rgba(232,121,36,.28);
+}
+nav button{
+  border:1px solid transparent;
+  color:#cbbdab;
+}
+nav button:hover{
+  background:rgba(232,121,36,.10);
+  border-color:rgba(232,121,36,.25);
+  color:#fff;
+}
+nav button.active{
+  background:linear-gradient(90deg,rgba(232,121,36,.22),rgba(232,121,36,.08));
+  border-color:rgba(232,121,36,.42);
+  color:#ffb06f;
+}
+.panel{
+  background:linear-gradient(180deg,rgba(36,32,25,.98),rgba(27,24,20,.98));
+  border:1px solid #3b3228;
+  box-shadow:var(--shadow);
+}
+.hero{
+  background:
+    radial-gradient(circle at top right,rgba(232,121,36,.22),transparent 35%),
+    linear-gradient(135deg,#2a2119,#1c1814);
+}
+button{
+  transition:transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(0)}
+button.primary{
+  background:linear-gradient(135deg,#e87924,#f5913d);
+  border-color:#ffad6a;
+  color:#1d1107;
+  font-weight:800;
+  box-shadow:0 8px 22px rgba(232,121,36,.22);
+}
+button.primary:hover{
+  background:linear-gradient(135deg,#f28b35,#ffa45c);
+  box-shadow:0 10px 28px rgba(232,121,36,.30);
+}
+button.secondary{
+  background:#241e18;
+  border-color:#514233;
+  color:#f4eadf;
+}
+button.secondary:hover{
+  border-color:#e87924;
+  background:#2c2118;
+}
+.tag{
+  background:rgba(232,121,36,.13);
+  border-color:rgba(232,121,36,.34);
+  color:#ffad6a;
+}
+.progress{background:#342a21}
+.progress div{
+  background:linear-gradient(90deg,#e87924,#ffb06f);
+}
+.option{
+  background:#211c17;
+  border-color:#463a2e;
+}
+.option:hover{
+  border-color:#e87924;
+  background:#292018;
+}
+select{
+  background:#1b1713;
+  border-color:#514233;
+  color:#fff;
+}
+.feedback{
+  border-color:rgba(85,201,133,.50);
+  background:rgba(85,201,133,.11);
+}
+.feedback.bad{
+  border-color:rgba(255,111,114,.52);
+  background:rgba(255,111,114,.10);
+}
+.second-chance{
+  border-color:rgba(232,121,36,.60);
+  background:rgba(232,121,36,.12);
+}
+.second-chance strong{color:#ffad6a}
+.bar{background:#342a21}
+.bar div{background:linear-gradient(90deg,#e87924,#ffb06f)}
+#errorBanner{
+  background:#3b1c14 !important;
+  border-color:#e87924 !important;
+}
+.mode-card{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:18px;
+  align-items:center;
+  margin-bottom:16px;
+}
+.mode-card h2{margin:6px 0}
+.mode-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;
+}
+.mode-note{
+  padding:12px 14px;
+  border-radius:12px;
+  background:rgba(232,121,36,.09);
+  border:1px solid rgba(232,121,36,.24);
+  color:#d8c5b3;
+}
+@media(max-width:800px){
+  .mode-card{grid-template-columns:1fr}
+  .mode-actions{justify-content:flex-start}
+}
 </style>
 </head>
 <body>
 <div class="shell">
 <aside>
-<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Second-Chance Edition · Build 5</span></div></div>
+<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Professional Orange Edition · Build 6</span></div></div>
 <nav>
 <button class="active" data-view="dashboard">Dashboard</button>
 <button data-view="regular">Regular Questions</button>
 <button data-view="scenario">Scenario Questions</button>
 <button data-view="uploaded">Uploaded Exam-Style Bank</button>
-<button data-view="advanced">Advanced Scenarios</button>
-<button data-view="sprint">Exam Sprint</button>
+<button type="button" id="navAdvancedBtn" data-view="advanced">Advanced Scenarios</button>
+<button type="button" id="navSprintBtn" data-view="sprint">Exam Sprint</button>
 <button data-view="exam">Mixed Exam</button>
 <button data-view="analytics">Analytics</button>
 </nav>
@@ -95,7 +242,7 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 <header><div><h1 id="pageTitle">Dashboard</h1><div id="pageSub" class="muted">Harder questions with one second chance per question.</div></div><button id="reset" class="secondary">Reset progress</button></header>
 
 <section id="dashboard" class="view active">
-<div class="panel hero"><span class="tag">SC-300 RETAKE MODE</span><span class="tag">HARDER QUESTIONS</span><h2>Train beyond memorization.</h2><p class="muted">This edition combines difficult concept questions, choose-two and choose-three questions, User1/User2 relationship matrices, least-privilege decisions, application-permission reasoning, governance workflows, and mixed timed exams.</p><div class="buttons"><button class="primary" data-go="regular">Start Regular Questions</button><button class="secondary" data-go="scenario">Start Scenario Questions</button><button class="secondary" data-go="uploaded">Uploaded Exam-Style Bank</button><button class="secondary" data-go="advanced">Advanced Scenarios</button><button class="secondary" data-go="sprint">Start 50-Question Sprint</button><button class="secondary" data-go="exam">Start Mixed Exam</button></div></div>
+<div class="panel hero"><span class="tag">SC-300 RETAKE MODE</span><span class="tag">HARDER QUESTIONS</span><h2>Train beyond memorization.</h2><p class="muted">This edition combines difficult concept questions, choose-two and choose-three questions, User1/User2 relationship matrices, least-privilege decisions, application-permission reasoning, governance workflows, and mixed timed exams.</p><div class="buttons"><button class="primary" data-go="regular">Start Regular Questions</button><button class="secondary" data-go="scenario">Start Scenario Questions</button><button class="secondary" data-go="uploaded">Uploaded Exam-Style Bank</button><button type="button" id="dashboardAdvancedBtn" class="secondary" data-go="advanced">Advanced Scenarios</button><button type="button" id="dashboardSprintBtn" class="secondary" data-go="sprint">Start 50-Question Sprint</button><button class="secondary" data-go="exam">Start Mixed Exam</button></div></div>
 <div class="grid">
 <div class="panel stat"><span>Regular bank</span><strong id="regBank">0</strong><small>Single and multi-select</small></div>
 <div class="panel stat"><span>Scenario bank</span><strong id="scnBank">0</strong><small>Matrices and layered decisions</small></div>
@@ -138,23 +285,55 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 </section>
 
 
+
 <section id="advanced" class="view">
-<div class="panel toolbar">
-<label>Question count<select id="advancedCount"><option>5</option><option selected>10</option><option>20</option></select></label>
-<button class="primary" data-start="advanced">Start Advanced Scenarios</button>
-</div>
-<div id="advancedStage" class="panel"><h3>Advanced Microsoft-style scenarios</h3><p class="muted">Very hard matrices and choose-two/three questions focused on scope, inheritance, risk, PIM, Conditional Access, applications, and governance.</p></div>
+  <div class="panel mode-card">
+    <div>
+      <span class="tag">VERY HARD</span>
+      <span class="tag">SECOND CHANCES ON</span>
+      <h2>Advanced Microsoft-style scenarios</h2>
+      <p class="muted">Practice layered matrices, choose-two and choose-three questions, scope, inheritance, PIM, Conditional Access, applications, and governance.</p>
+    </div>
+    <div class="mode-actions">
+      <label>
+        Question count
+        <select id="advancedCount">
+          <option value="5">5 questions</option>
+          <option value="10" selected>10 questions</option>
+          <option value="20">20 questions</option>
+          <option value="40">40 questions</option>
+        </select>
+      </label>
+      <button type="button" id="startAdvancedBtn" class="primary">Start Advanced Scenarios</button>
+    </div>
+  </div>
+  <div class="mode-note">A wrong first answer stays hidden and gives you one retry. A correct second attempt earns half credit.</div>
+  <div id="advancedStage" class="panel" style="margin-top:16px">
+    <h3>Ready to begin</h3>
+    <p class="muted">Select the number of questions and press Start Advanced Scenarios.</p>
+  </div>
 </section>
 
+
 <section id="sprint" class="view">
-<div class="panel hero">
-<span class="tag">EXAM IN ONE HOUR</span>
-<h2>50-question exam sprint</h2>
-<p class="muted">This mode prioritizes the uploaded YouTube questions, transformed versions, and advanced Microsoft-style scenarios. Use it now, then review every explanation you miss.</p>
-<div class="buttons"><button class="primary" data-start="sprint">Start 50-Question Sprint</button></div>
-</div>
-<div id="sprintStage" class="panel" style="margin-top:16px"><h3>Ready when you are</h3><p class="muted">The set is randomized and heavily weighted toward the formats you said appeared on your real exam.</p></div>
+  <div class="panel mode-card">
+    <div>
+      <span class="tag">50 QUESTIONS</span>
+      <span class="tag">EXAM REVIEW</span>
+      <h2>SC-300 Exam Sprint</h2>
+      <p class="muted">A randomized 50-question set weighted toward the uploaded YouTube questions, harder rewrites, advanced scenarios, and Microsoft-style relationship questions.</p>
+    </div>
+    <div class="mode-actions">
+      <button type="button" id="startSprintBtn" class="primary">Start 50-Question Sprint</button>
+    </div>
+  </div>
+  <div class="mode-note">This mode includes single-answer, multi-select, and Yes/No matrix questions. Second chances remain enabled.</div>
+  <div id="sprintStage" class="panel" style="margin-top:16px">
+    <h3>Ready to begin</h3>
+    <p class="muted">Press Start 50-Question Sprint. The set will be randomized each time.</p>
+  </div>
 </section>
+
 
 <section id="exam" class="view">
 <div class="panel toolbar"><label>Exam size<select id="examCount"><option>20</option><option selected>40</option><option>60</option></select></label><button class="primary" data-start="exam">Start Mixed Exam</button></div>
@@ -272,13 +451,14 @@ function start(mode) {
     pool = [...DATA.advanced, ...DATA.transformed];
     count = Number($('#advancedCount').value);
   } else if (mode === 'sprint') {
-    pool = [
+    const weightedPool = [
       ...shuffle(DATA.uploaded).slice(0, 20),
       ...shuffle(DATA.transformed).slice(0, 15),
       ...shuffle(DATA.advanced).slice(0, 10),
       ...shuffle(DATA.scenarios).slice(0, 5)
     ];
-    count = 50;
+    pool = weightedPool;
+    count = Math.min(50, weightedPool.length);
   } else if (mode === 'exam') {
     pool = [...DATA.regular, ...DATA.scenarios, ...DATA.uploaded, ...DATA.transformed, ...DATA.advanced];
     count = Number($('#examCount').value);
@@ -643,37 +823,101 @@ function renderStats() {
   }).join('');
 }
 
-document.addEventListener('click', event => {
-  const goButton = event.target.closest('[data-go]');
-  if (goButton) {
-    go(goButton.dataset.go);
+
+function bindButton(selector, handler) {
+  const element = document.querySelector(selector);
+  if (!element) {
+    console.warn(`Button not found: ${selector}`);
     return;
   }
+  element.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    handler(event);
+  });
+}
 
-  const startButton = event.target.closest('[data-start]');
-  if (startButton) {
-    start(startButton.dataset.start);
-    return;
+function initializeSite() {
+  // All navigation buttons
+  $$('nav button[data-view]').forEach(button => {
+    button.type = 'button';
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      go(button.dataset.view);
+    });
+  });
+
+  // All dashboard section buttons
+  $$('[data-go]').forEach(button => {
+    button.type = 'button';
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      go(button.dataset.go);
+    });
+  });
+
+  // Standard quiz start buttons
+  $$('[data-start]').forEach(button => {
+    button.type = 'button';
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      const mode = button.dataset.start;
+      go(mode);
+      start(mode);
+    });
+  });
+
+  // Explicit bindings for the two previously unreliable modes
+  bindButton('#startAdvancedBtn', () => {
+    go('advanced');
+    start('advanced');
+  });
+
+  bindButton('#startSprintBtn', () => {
+    go('sprint');
+    start('sprint');
+  });
+
+  bindButton('#dashboardAdvancedBtn', () => go('advanced'));
+  bindButton('#dashboardSprintBtn', () => go('sprint'));
+  bindButton('#navAdvancedBtn', () => go('advanced'));
+  bindButton('#navSprintBtn', () => go('sprint'));
+
+  bindButton('#reset', () => {
+    if (confirm('Reset all saved progress?')) {
+      progress = {results: [], sets: 0};
+      save();
+    }
+  });
+
+  // Lightweight integrity checks shown only if something is missing.
+  const requiredElements = [
+    'advanced', 'advancedCount', 'advancedStage', 'startAdvancedBtn',
+    'sprint', 'sprintStage', 'startSprintBtn',
+    'regularStage', 'scenarioStage', 'uploadedStage', 'examStage'
+  ];
+
+  const missing = requiredElements.filter(id => !document.getElementById(id));
+  const dataProblems = [];
+  if (!Array.isArray(DATA.advanced) || DATA.advanced.length === 0) dataProblems.push('advanced question bank');
+  if (!Array.isArray(DATA.transformed) || DATA.transformed.length === 0) dataProblems.push('transformed question bank');
+  if (!Array.isArray(DATA.uploaded) || DATA.uploaded.length === 0) dataProblems.push('uploaded question bank');
+
+  if (missing.length || dataProblems.length) {
+    showError(
+      'Site integrity check found a problem: ' +
+      [...missing.map(item => `missing #${item}`), ...dataProblems.map(item => `missing ${item}`)].join(', ')
+    );
   }
 
-  const restartButton = event.target.closest('[data-restart]');
-  if (restartButton) {
-    start(restartButton.dataset.restart);
-  }
-});
+  renderStats();
+}
 
-$$('nav button[data-view]').forEach(button => {
-  button.addEventListener('click', () => go(button.dataset.view));
-});
-
-$('#reset').addEventListener('click', () => {
-  if (confirm('Reset all saved progress?')) {
-    progress = {results: [], sets: 0};
-    save();
-  }
-});
-
-renderStats();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeSite);
+} else {
+  initializeSite();
+}
 </script>
 
 </body>

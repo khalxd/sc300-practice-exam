@@ -1,28 +1,24 @@
-# SC-300 Master — Second-Chance Edition (Build 5)
+# SC-300 Master — Professional Orange Edition (Build 6)
 
-This build adds one second chance to every question.
+This build fixes the Advanced Scenarios and Exam Sprint interfaces and rebuilds the button system across the website.
 
-## How it works
+## Button and UI fixes
 
-1. A correct first answer is marked green and earns 1 point.
-2. A wrong first answer is marked red, but the correct answer remains hidden.
-3. The learner gets one more attempt.
-4. A correct second attempt earns 0.5 points.
-5. After the second attempt, the correct answer and explanation are shown.
-6. If the second attempt is also wrong, the learner earns 0 points.
+- Rebuilt Advanced Scenarios interface
+- Rebuilt Exam Sprint interface
+- Added explicit button IDs and direct click handlers
+- Rebound all navigation, dashboard, quiz-start, reset, restart, submit, and next-question controls
+- Added a page-load integrity check for missing sections or question banks
+- Added `type="button"` to prevent accidental form submission behavior
+- Preserved second chances, answer colors, scoring, analytics, and all 200 questions
 
-This preserves meaningful first-attempt accuracy while still making the site useful for learning.
+## Appearance
 
-## Included
-
-- 200 total questions
-- Regular, uploaded, transformed, advanced, mixed, and Exam Sprint modes
-- Green correct-answer highlighting
-- Red wrong-answer highlighting
-- Yes/No matrix feedback
-- Working navigation and quiz buttons
-- Local progress and analytics
+- Professional dark orange visual theme
+- Orange navigation highlights and progress bars
+- More polished cards, buttons, spacing, and mobile behavior
+- Green correct answers and red incorrect answers remain unchanged
 
 ## GitHub update
 
-Replace `index.html` and `README.md` in the repository root. Commit the changes, wait for GitHub Pages to deploy, then use Ctrl+Shift+R or open the site in an incognito window.
+Replace the current `index.html` and `README.md` in the repository root. Commit the changes, wait for GitHub Pages to deploy, then open the site in an incognito window or press Ctrl+Shift+R.
