@@ -225,7 +225,7 @@ select{
 <body>
 <div class="shell">
 <aside>
-<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Professional Orange Edition · Build 6</span></div></div>
+<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Professional Orange Edition · Build 7</span></div></div>
 <nav>
 <button class="active" data-view="dashboard">Dashboard</button>
 <button data-view="regular">Regular Questions</button>
@@ -242,7 +242,7 @@ select{
 <header><div><h1 id="pageTitle">Dashboard</h1><div id="pageSub" class="muted">Harder questions with one second chance per question.</div></div><button id="reset" class="secondary">Reset progress</button></header>
 
 <section id="dashboard" class="view active">
-<div class="panel hero"><span class="tag">SC-300 RETAKE MODE</span><span class="tag">HARDER QUESTIONS</span><h2>Train beyond memorization.</h2><p class="muted">This edition combines difficult concept questions, choose-two and choose-three questions, User1/User2 relationship matrices, least-privilege decisions, application-permission reasoning, governance workflows, and mixed timed exams.</p><div class="buttons"><button class="primary" data-go="regular">Start Regular Questions</button><button class="secondary" data-go="scenario">Start Scenario Questions</button><button class="secondary" data-go="uploaded">Uploaded Exam-Style Bank</button><button type="button" id="dashboardAdvancedBtn" class="secondary" data-go="advanced">Advanced Scenarios</button><button type="button" id="dashboardSprintBtn" class="secondary" data-go="sprint">Start 50-Question Sprint</button><button class="secondary" data-go="exam">Start Mixed Exam</button></div></div>
+<div class="panel hero"><span class="tag">SC-300 RETAKE MODE</span><span class="tag">HARDER QUESTIONS</span><h2>Train beyond memorization.</h2><p class="muted">This edition combines difficult concept questions, choose-two and choose-three questions, User1/User2 relationship matrices, least-privilege decisions, application-permission reasoning, governance workflows, and mixed timed exams.</p><div class="buttons"><button class="primary" data-go="regular">Start Regular Questions</button><button class="secondary" data-go="scenario">Start Scenario Questions</button><button class="secondary" data-go="uploaded">Uploaded Exam-Style Bank</button><button type="button" id="dashboardAdvancedBtn" class="secondary" data-go="advanced">Advanced Scenarios</button><button type="button" id="dashboardSprintBtn" class="secondary" data-go="sprint">Start 50-Question Sprint</button><button class="secondary" id="dashboardMixedBtn" data-go="exam">Start Mixed Exam</button></div></div>
 <div class="grid">
 <div class="panel stat"><span>Regular bank</span><strong id="regBank">0</strong><small>Single and multi-select</small></div>
 <div class="panel stat"><span>Scenario bank</span><strong id="scnBank">0</strong><small>Matrices and layered decisions</small></div>
@@ -336,7 +336,7 @@ select{
 
 
 <section id="exam" class="view">
-<div class="panel toolbar"><label>Exam size<select id="examCount"><option>20</option><option selected>40</option><option>60</option></select></label><button class="primary" data-start="exam">Start Mixed Exam</button></div>
+<div class="panel toolbar"><label>Exam size<select id="examCount"><option>20</option><option selected>40</option><option>60</option></select></label><button class="primary" id="startMixedBtn" data-start="exam">Start Mixed Exam</button></div>
 <div id="examStage" class="panel"><h3>Mixed exam mode</h3><p class="muted">Randomly combines regular and scenario questions. Feedback appears after every question so this remains a learning simulator.</p></div>
 </section>
 
@@ -882,6 +882,13 @@ function initializeSite() {
   bindButton('#dashboardSprintBtn', () => go('sprint'));
   bindButton('#navAdvancedBtn', () => go('advanced'));
   bindButton('#navSprintBtn', () => go('sprint'));
+
+  bindButton('#dashboardMixedBtn', () => go('exam'));
+  bindButton('#startMixedBtn', () => {
+    go('exam');
+    start('exam');
+  });
+
 
   bindButton('#reset', () => {
     if (confirm('Reset all saved progress?')) {
