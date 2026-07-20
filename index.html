@@ -13,7 +13,48 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 .panel{background:rgba(13,27,45,.92);border:1px solid var(--line);border-radius:16px;padding:20px}.hero{padding:30px;background:radial-gradient(circle at 85% 20%,rgba(100,169,255,.18),transparent 35%),linear-gradient(135deg,#10233b,#162e4c)}.hero h2{font-size:38px;max-width:850px}.hero p{max-width:850px;line-height:1.6}.buttons{display:flex;gap:10px;flex-wrap:wrap}.primary,.secondary{padding:10px 15px;border-radius:9px;cursor:pointer}.primary{border:0;color:white;background:linear-gradient(135deg,var(--blue),var(--purple));font-weight:700}.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px;margin-top:16px}.stat span,.stat small{display:block;color:var(--muted)}.stat strong{display:block;font-size:28px;margin:7px 0}.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.mode-card p{color:var(--muted);line-height:1.55}.tag{display:inline-block;padding:5px 8px;border-radius:999px;background:rgba(100,169,255,.13);color:var(--blue);font-size:12px;margin-right:5px}
 .toolbar{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:16px}.toolbar label{display:grid;gap:6px;color:var(--muted);font-size:13px}.toolbar select{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:10px;border-radius:9px;min-width:160px}
-.question{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}.question h2{font-size:23px;line-height:1.4}.scenario{padding:15px;background:var(--panel2);border-radius:12px;line-height:1.6;margin:12px 0}.option{display:flex;gap:10px;padding:13px;margin:10px 0;background:#0a1828;border:1px solid var(--line);border-radius:10px;cursor:pointer}.option:hover{border-color:var(--blue)}.matrix{width:100%;border-collapse:collapse;margin-top:14px}.matrix th,.matrix td{padding:12px;border-bottom:1px solid var(--line);text-align:left}.matrix th:not(:first-child),.matrix td:not(:first-child){text-align:center}.feedback{margin-top:15px;padding:15px;border-radius:10px;background:rgba(104,219,145,.1);border:1px solid rgba(104,219,145,.35)}.feedback.bad{background:rgba(255,127,140,.1);border-color:rgba(255,127,140,.35)}.progress{height:8px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:14px}.progress div{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple))}
+.question{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}.question h2{font-size:23px;line-height:1.4}.scenario{padding:15px;background:var(--panel2);border-radius:12px;line-height:1.6;margin:12px 0}.option{display:flex;gap:10px;padding:13px;margin:10px 0;background:#0a1828;border:1px solid var(--line);border-radius:10px;cursor:pointer}.option:hover{border-color:var(--blue)}
+.option.correct-answer{
+  border-color:var(--green);
+  background:rgba(104,219,145,.16);
+  box-shadow:0 0 0 1px rgba(104,219,145,.2) inset;
+}
+.option.wrong-answer{
+  border-color:var(--red);
+  background:rgba(255,127,140,.16);
+  box-shadow:0 0 0 1px rgba(255,127,140,.2) inset;
+}
+.option.correct-answer::after{
+  content:"✓ Correct";
+  margin-left:auto;
+  color:var(--green);
+  font-weight:800;
+}
+.option.wrong-answer::after{
+  content:"✕ Your answer";
+  margin-left:auto;
+  color:var(--red);
+  font-weight:800;
+}
+.matrix tr.correct-row td{
+  background:rgba(104,219,145,.14);
+  border-color:rgba(104,219,145,.45);
+}
+.matrix tr.wrong-row td{
+  background:rgba(255,127,140,.14);
+  border-color:rgba(255,127,140,.45);
+}
+.matrix tr.correct-row td:first-child::after{
+  content:"  ✓ Correct";
+  color:var(--green);
+  font-weight:800;
+}
+.matrix tr.wrong-row td:first-child::after{
+  content:"  ✕ Incorrect";
+  color:var(--red);
+  font-weight:800;
+}
+.option input:disabled,.matrix input:disabled{cursor:not-allowed}.matrix{width:100%;border-collapse:collapse;margin-top:14px}.matrix th,.matrix td{padding:12px;border-bottom:1px solid var(--line);text-align:left}.matrix th:not(:first-child),.matrix td:not(:first-child){text-align:center}.feedback{margin-top:15px;padding:15px;border-radius:10px;background:rgba(104,219,145,.1);border:1px solid rgba(104,219,145,.35)}.feedback.bad{background:rgba(255,127,140,.1);border-color:rgba(255,127,140,.35)}.progress{height:8px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:14px}.progress div{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple))}
 .result{font-size:54px;font-weight:800;color:var(--green)}.bars{display:grid;gap:14px}.bar-head{display:flex;justify-content:space-between;margin-bottom:6px}.bar{height:10px;background:var(--panel2);border-radius:99px;overflow:hidden}.bar div{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple))}
 @media(max-width:900px){.shell{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}nav{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.mode-grid{grid-template-columns:1fr}}
 @media(max-width:600px){main{padding:16px}.grid{grid-template-columns:1fr}.hero h2{font-size:30px}.toolbar{align-items:stretch;flex-direction:column}.toolbar select{width:100%}header{align-items:flex-start;gap:10px}.matrix th,.matrix td{padding:8px;font-size:13px}}
@@ -22,7 +63,7 @@ main{padding:24px 30px 50px}header{display:flex;justify-content:space-between;al
 <body>
 <div class="shell">
 <aside>
-<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Exam Sprint Edition · Build 3</span></div></div>
+<div class="brand"><div class="logo">ID</div><div><strong>SC-300 Master</strong><span>Exam Sprint Edition · Build 4</span></div></div>
 <nav>
 <button class="active" data-view="dashboard">Dashboard</button>
 <button data-view="regular">Regular Questions</button>
@@ -327,6 +368,42 @@ function renderQuestion() {
   $('#submitAnswer').addEventListener('click', submitAnswer);
 }
 
+
+function markAnswers(question) {
+  const currentStage = stage();
+  if (!currentStage) return;
+
+  if (question.type === 'single' || question.type === 'multi') {
+    const labels = $$('.option', currentStage);
+    const correctIndexes = question.type === 'single' ? [question.answer] : question.answers;
+
+    labels.forEach((label, index) => {
+      const input = $('input', label);
+      const selected = Boolean(input && input.checked);
+      const isCorrect = correctIndexes.includes(index);
+
+      if (isCorrect) {
+        label.classList.add('correct-answer');
+      } else if (selected) {
+        label.classList.add('wrong-answer');
+      }
+
+      if (input) input.disabled = true;
+    });
+  }
+
+  if (question.type === 'matrix') {
+    const rows = $$('tbody tr', currentStage);
+    rows.forEach((row, index) => {
+      const chosen = $(`input[name="row${index}"]:checked`, currentStage)?.value;
+      const chosenBoolean = chosen === 'yes';
+      const rowCorrect = chosenBoolean === question.rows[index].answer;
+      row.classList.add(rowCorrect ? 'correct-row' : 'wrong-row');
+      $$('input', row).forEach(input => input.disabled = true);
+    });
+  }
+}
+
 function submitAnswer() {
   if (!quiz) return;
 
@@ -369,6 +446,8 @@ function submitAnswer() {
   }
 
   if (correct) quiz.score += 1;
+
+  markAnswers(question);
 
   let resultMode = quiz.mode;
   if (quiz.mode === 'exam') {
