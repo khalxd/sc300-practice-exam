@@ -1,3 +1,1 @@
-# Build 7
-
-Fixed Mixed Exam dashboard and Start Mixed Exam buttons with explicit bindings.
+SC-300 realistic case-study practice exam. Open index.html or upload it to GitHub Pages.
