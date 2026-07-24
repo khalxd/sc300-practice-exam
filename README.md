@@ -1,1 +1,1 @@
-SC-300 realistic case-study practice exam. Open index.html or upload it to GitHub Pages.
+Open index.html, or upload index.html to GitHub Pages. Includes 8 case studies and 40 questions.
