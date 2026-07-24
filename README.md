@@ -1,15 +1,13 @@
-# SC-300 Workload Identities and Identity Governance Practice Exam
+# SC-300 Workload Identities & Identity Governance Exam v2
 
-This edition includes:
+Features:
+- Friendly light theme plus persistent dark mode
+- Questions displayed above answer choices
+- Working Previous button
+- Working Save & Next, flags, question jump navigation, review, and scoring
+- 40 scenario-based questions across 8 linked case studies
+- Randomized case and question order per attempt
+- Exam Mode and Study Mode
+- Responsive desktop and mobile design
 
-- A friendly blue and teal interface
-- 8 scenario-based case studies
-- 40 linked questions
-- Workload identities and identity governance
-- Randomized case-study order on every attempt
-- Randomized question order within each case study
-- Exam Mode with timer, flags, review, and final explanations
-- Study Mode with immediate feedback
-- Responsive desktop and mobile layout
-
-Open `index.html` locally or upload it to the root of your GitHub Pages repository.
+Upload `index.html` and `README.md` to the root of the GitHub Pages repository.
