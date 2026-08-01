@@ -1,372 +1,2029 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SC-300 Hard Practice Exam</title>
-<style>
-:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#d9e2ef;--accent:#2563eb;--soft:#eef4ff;--good:#15803d;--bad:#b42318}
-body.dark{--bg:#0b1220;--card:#111a2b;--text:#e8eef8;--muted:#9fb0c7;--line:#26344a;--soft:#17233a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 Arial,sans-serif}
-header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 20px;position:sticky;top:0;z-index:4}
-.top{max-width:1100px;margin:auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
-.brand b{font-size:20px}.muted{color:var(--muted)}button{cursor:pointer}
-.wrap{max-width:1100px;margin:24px auto;padding:0 16px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
-.meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.pill{background:var(--soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;font-size:13px}
-.qtext{font-size:20px;font-weight:700;white-space:pre-wrap;margin:8px 0 20px}
-.choice{display:flex;gap:12px;width:100%;text-align:left;background:var(--card);color:var(--text);border:1px solid var(--line);padding:14px;border-radius:12px;margin:10px 0}
-.choice:hover{border-color:var(--accent)}.choice.selected{border:2px solid var(--accent);background:var(--soft)}.letter{font-weight:800;min-width:22px}
-.controls{display:flex;justify-content:space-between;gap:10px;margin-top:22px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;background:var(--accent);color:white}.btn.secondary{background:var(--soft);color:var(--text);border:1px solid var(--line)}.btn.flagged{outline:2px solid #f59e0b}
-.progress{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:10px}.bar{height:100%;background:var(--accent)}
-.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:18px}.navq{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:8px;padding:8px 0}.navq.answered{background:var(--soft);border-color:var(--accent)}.navq.checked{box-shadow:inset 0 0 0 2px #16a34a}.navq.current{outline:2px solid var(--accent)}.navq.flag{box-shadow:inset 0 -4px #f59e0b}
-.hidden{display:none}.score{font-size:48px;font-weight:900}.resultrow{padding:12px 0;border-bottom:1px solid var(--line)}.correct{color:var(--good)}.wrong{color:var(--bad)}.explain{margin-top:8px;color:var(--muted)}
-.notice{padding:12px;border-radius:10px;background:var(--soft);border:1px solid var(--line);margin:14px 0}
-@media(max-width:700px){.grid{grid-template-columns:repeat(5,1fr)}.qtext{font-size:18px}.card{padding:17px}}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Interactive Microsoft SC-300 practice exam with scenario-based questions, explanations, scoring, review mode, and Microsoft-style distractions."
+  />
+  <title>SC-300 Practice Exam</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2f;
+      --panel-2: #17213b;
+      --text: #eef3ff;
+      --muted: #aeb8d0;
+      --border: #2b385d;
+      --accent: #6ea8fe;
+      --accent-strong: #3d7ef0;
+      --success: #43c58a;
+      --danger: #ff6b7a;
+      --warning: #f8c95d;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    }
 
-.feedbackBox{margin-top:18px;padding:16px;border-radius:12px;border:1px solid var(--line);display:none}
-.feedbackBox.show{display:block}
-.feedbackBox.good{background:#ecfdf3;border-color:#86efac;color:#166534}
-.feedbackBox.bad{background:#fef2f2;border-color:#fca5a5;color:#991b1b}
-body.dark .feedbackBox.good{background:#102419;color:#bbf7d0;border-color:#166534}
-body.dark .feedbackBox.bad{background:#2a1313;color:#fecaca;border-color:#991b1b}
-.choice.correctChoice{border:2px solid #16a34a;background:#ecfdf3}
-.choice.wrongChoice{border:2px solid #dc2626;background:#fef2f2}
-body.dark .choice.correctChoice{background:#102419}
-body.dark .choice.wrongChoice{background:#2a1313}
-.choice.locked{cursor:default}
-.explainTitle{font-weight:800;margin-bottom:6px}
-.takeaway{margin-top:10px;padding-top:10px;border-top:1px solid currentColor;font-weight:700}
-.checkrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
-.statusMini{font-size:13px;color:var(--muted)}
-select.correctSelect{border:2px solid #16a34a !important}
-select.wrongSelect{border:2px solid #dc2626 !important}
+    * {
+      box-sizing: border-box;
+    }
 
-</style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(62, 126, 240, 0.14), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(67, 197, 138, 0.08), transparent 32%),
+        var(--bg);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .app-shell {
+      width: min(1100px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+      margin-bottom: 22px;
+    }
+
+    .hero-card,
+    .panel,
+    .stat-card,
+    .question-card,
+    .review-card {
+      border: 1px solid var(--border);
+      background: rgba(18, 26, 47, 0.94);
+      box-shadow: var(--shadow);
+      border-radius: 20px;
+    }
+
+    .hero-card {
+      padding: 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(110, 168, 254, 0.1);
+      border: 1px solid rgba(110, 168, 254, 0.22);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    h2 {
+      margin-bottom: 12px;
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 1.06rem;
+    }
+
+    p {
+      line-height: 1.65;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .setup-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .choice-row {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mode-option,
+    .toggle-option {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      min-height: 54px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel-2);
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      accent-color: var(--accent-strong);
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px 14px;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel-2);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .button {
+      min-height: 48px;
+      padding: 12px 18px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      color: var(--text);
+      background: var(--panel-2);
+      font-weight: 750;
+      transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+    }
+
+    .button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      color: #ffffff;
+      background: var(--accent-strong);
+    }
+
+    .button-secondary {
+      border-color: var(--border);
+    }
+
+    .button-danger {
+      color: #fff;
+      background: #a93e4d;
+    }
+
+    .stats-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      box-shadow: none;
+    }
+
+    .stat-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    .progress-track {
+      height: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--panel-2);
+      margin-bottom: 18px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent-strong), var(--success));
+      transition: width 220ms ease;
+    }
+
+    .question-card {
+      padding: 22px;
+    }
+
+    .question-topline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border: 1px solid rgba(110, 168, 254, 0.25);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(110, 168, 254, 0.09);
+      font-size: 0.82rem;
+      font-weight: 750;
+    }
+
+    .question-number {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .scenario {
+      line-height: 1.65;
+    }
+
+    .scenario ul {
+      padding-left: 22px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 620px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px 13px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(110, 168, 254, 0.07);
+      color: var(--accent);
+      font-size: 0.86rem;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    code {
+      display: block;
+      overflow-x: auto;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: #d8e6ff;
+      background: #0c1428;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .hint-box,
+    .feedback-box {
+      margin-top: 18px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel-2);
+    }
+
+    .hint-box {
+      border-left: 4px solid var(--warning);
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .answer-option {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel-2);
+      transition:
+        border-color 150ms ease,
+        background 150ms ease;
+    }
+
+    .answer-option:hover {
+      border-color: rgba(110, 168, 254, 0.7);
+    }
+
+    .answer-option.selected {
+      border-color: var(--accent);
+      background: rgba(110, 168, 254, 0.08);
+    }
+
+    .answer-option.correct {
+      border-color: var(--success);
+      background: rgba(67, 197, 138, 0.08);
+    }
+
+    .answer-option.incorrect {
+      border-color: var(--danger);
+      background: rgba(255, 107, 122, 0.08);
+    }
+
+    .answer-text {
+      line-height: 1.5;
+    }
+
+    .confidence-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .feedback-title {
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    .feedback-box.success {
+      border-left: 4px solid var(--success);
+    }
+
+    .feedback-box.error {
+      border-left: 4px solid var(--danger);
+    }
+
+    .feedback-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+      margin-top: 12px;
+    }
+
+    .mini-panel {
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(11, 16, 32, 0.42);
+    }
+
+    .results-hero {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(
+        135deg,
+        rgba(61, 126, 240, 0.18),
+        rgba(67, 197, 138, 0.1)
+      );
+      margin-bottom: 18px;
+    }
+
+    .review-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .review-card {
+      padding: 17px;
+      box-shadow: none;
+    }
+
+    .review-card summary {
+      cursor: pointer;
+      font-weight: 760;
+    }
+
+    .review-card.correct-review {
+      border-left: 4px solid var(--success);
+    }
+
+    .review-card.incorrect-review {
+      border-left: 4px solid var(--danger);
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-align: center;
+    }
+
+    .error-message {
+      margin-top: 13px;
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    @media (min-width: 760px) {
+      .hero {
+        grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+      }
+
+      .setup-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .feedback-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app-shell {
+        width: min(100% - 18px, 1100px);
+        padding-top: 14px;
+      }
+
+      .hero-card,
+      .panel,
+      .question-card {
+        padding: 17px;
+        border-radius: 16px;
+      }
+
+      .choice-row,
+      .confidence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<header><div class="top"><div class="brand"><b>SC-300 Hard Practice Exam</b><div class="muted">Scenario-heavy • mixed formats • randomized answers</div></div><div><b id="timer">100:00</b> <button class="btn secondary" onclick="toggleDark()">Dark mode</button></div></div></header>
-<div class="wrap">
-<section id="start" class="card">
-<h1>Microsoft Identity and Access Administrator Practice</h1>
-<p>This version is designed to remove answer-pattern guessing. <b>Correct-answer positions are deliberately balanced across A, B, C, and D, and distractors are reshuffled each attempt</b>, so the correct letter changes between attempts.</p>
-<div class="notice"><b>Important:</b> The screenshots you just provided use Defender for Cloud, Microsoft Sentinel, ASR, and Key Vault security content. Those are useful examples of Microsoft's <i>question format</i>, but they are not core SC-300 objectives. This exam copies the difficulty and hotspot/select-two/case-study style while keeping the tested knowledge focused on SC-300.</div>
-<p><b>152 questions</b> • 100 minutes • one question at a time • Check Answer with immediate explanations • Previous/Next • flag for review • final review and domain breakdown.</p>
-<p class="muted">Blueprint aligned to the Microsoft SC-300 skills measured as of April 27, 2026.</p>
-<div class="notice">
-<b>How to use this effectively:</b> Try to answer before clicking <b>Check answer</b>. Once checked, the answer locks so you cannot change it. Read the explanation even when you are correct, because the goal is to understand why the other choices do not meet the requirement.
-</div>
-<button class="btn" onclick="startExam()">Start exam</button>
-</section>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Microsoft Identity Practice</div>
+        <h1>SC-300 Scenario Exam</h1>
+        <p class="muted">
+          Practice Microsoft-style scenarios with User1, Group1, dynamic
+          membership rules, permissions, PIM, Conditional Access, governance,
+          and the distracting details that make the real exam difficult.
+        </p>
+      </div>
 
-<section id="exam" class="hidden">
-<div class="card">
-<div class="meta"><span class="pill" id="num"></span><span class="pill" id="domain"></span><span class="pill" id="difficulty"></span><span class="pill" id="format"></span></div>
-<div class="qtext" id="qtext"></div>
-<div id="choices"></div>
-<div class="checkrow">
-  <button id="checkBtn" class="btn" onclick="checkAnswer()">Check answer</button>
-  <button id="clearBtn" class="btn secondary" onclick="clearAnswer()">Clear answer</button>
-  <span id="checkStatus" class="statusMini">Choose your answer, then check it.</span>
-</div>
-<div id="feedbackBox" class="feedbackBox"></div>
-<div class="controls">
-<div><button class="btn secondary" onclick="prev()">Previous</button><button id="flagBtn" class="btn secondary" onclick="flag()">Flag for review</button></div>
-<div><button class="btn secondary" onclick="next()">Next</button><button class="btn" onclick="submitExam()">Finish exam</button></div>
-</div>
-<div class="progress"><div id="bar" class="bar"></div></div>
-<div id="nav" class="grid"></div>
-</div>
-</section>
+      <div class="hero-card">
+        <h2>How to read each question</h2>
+        <p class="muted">
+          Identify the actual requirement, cross out the irrelevant data, and
+          choose the feature that satisfies every requirement with the least
+          privilege or administrative effort.
+        </p>
+      </div>
+    </section>
 
-<section id="results" class="card hidden"><div id="resultContent"></div></section>
-</div>
-<script>
-const raw=[{"type": "single", "domain": "User identities", "question": "A help desk technician needs to reset passwords for users only in the New York office. What should you use to limit their admin scope?", "choices": ["Global Administrator", "Administrative unit", "Dynamic device group", "Conditional Access"], "correct": [1], "explanation": "Administrative units let you scope admin permissions to a specific set of users or groups, like one office.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "You need to create 200 users at once in Microsoft Entra ID. What is the simplest built-in method?", "choices": ["Create each user manually", "Bulk create users with a CSV file", "Use Access Reviews", "Create a Conditional Access policy"], "correct": [1], "explanation": "Bulk operations allow user creation with a CSV file. This is common for onboarding many users.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "A user leaves the company. What should you do first to quickly stop access?", "choices": ["Delete the tenant", "Disable the user account and revoke sessions", "Remove company branding", "Create an access package"], "correct": [1], "explanation": "Disabling the account blocks new sign-ins. Revoking sessions forces existing sign-in sessions to end.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "Which group type is best when membership should update automatically based on user attributes?", "choices": ["Assigned group", "Dynamic user group", "Microsoft 365 public group only", "Security group with no owners"], "correct": [1], "explanation": "Dynamic groups use rules, such as department equals Finance, to add and remove members automatically.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "You need to give an app access to resources without using a normal user account. What should you use?", "choices": ["Break-glass user", "Service principal or managed identity", "Temporary Access Pass", "Administrative unit"], "correct": [1], "explanation": "Workload identities like service principals and managed identities are used by apps and services instead of human users.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "What is the purpose of Microsoft Entra Connect Sync?", "choices": ["Sync on-premises AD identities to Microsoft Entra ID", "Create Azure VMs", "Encrypt hard drives", "Manage Outlook signatures"], "correct": [0], "explanation": "Entra Connect Sync is used for hybrid identity, syncing users and groups from on-prem AD to Entra ID.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "Which authentication option validates passwords on-premises without storing password hashes in Entra ID?", "choices": ["Password hash sync", "Pass-through authentication", "Self-service password reset", "Windows Hello only"], "correct": [1], "explanation": "Pass-through authentication sends sign-in validation to on-premises agents instead of using cloud-stored password hashes.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "Which hybrid sign-in method synchronizes a hash of the password hash to Microsoft Entra ID?", "choices": ["Password hash synchronization", "Pass-through authentication", "AD FS only", "Device writeback"], "correct": [0], "explanation": "Password hash synchronization lets Entra ID authenticate users using synchronized password hash data.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "A company wants users to sign in to Microsoft 365 with the same username as their public email domain. What should be configured?", "choices": ["Custom domain in Microsoft Entra ID", "Access review", "PIM approval", "Cloud app catalog"], "correct": [0], "explanation": "You add and verify a custom domain so user sign-ins can use that domain name.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "What does Microsoft Entra Connect Health help monitor?", "choices": ["Hybrid identity sync and AD FS health", "Only SharePoint permissions", "Azure VM CPU only", "Teams meeting quality only"], "correct": [0], "explanation": "Connect Health helps monitor identity infrastructure such as sync, AD FS, and related hybrid identity health.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "A company wants guest users to collaborate in Teams and SharePoint. Which identity feature is involved?", "choices": ["External Identities / B2B collaboration", "BitLocker", "Azure Backup", "Windows Update"], "correct": [0], "explanation": "External Identities/B2B allows outside users to access company apps and resources as guests.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "What setting controls whether users can invite guests to the tenant?", "choices": ["External collaboration settings", "Device compliance settings", "Company branding only", "Identity Secure Score only"], "correct": [0], "explanation": "External collaboration settings control guest invitation rules and restrictions.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "You need to apply a custom HR attribute to users for app authorization. What Microsoft Entra feature helps?", "choices": ["Custom security attributes", "Security defaults", "Access reviews only", "PIM only"], "correct": [0], "explanation": "Custom security attributes store extra attribute data that can be used for authorization and management.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "A department admin should manage only users in their department. What two items are commonly combined?", "choices": ["Administrative unit and scoped role assignment", "Global admin and tenant delete", "MFA and company logo", "Cloud sync and OAuth consent"], "correct": [0], "explanation": "Put the department users into an administrative unit, then assign the admin role scoped to that unit.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "Which role should be avoided for daily work because it has the most power?", "choices": ["Global Administrator", "User Administrator", "Groups Administrator", "Reports Reader"], "correct": [0], "explanation": "Global Administrator has broad tenant-wide control. Use least privilege and assign smaller roles when possible.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "What is the best reason to use role-based access control?", "choices": ["Give users only the permissions they need", "Make passwords shorter", "Disable MFA", "Remove audit logs"], "correct": [0], "explanation": "RBAC supports least privilege by assigning only the permissions required for a job.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "A user cannot access licensed Microsoft 365 services. What should you check first?", "choices": ["Whether the user has the correct license assigned", "Whether company branding is blue", "Whether a catalog exists", "Whether PIM is enabled for groups"], "correct": [0], "explanation": "No license or the wrong license can prevent access to services such as Exchange, Teams, or SharePoint.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "What is device registration in Microsoft Entra ID mainly used for?", "choices": ["Let users register personal devices for identity-based access", "Format a laptop", "Create a service principal", "Approve PIM roles"], "correct": [0], "explanation": "Device registration creates a device identity, often used for BYOD and Conditional Access decisions.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "Which option is better for lightweight AD-to-Entra sync without full Entra Connect Sync complexity?", "choices": ["Microsoft Entra Cloud Sync", "AD FS farm only", "Company branding", "Access package"], "correct": [0], "explanation": "Cloud Sync is a lighter cloud-managed sync option for certain hybrid identity scenarios.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "What is cross-tenant access settings used for?", "choices": ["Control B2B collaboration and access with other tenants", "Reset local admin passwords", "Create Windows images", "Set mailbox quotas"], "correct": [0], "explanation": "Cross-tenant access settings control inbound and outbound collaboration between Microsoft Entra tenants.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "A company buys another company and wants users synced between tenants. What feature can help?", "choices": ["Cross-tenant synchronization", "Windows Hello PIN reset", "Cloud app catalog", "Private Access client only"], "correct": [0], "explanation": "Cross-tenant synchronization can automate creating and updating users across tenants.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "What does company branding affect?", "choices": ["The sign-in page appearance", "The password hash algorithm", "The number of audit logs", "The price of licenses"], "correct": [0], "explanation": "Company branding customizes sign-in pages with logo, colors, and related user-facing branding.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "Which role is typically appropriate for managing users and groups without full tenant control?", "choices": ["User Administrator", "Global Administrator only", "Security Reader", "Billing Reader only"], "correct": [0], "explanation": "User Administrator can manage users and groups and is less powerful than Global Administrator.", "difficulty": "Core"}, {"type": "single", "domain": "User identities", "question": "A user says they changed departments but group access did not update. The group uses an assigned membership type. Why?", "choices": ["Assigned groups do not update automatically by attribute", "Assigned groups update every second", "Assigned groups are only for devices", "Assigned groups cannot contain users"], "correct": [0], "explanation": "Assigned groups require manual membership changes. Dynamic groups are needed for automatic attribute-based membership.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "You want to require MFA when users sign in from outside the corporate network. What should you use?", "choices": ["Conditional Access", "Company branding", "Administrative units", "Access packages"], "correct": [0], "explanation": "Conditional Access can require MFA based on conditions such as location, user, app, risk, or device.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is Self-Service Password Reset used for?", "choices": ["Allow users to reset their own passwords after verification", "Create app registrations", "Assign Azure RBAC roles", "Review guest access"], "correct": [0], "explanation": "SSPR lets users reset passwords without calling the help desk, after proving their identity.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "Which authentication method is passwordless and uses a physical security key?", "choices": ["FIDO2 security key", "SMS code only", "Password hash sync", "Access review"], "correct": [0], "explanation": "FIDO2 security keys provide passwordless authentication using a hardware key.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is Temporary Access Pass commonly used for?", "choices": ["Help a user register passwordless or MFA methods", "Permanently replace all passwords", "Grant Azure subscription ownership", "Create guest invitations"], "correct": [0], "explanation": "Temporary Access Pass is a time-limited credential used to bootstrap or recover authentication setup.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "A user has a high sign-in risk. What can Conditional Access require?", "choices": ["Require MFA or block access", "Change company logo", "Create a catalog", "Assign a license only"], "correct": [0], "explanation": "Risk-based Conditional Access can require controls like MFA, password change, or block sign-in.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "Which Microsoft Entra feature detects risky users and risky sign-ins?", "choices": ["Microsoft Entra ID Protection", "Administrative units", "Company branding", "App collections"], "correct": [0], "explanation": "ID Protection uses signals to detect user risk and sign-in risk.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is the safest way to test a new Conditional Access policy?", "choices": ["Use report-only mode first", "Apply it to all users immediately including admins", "Delete all old policies", "Disable sign-in logs"], "correct": [0], "explanation": "Report-only mode shows what would happen without enforcing the policy.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "Why should break-glass accounts usually be excluded from Conditional Access?", "choices": ["So emergency access is still possible if policies break", "Because they are guest accounts", "Because they need no password", "Because they are app registrations"], "correct": [0], "explanation": "Break-glass accounts provide emergency access. They should be protected carefully but not locked out by broken policies.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is the purpose of named locations in Conditional Access?", "choices": ["Define trusted or blocked network locations", "Create users in bulk", "Store app secrets", "Run KQL queries"], "correct": [0], "explanation": "Named locations identify IP ranges or countries/regions for Conditional Access decisions.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "A policy requires compliant devices. What must be true for access?", "choices": ["The device must meet compliance rules, often from Intune", "The user must be a guest", "The app must be deleted", "The password must never expire"], "correct": [0], "explanation": "Device compliance policies define whether a device is healthy enough to access resources.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is Continuous Access Evaluation designed to do?", "choices": ["React faster to important user or policy changes", "Create CSV users", "Replace all access reviews", "Disable logs"], "correct": [0], "explanation": "CAE can shorten the time between a critical change and token enforcement, such as user disablement.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "A company wants users to accept legal terms before accessing an app. What should be configured?", "choices": ["Terms of use", "App registration secret", "Administrative unit", "Cloud Sync agent"], "correct": [0], "explanation": "Terms of use can require users to accept a policy before access.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What does password protection help prevent?", "choices": ["Weak or banned passwords", "Guest invitations", "Audit log storage", "App consent requests"], "correct": [0], "explanation": "Microsoft Entra password protection blocks known weak passwords and custom banned passwords.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is Windows Hello for Business?", "choices": ["Strong sign-in using PIN or biometrics tied to a device", "A password export tool", "A license report", "A guest invitation method"], "correct": [0], "explanation": "Windows Hello for Business replaces passwords with strong device-bound credentials like PIN or biometrics.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "A user reports they are still signed in after account disablement. What helps force sign-out?", "choices": ["Revoke user sessions", "Create a new group", "Change the company logo", "Add a verified domain"], "correct": [0], "explanation": "Revoking sessions invalidates existing refresh tokens and forces the user to sign in again.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "Security defaults are best for which type of organization?", "choices": ["Small/simple tenants needing baseline security quickly", "Large tenants needing complex exceptions", "Only tenants with AD FS", "Only app-only tenants"], "correct": [0], "explanation": "Security defaults provide simple baseline protections but are less customizable than Conditional Access.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is authentication strength in Conditional Access?", "choices": ["A requirement for specific MFA/passwordless methods", "The length of a username", "The number of groups", "The license count"], "correct": [0], "explanation": "Authentication strengths let you require stronger methods, such as phishing-resistant MFA.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "Which method is more resistant to phishing?", "choices": ["FIDO2/passkey", "SMS code", "Security questions", "Password only"], "correct": [0], "explanation": "FIDO2/passkeys are phishing-resistant because they use cryptographic proof tied to the legitimate site.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What does session management in Conditional Access control?", "choices": ["Sign-in frequency and persistent browser sessions", "Group naming policy only", "License assignment", "App secret expiration"], "correct": [0], "explanation": "Session controls can require reauthentication after a period or manage browser persistence.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "Which logs help troubleshoot why Conditional Access blocked a sign-in?", "choices": ["Sign-in logs", "Billing invoices", "Device warranty logs", "Company branding logs"], "correct": [0], "explanation": "Sign-in logs show Conditional Access results, failure reasons, app, device, location, and risk details.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is Global Secure Access used for in Microsoft Entra?", "choices": ["Identity-centric network access to private, internet, and Microsoft 365 resources", "Creating desktop wallpapers", "Deleting guest users", "Replacing all licenses"], "correct": [0], "explanation": "Global Secure Access provides identity-aware access controls for private apps, internet access, and Microsoft 365 traffic.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "What is Microsoft Entra Kerberos useful for?", "choices": ["Hybrid authentication scenarios such as passwordless access to on-prem resources", "Creating app registrations only", "Changing guest invitation settings", "Exporting audit logs"], "correct": [0], "explanation": "Microsoft Entra Kerberos supports hybrid access scenarios, including passwordless access to certain on-premises resources.", "difficulty": "Core"}, {"type": "single", "domain": "Auth and access", "question": "A Conditional Access policy should apply to all cloud apps except one legacy app. What should you configure?", "choices": ["Include all cloud apps and exclude the legacy app", "Create no assignments", "Only use company branding", "Use a license report"], "correct": [0], "explanation": "CA assignments can include all apps and exclude specific apps when needed.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "An Azure VM needs to access Azure Key Vault without storing a password. What should you use?", "choices": ["Managed identity", "Guest account", "Temporary Access Pass", "Company branding"], "correct": [0], "explanation": "Managed identities let Azure resources authenticate to other Azure services without storing credentials.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What is the difference between system-assigned and user-assigned managed identity?", "choices": ["System-assigned is tied to one resource; user-assigned can be shared", "System-assigned is for guests only", "User-assigned cannot access Azure", "They are the same"], "correct": [0], "explanation": "A system-assigned identity lives and dies with one resource. A user-assigned identity is separate and reusable.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What object represents an application instance in a tenant?", "choices": ["Service principal", "Administrative unit", "Named location", "Access review"], "correct": [0], "explanation": "The service principal is the app identity/instance inside a Microsoft Entra tenant.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "Where do you configure API permissions for an application?", "choices": ["App registration", "Company branding", "PIM audit history", "SSPR settings"], "correct": [0], "explanation": "API permissions are configured on the app registration.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "An app needs to sign in as itself instead of a user. Which permission type is usually used?", "choices": ["Application permissions", "Delegated permissions", "Device compliance permissions", "User invitation permissions"], "correct": [0], "explanation": "Application permissions allow an app to access resources as itself, often requiring admin consent.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "An app acts on behalf of a signed-in user. Which permission type is used?", "choices": ["Delegated permissions", "Application permissions", "PIM permissions", "Named location permissions"], "correct": [0], "explanation": "Delegated permissions are used when the app acts as the signed-in user.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What is admin consent used for?", "choices": ["Approve permissions that affect the organization", "Reset a password", "Create a dynamic group rule", "Enable Windows Hello PIN"], "correct": [0], "explanation": "Admin consent approves requested app/API permissions at the tenant level when user consent is not enough or not allowed.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "Which feature publishes internal web apps securely to external users without a VPN?", "choices": ["Microsoft Entra Application Proxy", "Access reviews", "Cloud Sync password writeback", "Company branding"], "correct": [0], "explanation": "Application Proxy gives secure remote access to on-premises web apps through Microsoft Entra.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "A SaaS app needs single sign-on with Entra ID. Where is it commonly configured?", "choices": ["Enterprise applications", "Administrative units", "Device settings only", "KQL workspace only"], "correct": [0], "explanation": "Enterprise applications is where you configure SSO and user assignment for many SaaS apps.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What SSO protocol is commonly used by enterprise SaaS applications?", "choices": ["SAML", "SMB", "RDP", "DHCP"], "correct": [0], "explanation": "SAML is a common single sign-on protocol for enterprise SaaS apps.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What is an app role used for?", "choices": ["Define roles/permissions inside an application", "Reset user passwords", "Create a verified domain", "Deploy a VPN client"], "correct": [0], "explanation": "App roles define application-specific permissions that can be assigned to users, groups, or apps.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "Why should app secrets be rotated?", "choices": ["To reduce risk if a secret is exposed", "To change user department names", "To update company branding", "To remove guest users"], "correct": [0], "explanation": "Secrets are credentials. Rotating them limits damage if they leak or are old.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What is a certificate credential often preferred over?", "choices": ["Client secret", "Dynamic group", "Access review", "Named location"], "correct": [0], "explanation": "Certificates are generally stronger than shared text secrets for app authentication.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "Which Microsoft tool helps discover and control cloud apps being used in the organization?", "choices": ["Microsoft Defender for Cloud Apps", "Windows Admin Center only", "Company Portal only", "Exchange Admin Center only"], "correct": [0], "explanation": "Defender for Cloud Apps helps discover shadow IT, assess app risk, and enforce app controls.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What is Conditional Access App Control used for?", "choices": ["Monitor and control app sessions in real time", "Create on-prem AD users", "Change Windows license keys", "Build Azure networks"], "correct": [0], "explanation": "Conditional Access App Control uses Defender for Cloud Apps to control sessions, downloads, uploads, and more.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "A user should only access Salesforce after assignment. What setting matters?", "choices": ["User assignment required for the enterprise app", "Company logo color", "PIM approval only", "Azure VM size"], "correct": [0], "explanation": "Enterprise apps can require assignment so only assigned users/groups can access the app.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What is OAuth app governance concerned with?", "choices": ["Reviewing app permissions and risky OAuth apps", "Resetting Windows PINs", "Renaming devices", "Creating DNS records"], "correct": [0], "explanation": "OAuth app governance helps monitor and control apps that have been granted OAuth permissions.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What is the Cloud app catalog used for?", "choices": ["Evaluate cloud apps and their risk levels", "Create users in bulk", "Store PIM approvals", "Set password complexity"], "correct": [0], "explanation": "The Cloud app catalog rates cloud apps and helps decide whether they should be sanctioned or unsanctioned.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "You need an app to call Microsoft Graph with no signed-in user. What should you configure?", "choices": ["Application permission and admin consent", "Delegated permission only", "Guest invite only", "Security defaults only"], "correct": [0], "explanation": "App-only Graph access uses application permissions, usually with admin consent.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "Which role is least privileged for managing enterprise app settings compared with Global Admin?", "choices": ["Cloud Application Administrator", "Global Administrator", "Billing Reader", "Password Administrator"], "correct": [0], "explanation": "Cloud Application Administrator can manage enterprise apps without full Global Admin permissions.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "An app registration has an expired secret. What is the likely result?", "choices": ["The app authentication fails", "The user password resets", "Guest access becomes public", "SSPR disables itself"], "correct": [0], "explanation": "If an app depends on an expired secret, it cannot authenticate until a valid credential is added.", "difficulty": "Core"}, {"type": "single", "domain": "Workload identities", "question": "What should you use to avoid secrets entirely for Azure-hosted workloads?", "choices": ["Managed identity", "Long-lived client secret", "Shared admin password", "Guest account"], "correct": [0], "explanation": "Managed identity removes the need to store credentials in code or configuration.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "A manager needs to review whether team members still need access every quarter. What feature should you use?", "choices": ["Access reviews", "Company branding", "Named locations", "App secrets"], "correct": [0], "explanation": "Access reviews help verify users still need access to groups, apps, or roles.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What happens in an access review if auto-apply is enabled?", "choices": ["Review decisions can be applied automatically", "All users become Global Admins", "Passwords are reset", "A new tenant is created"], "correct": [0], "explanation": "Auto-apply allows approved/denied decisions to be enforced automatically after the review.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What is entitlement management used for?", "choices": ["Package access to groups, apps, and sites for request/approval", "Reset device PINs", "Create app secrets", "Configure DNS records"], "correct": [0], "explanation": "Entitlement management uses access packages to manage request-based access to multiple resources.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What is an access package?", "choices": ["A bundle of resources users can request access to", "A password policy", "A sign-in log table", "A device compliance rule"], "correct": [0], "explanation": "Access packages bundle resources like groups, apps, and SharePoint sites with approval and lifecycle rules.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What is a catalog in entitlement management?", "choices": ["A container for access package resources", "A password reset method", "A KQL table", "A device identity"], "correct": [0], "explanation": "Catalogs organize resources and access packages in entitlement management.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What is PIM used for?", "choices": ["Just-in-time privileged role access", "Permanent password storage", "Bulk user import", "Cloud app risk rating"], "correct": [0], "explanation": "Privileged Identity Management gives eligible users time-limited privileged access when needed.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "A user should be able to activate Global Reader only when needed. What assignment type should be used in PIM?", "choices": ["Eligible assignment", "Permanent active assignment", "Guest assignment", "Device assignment"], "correct": [0], "explanation": "Eligible means the user can activate the role when needed, often with MFA, reason, or approval.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What PIM setting can require a manager to approve role activation?", "choices": ["Approval requirement", "Company branding", "Cloud Sync scope", "Dynamic group rule"], "correct": [0], "explanation": "PIM role settings can require approval before a user activates a privileged role.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What is a break-glass account?", "choices": ["Emergency admin account for tenant recovery", "Guest account for vendors", "App-only service account", "Passwordless test user"], "correct": [0], "explanation": "Break-glass accounts are emergency accounts used if normal admin access is unavailable.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "How many break-glass accounts are commonly recommended?", "choices": ["At least two", "Zero", "Exactly ten", "One per user"], "correct": [0], "explanation": "Having at least two reduces the chance that emergency access fails because one account is locked or unavailable.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What should be monitored for break-glass accounts?", "choices": ["Any sign-in activity", "Only mailbox size", "Only device warranty", "Only app branding"], "correct": [0], "explanation": "Break-glass account sign-ins should be rare. Any use should trigger investigation.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "Which log shows changes like user creation, group changes, and role assignments?", "choices": ["Audit logs", "Company branding logs", "DNS logs only", "Device battery logs"], "correct": [0], "explanation": "Audit logs record many directory changes and admin actions.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "Which log helps investigate failed MFA or Conditional Access results?", "choices": ["Sign-in logs", "Catalog logs only", "License invoice", "Wallpaper log"], "correct": [0], "explanation": "Sign-in logs include MFA, Conditional Access, risk, device, and failure details.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "Where can Microsoft Entra logs be sent for KQL queries?", "choices": ["Log Analytics workspace", "Company branding page", "Access package only", "Windows desktop folder"], "correct": [0], "explanation": "Diagnostic settings can send Entra logs to Log Analytics, where you query them with KQL.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What does Identity Secure Score help with?", "choices": ["Measure and improve identity security posture", "Create SharePoint lists", "Buy licenses", "Reset local Windows passwords"], "correct": [0], "explanation": "Identity Secure Score gives recommendations to improve Microsoft Entra security posture.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "Lifecycle Workflows are mainly used to automate what?", "choices": ["Joiner, mover, and leaver identity processes", "App secret encryption only", "Network routing", "Device imaging"], "correct": [0], "explanation": "Lifecycle Workflows automate identity tasks when users join, change roles, or leave.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "A contractor should lose access automatically after a project ends. What can help?", "choices": ["Entitlement management with access package expiration", "Company branding", "Permanent Global Admin", "No access reviews"], "correct": [0], "explanation": "Access packages can include expiration so temporary users lose access automatically.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "Who is often the best reviewer for a team access review?", "choices": ["The user’s manager or group owner", "A random guest user", "The app secret owner only", "The billing reader only"], "correct": [0], "explanation": "Managers or resource owners usually know whether access is still needed.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What is PIM audit history used for?", "choices": ["Review privileged role activations and changes", "Reset user MFA methods", "Create dynamic groups", "Configure SaaS SSO"], "correct": [0], "explanation": "PIM audit history helps track who activated roles, when, and what privileged changes occurred.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "A role should require MFA every time it is activated. Where is this configured?", "choices": ["PIM role settings", "Company branding", "Device naming rules", "Cloud app catalog"], "correct": [0], "explanation": "PIM role settings can require MFA, justification, ticket number, approval, and activation duration.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "Which feature can require users to give a business justification when requesting access?", "choices": ["Entitlement management access package policy", "Password hash sync", "Company branding", "Device registration"], "correct": [0], "explanation": "Access package policies can require approval questions, justification, and approval workflows.", "difficulty": "Core"}, {"type": "single", "domain": "Governance", "question": "What is the main goal of identity governance?", "choices": ["Ensure the right people have the right access for the right amount of time", "Make all users admins", "Remove all logs", "Avoid MFA"], "correct": [0], "explanation": "Identity governance focuses on access lifecycle, reviews, approvals, and least privilege.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A user cannot sign in and the error mentions Conditional Access. Where should you investigate first?", "choices": ["Microsoft Entra sign-in logs", "Company branding", "Access package catalog", "App secret list only"], "correct": [0], "explanation": "Sign-in logs show Conditional Access policy evaluation and why access was blocked or allowed.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "You need to reduce help desk password reset tickets. What should you deploy?", "choices": ["SSPR", "Application Proxy", "Cloud app catalog", "Access reviews"], "correct": [0], "explanation": "Self-service password reset lets users reset passwords themselves after verification.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "You need to give a vendor temporary access to multiple resources with approval. What should you use?", "choices": ["Access package", "Global admin role", "Permanent guest assignment", "Client secret"], "correct": [0], "explanation": "Access packages are ideal for temporary, approved, governed access to multiple resources.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A high-privilege admin role should not be active all the time. What should you use?", "choices": ["PIM eligible assignment", "Permanent active role", "Security defaults only", "Company branding"], "correct": [0], "explanation": "PIM eligible assignments support just-in-time access instead of standing privilege.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A user has the correct password but is blocked only when traveling. What is the likely control?", "choices": ["Conditional Access location policy", "Company branding", "Access package expiration", "App secret expiration"], "correct": [0], "explanation": "Conditional Access can block or require MFA based on location, such as country or named location.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "Desktop Support experience with AD user/group management maps best to which SC-300 area?", "choices": ["Implement and manage user identities", "Only Defender for Cloud Apps", "Only Azure networking", "Only billing"], "correct": [0], "explanation": "AD user/group work strongly connects to Entra users, groups, hybrid identity, and access lifecycle.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "Which tool should you use to automate Entra tasks from scripts?", "choices": ["Microsoft Graph PowerShell", "Paint", "Windows Calculator", "Remote Desktop only"], "correct": [0], "explanation": "Microsoft Graph PowerShell is commonly used to automate Microsoft Entra identity tasks.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "What language is commonly used to query Entra logs in Log Analytics?", "choices": ["KQL", "HTML", "CSS", "DHCP"], "correct": [0], "explanation": "Kusto Query Language, or KQL, is used to query logs in Log Analytics.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A SaaS app asks for too many permissions. What should an admin review?", "choices": ["Consent and API permissions", "Company branding", "Device join settings", "Password writeback only"], "correct": [0], "explanation": "Admin/user consent and API permissions determine what data an app can access.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "What principle should guide role assignments?", "choices": ["Least privilege", "Give everyone Global Admin", "Disable logging", "Never review access"], "correct": [0], "explanation": "Least privilege means users and apps get only the access required to do their job.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A user needs temporary admin access for one hour. What is the best fit?", "choices": ["PIM role activation", "Permanent Global Admin", "Guest invite", "App registration secret"], "correct": [0], "explanation": "PIM supports time-bound privileged access with controls like MFA, approval, and justification.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "You need to publish an internal HR web app for remote users using Entra pre-authentication. What should you use?", "choices": ["Application Proxy", "Password hash sync only", "Company branding", "Access review only"], "correct": [0], "explanation": "Application Proxy provides secure remote access to internal web apps with Entra pre-authentication.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A user reports MFA fatigue from repeated push prompts. What stronger method should you consider?", "choices": ["Number matching or phishing-resistant methods like FIDO2", "Password only", "Security questions only", "Disable MFA for everyone"], "correct": [0], "explanation": "Stronger MFA methods reduce risk. FIDO2/passkeys are especially phishing-resistant.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "Which feature helps decide whether employees still need access to an enterprise app?", "choices": ["Access review", "Company branding", "Custom domain", "App secret"], "correct": [0], "explanation": "Access reviews can target enterprise app assignments to remove unnecessary access.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "What should you check when a synced on-prem user is missing in Entra ID?", "choices": ["Sync scope, errors, and Entra Connect/Cloud Sync health", "Company branding only", "App consent settings only", "PIM activation duration"], "correct": [0], "explanation": "Hybrid sync issues often involve OU filtering, attribute errors, agent health, or sync status.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A device must be Microsoft Entra joined to access an app. Where is this enforced?", "choices": ["Conditional Access grant controls", "Company branding", "Access package questions", "App secret list"], "correct": [0], "explanation": "Conditional Access can require a Microsoft Entra joined or compliant device.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "You need to block legacy authentication. What is commonly used?", "choices": ["Conditional Access policy", "Access package catalog", "PIM approval", "Company branding"], "correct": [0], "explanation": "Conditional Access can block legacy authentication clients that do not support modern auth protections.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "Why are service accounts with passwords risky?", "choices": ["Passwords/secrets can be leaked and may not rotate", "They always require MFA", "They cannot access anything", "They are always deleted automatically"], "correct": [0], "explanation": "Traditional service accounts often have long-lived passwords. Managed identities are safer when available.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "Which report helps see risky sign-ins that may need remediation?", "choices": ["Risky sign-ins report", "Company branding report", "License invoice", "Access package catalog only"], "correct": [0], "explanation": "Risky sign-ins show sign-in events with detected risk and help guide remediation.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "What should you do before enforcing a broad Conditional Access change?", "choices": ["Test with a pilot group and report-only mode", "Apply to every user immediately", "Delete break-glass accounts", "Disable audit logs"], "correct": [0], "explanation": "Pilot testing and report-only mode reduce the chance of locking users or admins out.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A user needs to register MFA but has no method yet. Which option can bootstrap access?", "choices": ["Temporary Access Pass", "App secret", "Access review", "Cloud app catalog"], "correct": [0], "explanation": "Temporary Access Pass can let a user sign in temporarily to register MFA/passwordless methods.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "What is the main reason to use dynamic groups for licensing?", "choices": ["Automatically assign licenses based on attributes", "Make all users admins", "Disable SSPR", "Avoid sign-in logs"], "correct": [0], "explanation": "Dynamic groups can target users by department or other attributes, then group-based licensing can apply licenses automatically.", "difficulty": "Core"}, {"type": "single", "domain": "Mixed review", "question": "A guest user should be removed when their access package expires. Which area handles this?", "choices": ["Entitlement management external user lifecycle", "Company branding", "App registration reply URL", "Named locations"], "correct": [0], "explanation": "Entitlement management can manage external user lifecycle, including removal after access ends.", "difficulty": "Core"}, {"type": "single", "domain": "Authentication & access management", "difficulty": "Hard", "question": "Contoso uses Password Hash Synchronization. An on-premises AD DS account is disabled after a suspected compromise. Security requires the user's next cloud authentication attempt to be rejected without waiting for the next synchronization cycle. Which authentication design best satisfies the requirement?", "choices": ["Password Hash Synchronization with password writeback", "Pass-through Authentication", "Seamless SSO with Password Hash Synchronization", "Microsoft Entra Connect cloud sync with group writeback"], "correct": [1], "explanation": "Pass-through Authentication validates the password against on-premises AD DS at sign-in, so the disabled on-premises account is rejected without relying on a newly synchronized password hash."}, {"type": "single", "domain": "Authentication & access management", "difficulty": "Hard", "question": "You are deploying a Conditional Access policy that blocks legacy authentication while minimizing impact to modern clients. Which condition should you configure to target legacy authentication protocols?", "choices": ["Authentication strengths", "Client apps", "Device platforms", "Sign-in risk"], "correct": [1], "explanation": "The Client apps condition can target Exchange ActiveSync clients and other legacy authentication clients."}, {"type": "single", "domain": "Authentication & access management", "difficulty": "Hard", "question": "Identity Protection reports a user as high user risk. The organization wants the user to self-remediate without help-desk intervention. Which control should the Conditional Access policy require?", "choices": ["A compliant device", "A password change", "Terms of use", "An approved client app"], "correct": [1], "explanation": "A user-risk policy can require a secure password change. The user must be able to complete the required authentication steps for self-remediation."}, {"type": "single", "domain": "Authentication & access management", "difficulty": "Hard", "question": "A Conditional Access policy targets medium and high sign-in risk. The security team wants users to continue working when they can prove their identity during the risky sign-in. Which grant control is most appropriate?", "choices": ["Block access", "Require multifactor authentication", "Require password change", "Require device to be marked compliant"], "correct": [1], "explanation": "Sign-in risk describes the current authentication attempt. Requiring MFA lets the user prove identity and remediate the risky sign-in without a blanket block."}, {"type": "single", "domain": "Authentication & access management", "difficulty": "Hard", "question": "Administrators must access the Microsoft Entra admin center using phishing-resistant authentication. Users may continue using Microsoft Authenticator push for ordinary applications. What should you configure?", "choices": ["A named location", "An authentication strength in Conditional Access", "Per-user MFA for administrators", "A sign-in frequency session control"], "correct": [1], "explanation": "Authentication strengths let Conditional Access require specific strong methods, such as phishing-resistant MFA, for selected users and resources."}, {"type": "select", "domain": "Authentication & access management", "difficulty": "Hard", "selectCount": 2, "question": "You must create emergency access accounts for a Microsoft Entra tenant. Which TWO design choices follow Microsoft guidance most closely?", "choices": ["Use cloud-only accounts on the tenant's *.onmicrosoft.com domain", "Synchronize the accounts from on-premises AD DS", "Exclude the accounts from Conditional Access policies that could cause lockout", "Require the accounts to use the same authentication dependency as normal administrators", "Assign no administrative role until an outage occurs"], "correct": [0, 2], "explanation": "Emergency access accounts should avoid dependencies that could fail with normal identity infrastructure. Cloud-only accounts and careful exclusion from lockout-causing Conditional Access controls provide that independence."}, {"type": "single", "domain": "Identity Governance", "difficulty": "Hard", "question": "A project group should contain employees and guests for 90 days. The project owner must approve access, guests must lose access automatically when the assignment expires, and users should request access through My Access. What should you configure?", "choices": ["A dynamic security group", "An access package", "A Conditional Access policy", "A Microsoft 365 group expiration policy only"], "correct": [1], "explanation": "Entitlement Management access packages provide request workflows, approvals, time-limited assignments, and access to groups/apps/sites through My Access."}, {"type": "single", "domain": "Identity Governance", "difficulty": "Hard", "question": "A contractor has permanent membership in a privileged group. Security wants the contractor to request temporary activation, provide justification, complete MFA, and automatically lose active membership after two hours. What should you use?", "choices": ["Access Reviews", "Privileged Identity Management for Groups", "Entitlement Management", "Lifecycle Workflows"], "correct": [1], "explanation": "PIM for Groups supports eligible membership, activation requirements, MFA, justification, approvals, and time-bound activation."}, {"type": "select", "domain": "Identity Governance", "difficulty": "Hard", "selectCount": 2, "question": "You configure an access review for guest users in a Microsoft 365 group. You want nonresponses handled automatically and denied users removed when the review ends. Which TWO settings are required?", "choices": ["Auto-apply results to resource", "If reviewers don't respond: Remove access", "Require justification", "Mail notifications", "Make the review one-time only"], "correct": [0, 1], "explanation": "Auto-apply makes review decisions take effect. Configuring nonresponse to remove access handles reviewers who do not respond."}, {"type": "single", "domain": "Identity Governance", "difficulty": "Hard", "question": "HR data is authoritative for employee joiner, mover, and leaver events. You need automated tasks such as adding users to groups before their start date and disabling access after termination. Which feature should you use?", "choices": ["Lifecycle Workflows", "Access Reviews", "Administrative Units", "Cross-tenant synchronization"], "correct": [0], "explanation": "Lifecycle Workflows automates identity lifecycle tasks around joiner, mover, and leaver events."}, {"type": "single", "domain": "Workload identities", "difficulty": "Hard", "question": "An Azure VM-hosted application must read a secret from Key Vault. The solution must avoid storing application credentials and must minimize credential lifecycle administration. What identity should you use?", "choices": ["A user account protected by MFA", "A system-assigned managed identity", "An app registration with a client secret", "A service principal with a certificate stored on the VM"], "correct": [1], "explanation": "A managed identity removes the need to provision and rotate application credentials. A system-assigned identity is tied to the VM lifecycle."}, {"type": "single", "domain": "Workload identities", "difficulty": "Hard", "question": "Three Azure VMs run the same application. The application needs one reusable identity whose permissions remain intact when any individual VM is deleted. Which identity type should you use?", "choices": ["System-assigned managed identity", "User-assigned managed identity", "Federated guest identity", "Device identity"], "correct": [1], "explanation": "A user-assigned managed identity has an independent lifecycle and can be attached to multiple Azure resources."}, {"type": "single", "domain": "Workload identities", "difficulty": "Hard", "question": "A GitHub Actions workflow must authenticate to Microsoft Entra without a stored client secret. You want Microsoft Entra to trust tokens issued to a specific repository and branch. What should you configure on the app registration?", "choices": ["A SAML signing certificate", "A federated identity credential", "An application proxy connector", "A custom security attribute"], "correct": [1], "explanation": "Workload identity federation uses a federated identity credential to trust tokens from an external identity provider such as GitHub without storing a secret."}, {"type": "single", "domain": "Workload identities", "difficulty": "Hard", "question": "You need to restrict a service principal so that it can access only a specific API permission and you want to review risky workload sign-ins. Which Microsoft Entra capability is specifically designed to detect risk for service principals?", "choices": ["Identity Protection for workload identities", "Password Protection", "Authentication methods policy", "Global Secure Access"], "correct": [0], "explanation": "Workload identity protection extends risk detection and Conditional Access capabilities to service principals/workload identities."}, {"type": "single", "domain": "Applications", "difficulty": "Hard", "question": "A SaaS application is configured for SAML SSO. Users can authenticate but receive an authorization error because the application expects a department value in a SAML claim. Where should you make the change?", "choices": ["Conditional Access grant controls", "Enterprise application > Single sign-on > Attributes & Claims", "App registration > Certificates & secrets", "Authentication methods policy"], "correct": [1], "explanation": "SAML attributes and claims sent to the application are configured in the enterprise application's SAML SSO settings."}, {"type": "single", "domain": "Applications", "difficulty": "Hard", "question": "Users request access to an enterprise application that requires admin consent. Security wants requests routed to designated reviewers instead of requiring a Global Administrator to manually discover each request. What should you configure?", "choices": ["Admin consent workflow", "User consent settings only", "Access Reviews", "Application Proxy"], "correct": [0], "explanation": "The admin consent workflow lets users request consent and routes requests to configured reviewers."}, {"type": "single", "domain": "Applications", "difficulty": "Hard", "question": "An on-premises web application uses Integrated Windows Authentication. Remote users need access through Microsoft Entra with SSO and without exposing the application directly to the internet. What should you deploy?", "choices": ["Microsoft Entra Application Proxy with Kerberos constrained delegation", "Pass-through Authentication agent", "Microsoft Entra Connect cloud sync", "Global Secure Access Internet Access"], "correct": [0], "explanation": "Application Proxy publishes an on-premises app through Microsoft Entra. Kerberos constrained delegation can provide SSO to IWA applications."}, {"type": "select", "domain": "Applications", "difficulty": "Hard", "selectCount": 2, "question": "An app registration exposes an API. A daemon application must call the API without a signed-in user. Which TWO concepts are required?", "choices": ["Application permissions", "Delegated permissions", "Admin consent for the application permission", "A user-assigned Microsoft Entra role for every end user", "A sign-in frequency session control"], "correct": [0, 2], "explanation": "Daemon apps use application permissions because no user is present. Application permissions generally require administrator consent."}, {"type": "single", "domain": "User identities", "difficulty": "Hard", "question": "A help-desk team must reset passwords only for users in the Boston office. The help-desk users must not manage accounts in any other office. Which combination best follows least privilege?", "choices": ["Global Reader plus a Conditional Access policy", "Password Administrator scoped to an Administrative Unit", "User Administrator at tenant scope", "Authentication Administrator assigned through a dynamic group at tenant scope"], "correct": [1], "explanation": "Administrative Units scope supported Microsoft Entra roles to a subset of directory objects. Password Administrator provides narrower permissions than User Administrator."}, {"type": "single", "domain": "User identities", "difficulty": "Hard", "question": "GroupA is a security group with assigned membership. GroupB is a Microsoft 365 group with assigned membership. You need to nest GroupB inside GroupA. What should you expect?", "choices": ["GroupB can be nested in GroupA and all Microsoft 365 services honor nested membership", "GroupB can be added to GroupA because assigned security groups can contain groups", "Microsoft 365 groups cannot be nested as members of other groups", "Nesting works only if GroupB is converted to dynamic membership"], "correct": [2], "explanation": "Microsoft 365 groups do not support group nesting as members in the way security groups can. Group nesting support depends on group type and downstream service."}, {"type": "single", "domain": "User identities", "difficulty": "Hard", "question": "A dynamic user group rule is based on department. You manually add a user whose department does not match the rule. What happens?", "choices": ["The user remains because manual membership overrides the rule", "The user cannot be manually added to a dynamic membership group", "The user remains until the next access review", "The user is added as an owner instead"], "correct": [1], "explanation": "Dynamic membership is controlled by the rule. You do not manually add or remove members from a dynamic membership group."}, {"type": "single", "domain": "Hybrid identity", "difficulty": "Hard", "question": "Users sign in to domain-joined Windows devices on the corporate network. You enable Microsoft Entra Seamless SSO with Password Hash Synchronization. Which client-side configuration is commonly required so browsers automatically send the Kerberos ticket to the Microsoft Entra SSO endpoint?", "choices": ["Add the Microsoft Entra SSO URL to the Local intranet zone", "Install a Pass-through Authentication agent on every client", "Register every client with Microsoft Intune", "Enable Enterprise State Roaming"], "correct": [0], "explanation": "Seamless SSO relies on the Azure AD/Entra SSO endpoint being treated as an intranet site so supported browsers can perform integrated authentication."}, {"type": "single", "domain": "Hybrid identity", "difficulty": "Hard", "question": "Existing Windows devices are joined to on-premises AD DS. You want the devices to also obtain a Microsoft Entra device identity while users continue signing in with their AD DS accounts. What should you configure?", "choices": ["Microsoft Entra registered devices", "Microsoft Entra hybrid join", "Microsoft Entra join", "Device writeback only"], "correct": [1], "explanation": "Hybrid Microsoft Entra join is designed for devices joined to on-premises AD DS that also need a Microsoft Entra device identity."}, {"type": "single", "domain": "Global Secure Access", "difficulty": "Hard", "question": "Remote users need access to a private TCP application hosted on-premises. You want identity-aware access without giving users broad network-level VPN access. Which Global Secure Access component is the best fit?", "choices": ["Microsoft Entra Internet Access", "Microsoft Entra Private Access", "Microsoft Entra Application Proxy only for all TCP traffic", "Microsoft Defender for Cloud Apps"], "correct": [1], "explanation": "Microsoft Entra Private Access provides identity-centric access to private applications and resources and can replace broad VPN-style access for supported scenarios."}, {"type": "single", "domain": "Global Secure Access", "difficulty": "Hard", "question": "You want Conditional Access to evaluate whether traffic to Microsoft 365 is coming through your compliant Global Secure Access path. Which control concept enables this integration?", "choices": ["Compliant network check in Conditional Access", "Password writeback", "Administrative Unit scoping", "Token encryption"], "correct": [0], "explanation": "Global Secure Access can integrate network signals with Conditional Access, including compliant network-based access controls."}, {"type": "select", "domain": "Authentication & access management", "difficulty": "Hard", "selectCount": 2, "question": "A Conditional Access policy should require MFA for administrators but must avoid locking out emergency access accounts and service principals. Which TWO scoping actions should you take?", "choices": ["Target the administrator directory roles", "Exclude emergency access accounts", "Target all workload identities in the same user policy", "Exclude all guest users", "Disable Security Defaults only after deleting all other policies"], "correct": [0, 1], "explanation": "Role targeting scopes the policy to administrators. Emergency access accounts are normally excluded from policies that could cause tenant-wide lockout."}, {"type": "single", "domain": "Authentication & access management", "difficulty": "Hard", "question": "A user successfully completed MFA five minutes ago. A Conditional Access policy for a sensitive application requires MFA and has sign-in frequency set to every time. What is the purpose of the sign-in frequency control?", "choices": ["To determine which authentication methods count as MFA", "To control how often the user must reauthenticate", "To revoke the user's refresh tokens permanently", "To convert the device from registered to joined"], "correct": [1], "explanation": "Sign-in frequency is a session control that determines how often reauthentication is required."}, {"type": "single", "domain": "Identity Governance", "difficulty": "Hard", "question": "You need quarterly certification that users still require membership in a privileged group. Managers should review their direct reports and unapproved access should be removed automatically. What should you configure?", "choices": ["An access review with managers as reviewers and auto-apply enabled", "A PIM activation policy only", "A Conditional Access policy with sign-in risk", "A dynamic group rule"], "correct": [0], "explanation": "Access Reviews provide periodic recertification. Manager reviewers and auto-apply can automate the review and removal process."}, {"type": "single", "domain": "Applications", "difficulty": "Hard", "question": "An enterprise application is configured with 'Assignment required?' set to Yes. A user can authenticate to Microsoft Entra but is not assigned to the application. What is the expected result?", "choices": ["The user receives access because authentication succeeded", "The user is blocked from accessing the application unless assigned directly or through a supported group assignment", "The user automatically becomes an application owner", "The application falls back to anonymous authentication"], "correct": [1], "explanation": "When assignment is required, only assigned users/groups can sign in to the enterprise application."}, {"type": "single", "domain": "Workload identities", "difficulty": "Hard", "question": "A service principal's client secret was accidentally committed to a public repository. What is the most appropriate immediate identity action?", "choices": ["Increase the secret lifetime", "Revoke/remove the exposed credential and replace it, preferably with a stronger credentialless or certificate-based design", "Convert the service principal to a guest user", "Enable SSPR for the service principal"], "correct": [1], "explanation": "An exposed application credential should be treated as compromised and removed/rotated immediately. Where possible, use managed identity or workload identity federation to avoid stored secrets."}, {"type": "matrix", "domain": "Implement authentication and access management", "difficulty": "Hard", "question": "You are designing Conditional Access for Contoso. Select the best configuration for each requirement.", "rows": [{"label": "Require phishing-resistant authentication for Global Administrators", "options": ["Named locations", "Authentication strength", "Sign-in frequency", "Terms of use"], "correct": 1}, {"label": "Target legacy authentication clients", "options": ["Device platforms", "Client apps", "User risk", "Authentication context"], "correct": 1}, {"label": "Require reauthentication every 8 hours", "options": ["Persistent browser session", "Sign-in frequency", "Continuous access evaluation", "Token protection"], "correct": 1}], "explanation": "Authentication strengths control allowed MFA methods, Client apps targets legacy authentication, and Sign-in frequency controls how often interactive reauthentication is required."}, {"type": "matrix", "domain": "Plan and automate identity governance", "difficulty": "Hard", "question": "A company is implementing Microsoft Entra governance. Match each requirement to the most appropriate feature.", "rows": [{"label": "Quarterly recertification of group membership", "options": ["Access Reviews", "Lifecycle Workflows", "Entitlement Management", "PIM for Groups"], "correct": 0}, {"label": "Automated joiner/mover/leaver tasks based on lifecycle events", "options": ["Access Reviews", "Lifecycle Workflows", "Entitlement Management", "PIM for Groups"], "correct": 1}, {"label": "Request-based, approved, time-limited access to groups and apps", "options": ["Access Reviews", "Lifecycle Workflows", "Entitlement Management", "PIM for Groups"], "correct": 2}], "explanation": "Access Reviews recertify access, Lifecycle Workflows automate lifecycle tasks, and Entitlement Management governs request/approval/time-limited access packages."}, {"type": "matrix", "domain": "Plan and implement workload identities", "difficulty": "Hard", "question": "Choose the most appropriate identity design for each workload.", "rows": [{"label": "One Azure VM needs an identity that should be deleted with the VM", "options": ["System-assigned managed identity", "User-assigned managed identity", "Client secret", "Federated identity credential"], "correct": 0}, {"label": "Several Azure resources need to share one reusable identity", "options": ["System-assigned managed identity", "User-assigned managed identity", "Client secret", "Federated identity credential"], "correct": 1}, {"label": "GitHub Actions must authenticate without storing a secret", "options": ["System-assigned managed identity", "User-assigned managed identity", "Client secret", "Federated identity credential"], "correct": 3}], "explanation": "System-assigned identities follow the resource lifecycle, user-assigned identities are reusable, and federated identity credentials enable secretless external workload federation."}, {"type": "matrix", "domain": "Implement and manage user identities", "difficulty": "Hard", "question": "Select the best Microsoft Entra feature for each administrative requirement.", "rows": [{"label": "Help desk can reset passwords only for users in the New York office", "options": ["Administrative Unit", "Dynamic group", "Access package", "Custom security attribute"], "correct": 0}, {"label": "Automatically group users whose department equals Finance", "options": ["Administrative Unit", "Dynamic group", "Access package", "Custom security attribute"], "correct": 1}, {"label": "Store organization-specific metadata such as ProjectCode on supported directory objects", "options": ["Administrative Unit", "Dynamic group", "Access package", "Custom security attribute"], "correct": 3}], "explanation": "Administrative Units scope administration, dynamic groups automate membership, and custom security attributes store organization-defined metadata."}, {"type": "matrix", "domain": "Implement authentication and access management", "difficulty": "Hard", "question": "Identity Protection reports several risky events. Choose the most appropriate response.", "rows": [{"label": "Medium or high sign-in risk, user should self-remediate during sign-in", "options": ["Require MFA", "Require password change", "Block all cloud apps permanently", "Run an access review"], "correct": 0}, {"label": "High user risk, user should self-remediate the compromised identity", "options": ["Require MFA", "Require password change", "Require compliant network", "Enable Application Proxy"], "correct": 1}], "explanation": "Sign-in risk focuses on the current authentication attempt and can be remediated with MFA. User risk indicates a potentially compromised identity and can be remediated by a secure password change."}, {"type": "matrix", "domain": "Implement authentication and access management", "difficulty": "Hard", "question": "You are implementing Global Secure Access. Match each scenario to the most appropriate capability.", "rows": [{"label": "Identity-aware access to an internal TCP application without broad VPN access", "options": ["Microsoft Entra Internet Access", "Microsoft Entra Private Access", "Application Proxy only", "Defender for Identity"], "correct": 1}, {"label": "Apply identity-aware controls to internet and SaaS traffic", "options": ["Microsoft Entra Internet Access", "Microsoft Entra Private Access", "Password Protection", "Cloud Sync"], "correct": 0}], "explanation": "Private Access is for private resources; Internet Access applies identity-centric controls to internet/SaaS traffic."}, {"type": "matrix", "domain": "Plan and automate identity governance", "difficulty": "Hard", "question": "You use Privileged Identity Management. Choose the setting that satisfies each requirement.", "rows": [{"label": "Administrator must justify an activation", "options": ["Activation requirement", "Assignment expiration", "Notification setting", "Access review recurrence"], "correct": 0}, {"label": "Administrator must obtain approval before activation", "options": ["Activation requirement", "Assignment expiration", "Notification setting", "Access review recurrence"], "correct": 0}, {"label": "Eligible assignment must automatically end after 90 days", "options": ["Activation requirement", "Assignment expiration", "Notification setting", "Access review recurrence"], "correct": 1}], "explanation": "PIM activation settings can require justification and approval. Assignment expiration controls how long an eligible or active assignment remains valid."}, {"type": "matrix", "domain": "Implement authentication and access management", "difficulty": "Hard", "question": "You are troubleshooting sign-in and access events. Select the best data source for each task.", "rows": [{"label": "Determine which Conditional Access policy blocked a specific user sign-in", "options": ["Sign-in logs", "Audit logs", "Provisioning logs", "Access review history"], "correct": 0}, {"label": "Determine who changed a group membership or tenant configuration", "options": ["Sign-in logs", "Audit logs", "Provisioning logs", "Identity Secure Score"], "correct": 1}, {"label": "Investigate automatic user provisioning to a SaaS application", "options": ["Sign-in logs", "Audit logs", "Provisioning logs", "PIM resource audit"], "correct": 2}], "explanation": "Sign-in logs show authentication and Conditional Access evaluation, audit logs show directory changes, and provisioning logs show automated provisioning activity."}];
-let qs=[],answers=[],flags=[],checked=[],idx=0,submitted=false,timerId=null,timeLeft=100*60;
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function prep(){
-  // Randomize question order first.
-  qs=shuffle(raw.map(q=>JSON.parse(JSON.stringify(q))));
+    <section id="setupScreen" class="setup-grid">
+      <div class="panel">
+        <h2>Start a practice session</h2>
+        <p class="muted">
+          Practice mode explains answers immediately. Exam mode waits until the
+          end.
+        </p>
 
-  // Guarantee balanced correct-answer positions for single-answer questions.
-  // This prevents an A-heavy, B-heavy, etc. exam while still changing every attempt.
-  let singlesByLen={};
-  qs.forEach(q=>{
-    if(q.type==="single"){
-      const n=q.choices.length;
-      singlesByLen[n]=(singlesByLen[n]||0)+1;
+        <div class="field-group">
+          <span>Mode</span>
+          <div class="choice-row">
+            <label class="mode-option">
+              <input type="radio" name="mode" value="practice" checked />
+              <span>
+                <strong>Practice</strong><br />
+                <span class="muted">Immediate feedback</span>
+              </span>
+            </label>
+
+            <label class="mode-option">
+              <input type="radio" name="mode" value="exam" />
+              <span>
+                <strong>Exam</strong><br />
+                <span class="muted">Feedback at the end</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="questionCount">Question count</label>
+          <select id="questionCount">
+            <option value="10">10 questions</option>
+            <option value="20" selected>20 questions</option>
+            <option value="30">30 questions</option>
+            <option value="all">All questions</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label class="toggle-option">
+            <input id="shuffleQuestions" type="checkbox" checked />
+            <span>Shuffle questions</span>
+          </label>
+
+          <label class="toggle-option">
+            <input id="showHints" type="checkbox" checked />
+            <span>Show “ignore the fluff” hints</span>
+          </label>
+        </div>
+
+        <div class="button-row">
+          <button id="startButton" class="button button-primary" type="button">
+            Start exam
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>What is included</h2>
+        <ul class="muted">
+          <li>User1, User2, Group1, and license tables</li>
+          <li>Dynamic groups and group-based licensing</li>
+          <li>App registrations and enterprise applications</li>
+          <li>Delegated and application permissions</li>
+          <li>Access packages, reviews, and lifecycle workflows</li>
+          <li>PIM, Administrative Units, and least privilege</li>
+          <li>Conditional Access and session controls</li>
+          <li>Identity Protection and Global Secure Access</li>
+          <li>Choose one, choose two, and matrix-style questions</li>
+          <li>Confidence tracking and missed-question review</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="quizScreen" class="hidden">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Question</span>
+          <span id="questionStat" class="stat-value">1 / 20</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Correct</span>
+          <span id="correctStat" class="stat-value">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Accuracy</span>
+          <span id="accuracyStat" class="stat-value">0%</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Confidence</span>
+          <span id="confidenceStat" class="stat-value">—</span>
+        </div>
+      </div>
+
+      <div class="progress-track" aria-label="Exam progress">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <article class="question-card">
+        <div class="question-topline">
+          <span id="categoryBadge" class="badge">Dynamic groups</span>
+          <span id="questionNumber" class="question-number">Question 1</span>
+        </div>
+
+        <div id="scenario" class="scenario"></div>
+
+        <div id="hintBox" class="hint-box">
+          <strong>Reading hint:</strong>
+          <span id="hintText"></span>
+        </div>
+
+        <fieldset id="answerOptions" class="answers">
+          <legend class="hidden">Answer options</legend>
+        </fieldset>
+
+        <div class="field-group">
+          <span>How confident are you?</span>
+          <div class="confidence-grid">
+            <label class="mode-option">
+              <input type="radio" name="confidence" value="Low" />
+              <span>Low</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="confidence" value="Medium" />
+              <span>Medium</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="confidence" value="High" />
+              <span>High</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="feedbackBox" class="feedback-box hidden" aria-live="polite">
+          <div id="feedbackTitle" class="feedback-title"></div>
+          <div class="feedback-grid">
+            <div class="mini-panel">
+              <h3>Key clue</h3>
+              <p id="keyClue" class="muted"></p>
+            </div>
+            <div class="mini-panel">
+              <h3>Fluff to ignore</h3>
+              <p id="fluffText" class="muted"></p>
+            </div>
+          </div>
+          <div class="mini-panel" style="margin-top: 12px">
+            <h3>Explanation</h3>
+            <p id="explanationText" class="muted"></p>
+          </div>
+        </div>
+
+        <p id="validationMessage" class="error-message hidden" role="alert"></p>
+
+        <div class="button-row">
+          <button id="endButton" class="button button-danger" type="button">
+            End session
+          </button>
+          <button id="checkButton" class="button button-primary" type="button">
+            Check answer
+          </button>
+          <button id="nextButton" class="button button-primary hidden" type="button">
+            Next question
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section id="resultsScreen" class="hidden">
+      <div class="results-hero">
+        <div class="eyebrow">Session complete</div>
+        <h2 id="resultsHeading">Great work</h2>
+        <p id="resultsSummary" class="muted"></p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Score</span>
+          <span id="finalScore" class="stat-value">0 / 20</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Accuracy</span>
+          <span id="finalAccuracy" class="stat-value">0%</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Strongest topic</span>
+          <span id="strongestTopic" class="stat-value">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Review first</span>
+          <span id="weakestTopic" class="stat-value">—</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Answer review</h2>
+        <p class="muted">
+          Review missed answers and any question you marked with low confidence.
+        </p>
+        <div id="reviewList" class="review-list"></div>
+      </div>
+
+      <div class="button-row">
+        <button id="retryMissedButton" class="button button-secondary" type="button">
+          Retry missed questions
+        </button>
+        <button id="restartButton" class="button button-primary" type="button">
+          Start a new session
+        </button>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Unofficial practice project. Microsoft and SC-300 are trademarks of their
+      respective owners.
+    </p>
+  </main>
+
+  <script>
+    "use strict";
+
+    const questions = [
+      {
+        category: "Dynamic groups",
+        type: "single",
+        prompt: `
+          <p>Your Microsoft Entra tenant contains the following users:</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Department</th>
+                  <th>Country</th>
+                  <th>License</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>User1</td><td>Finance</td><td>USA</td><td>P2</td></tr>
+                <tr><td>User2</td><td>Finance</td><td>Canada</td><td>Free</td></tr>
+                <tr><td>User3</td><td>HR</td><td>USA</td><td>P1</td></tr>
+                <tr><td>User4</td><td>Finance</td><td>USA</td><td>Free</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>A Dynamic User security group uses the following rule:</p>
+          <code>(user.department -eq "Finance") and (user.country -eq "USA")</code>
+          <p>Which users become members of the group?</p>
+        `,
+        options: [
+          "User1 and User4",
+          "User1, User2, and User4",
+          "User1 and User3",
+          "All four users"
+        ],
+        answers: [0],
+        hint: "Only evaluate attributes that appear in the dynamic rule.",
+        clue: "AND means both Department and Country must match.",
+        fluff: "The license column does not affect dynamic membership.",
+        explanation:
+          "User1 and User4 match both Finance and USA. User2 fails the country condition, and User3 fails the department condition."
+      },
+      {
+        category: "Dynamic groups",
+        type: "single",
+        prompt: `
+          <p>Your tenant contains the following users:</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Department</th>
+                  <th>Country</th>
+                  <th>Account enabled</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>User1</td><td>Finance</td><td>USA</td><td>Yes</td></tr>
+                <tr><td>User2</td><td>HR</td><td>Canada</td><td>Yes</td></tr>
+                <tr><td>User3</td><td>Finance</td><td>Canada</td><td>No</td></tr>
+                <tr><td>User4</td><td>Sales</td><td>USA</td><td>Yes</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The group uses this dynamic membership rule:</p>
+          <code>(user.department -eq "Finance") or (user.country -eq "USA")</code>
+          <p>Which users become members?</p>
+        `,
+        options: [
+          "User1, User3, and User4",
+          "User1 only",
+          "User1 and User4 only",
+          "User1, User2, and User3"
+        ],
+        answers: [0],
+        hint: "OR means either condition is enough.",
+        clue: "A user only needs to match Finance or USA.",
+        fluff: "Account enabled is not included in the rule.",
+        explanation:
+          "User1 matches both, User3 matches Finance, and User4 matches USA. User2 matches neither."
+      },
+      {
+        category: "Group-based licensing",
+        type: "single",
+        prompt: `
+          <p>Your tenant contains:</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Department</th>
+                  <th>Current license</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>User1</td><td>Finance</td><td>P2</td></tr>
+                <tr><td>User2</td><td>Finance</td><td>Free</td></tr>
+                <tr><td>User3</td><td>HR</td><td>P1</td></tr>
+                <tr><td>User4</td><td>Finance</td><td>Free</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            A Dynamic User group includes all users whose department equals
+            Finance. A Microsoft 365 E5 license is assigned to the group.
+          </p>
+          <p>Which users receive the E5 license through the group?</p>
+        `,
+        options: [
+          "User1 only",
+          "User1, User2, and User4",
+          "User1 and User4 only",
+          "All users"
+        ],
+        answers: [1],
+        hint: "Determine group membership before looking at current licenses.",
+        clue: "All Finance users become members of the licensed group.",
+        fluff: "P1, P2, and Free are distractions in this question.",
+        explanation:
+          "User1, User2, and User4 are in Finance, so they become group members and receive the assigned E5 license."
+      },
+      {
+        category: "Group-based licensing",
+        type: "single",
+        prompt: `
+          <p>Your company wants all current and future Finance users to receive a
+          Microsoft 365 license and automatically lose it when they leave Finance.</p>
+          <p>Which solution requires the least administrative effort?</p>
+        `,
+        options: [
+          "Assign the license directly to each Finance user",
+          "Use an assigned group and update membership manually",
+          "Use a Dynamic User group based on the Department attribute and assign the license to the group",
+          "Create an Access Review"
+        ],
+        answers: [2],
+        hint: "Look for current, future, automatic, and least effort.",
+        clue: "Dynamic membership reacts to attribute changes automatically.",
+        fluff: "Individual user names and existing licenses would not change the answer.",
+        explanation:
+          "A department-based Dynamic User group automatically adds current and future Finance users and removes users when the Department attribute changes. Group-based licensing follows that membership."
+      },
+      {
+        category: "App registrations",
+        type: "single",
+        prompt: `
+          <p>A developer must create a client secret, upload a certificate, and
+          configure a redirect URI for App1.</p>
+          <p>Where should the developer perform these tasks?</p>
+        `,
+        options: [
+          "Enterprise applications",
+          "App registrations",
+          "Access reviews",
+          "Administrative units"
+        ],
+        answers: [1],
+        hint: "These are developer configuration tasks.",
+        clue: "Secrets, certificates, and redirect URIs belong to the app definition.",
+        fluff: "No user or group information is needed.",
+        explanation:
+          "App registrations is where developers configure application IDs, redirect URIs, certificates, client secrets, API permissions, and exposed APIs."
+      },
+      {
+        category: "Enterprise applications",
+        type: "single",
+        prompt: `
+          <p>Developers already configured App1's redirect URIs, certificates,
+          secrets, and API permissions.</p>
+          <p>Administrators now need to assign users, configure single sign-on,
+          and review sign-in activity.</p>
+          <p>Where should administrators manage App1?</p>
+        `,
+        options: [
+          "App registrations",
+          "Enterprise applications",
+          "Microsoft Graph Explorer",
+          "Lifecycle Workflows"
+        ],
+        answers: [1],
+        hint: "The application has moved from developer configuration to access administration.",
+        clue: "User assignment and SSO are enterprise application tasks.",
+        fluff: "The previous developer tasks are context, not the requested management location.",
+        explanation:
+          "Enterprise applications is the administrative view of the service principal, where admins configure SSO, assignments, provisioning, and access-related settings."
+      },
+      {
+        category: "API permissions",
+        type: "single",
+        prompt: `
+          <p>A background service runs every night without a signed-in user. It
+          must read every employee mailbox for compliance backups.</p>
+          <p>Which permission model should be configured?</p>
+        `,
+        options: [
+          "Delegated permissions with user consent",
+          "Delegated permissions with admin consent",
+          "Application permissions with admin consent",
+          "Application permissions with user consent"
+        ],
+        answers: [2],
+        hint: "Ask whether a user is signed in and how broad the access is.",
+        clue: "No user is signed in, and organization-wide mailbox access is privileged.",
+        fluff: "The time of day and backup schedule do not affect the permission model.",
+        explanation:
+          "Application permissions are used for app-only access. Reading all mailboxes is highly privileged and requires administrator consent."
+      },
+      {
+        category: "API permissions",
+        type: "single",
+        prompt: `
+          <p>Employees sign in to App1. App1 must read only the signed-in user's
+          profile. Users may approve low-impact permissions, while higher-impact
+          permissions require administrator approval.</p>
+          <p>Which model best meets the requirements?</p>
+        `,
+        options: [
+          "Application permissions with admin consent",
+          "Delegated permissions with user consent where allowed and admin consent for higher privileges",
+          "Application permissions with user consent",
+          "Delegated permissions with admin consent for every permission"
+        ],
+        answers: [1],
+        hint: "A signed-in user means the application acts in that user's context.",
+        clue: "The scenario explicitly combines delegated access with consent based on permission impact.",
+        fluff: "The application name and employee department are irrelevant.",
+        explanation:
+          "Delegated permissions are appropriate when a user signs in. Low-impact permissions may be user-consented where policy permits, while higher-impact permissions require admin consent."
+      },
+      {
+        category: "Lifecycle Workflows",
+        type: "single",
+        prompt: `
+          <p>An employee transfers from Sales to Finance.</p>
+          <p>The company wants to remove old departmental access, assign Finance
+          access, and notify the new manager automatically.</p>
+          <p>Which feature should be used?</p>
+        `,
+        options: [
+          "Access package",
+          "Access review",
+          "Lifecycle Workflow",
+          "Conditional Access"
+        ],
+        answers: [2],
+        hint: "Think joiner, mover, leaver.",
+        clue: "A department transfer is a mover event.",
+        fluff: "The exact department names do not matter.",
+        explanation:
+          "Lifecycle Workflows automate identity tasks when an employee joins, moves within, or leaves the organization."
+      },
+      {
+        category: "Entitlement management",
+        type: "single",
+        prompt: `
+          <p>Contractors must request access to an HR application, an HR security
+          group, and an HR SharePoint site.</p>
+          <p>The contractor's manager must approve the request. Access must expire
+          after 30 days unless extended.</p>
+          <p>Which solution requires the least administrative effort?</p>
+        `,
+        options: [
+          "Access package with approval and expiration policies",
+          "Recurring access review only",
+          "Lifecycle Workflow",
+          "Dynamic device group"
+        ],
+        answers: [0],
+        hint: "Look for request, approval, bundled resources, and expiration.",
+        clue: "An access package handles the complete request flow.",
+        fluff: "The resources being HR resources is not important.",
+        explanation:
+          "Access packages bundle applications, groups, and SharePoint sites and support requests, approvals, expiration, and extensions."
+      },
+      {
+        category: "Access reviews",
+        type: "single",
+        prompt: `
+          <p>Members already have access to FinanceGroup.</p>
+          <p>Every 90 days, group owners must verify that each member still needs
+          access. If an owner does not respond, the member must be removed.</p>
+          <p>What should you configure?</p>
+        `,
+        options: [
+          "Access package",
+          "Access review",
+          "Lifecycle Workflow",
+          "PIM activation"
+        ],
+        answers: [1],
+        hint: "The access already exists.",
+        clue: "The organization wants recurring revalidation of existing access.",
+        fluff: "Department and license details would not change the answer.",
+        explanation:
+          "Access Reviews periodically validate existing memberships and can automatically remove access when reviewers do not respond."
+      },
+      {
+        category: "Governance",
+        type: "multiple",
+        prompt: `
+          <p>Employees must request access to App1. Requests require manager
+          approval and expire after 90 days.</p>
+          <p>Every 30 days, managers must also verify that users who currently have
+          access still require it. If no response is received, access must be removed.</p>
+          <p>Which TWO features should be configured?</p>
+        `,
+        options: [
+          "Access Package",
+          "Access Review",
+          "Lifecycle Workflow",
+          "PIM",
+          "Dynamic User group"
+        ],
+        answers: [0, 1],
+        hint: "Separate how access is granted from how existing access is reviewed.",
+        clue: "One feature handles request/approval/expiration; another handles recurring verification.",
+        fluff: "User tables and license columns would not affect the solution.",
+        explanation:
+          "Use an Access Package for requesting, approving, and expiring access. Use an Access Review for recurring verification and automatic removal when the reviewer does not respond."
+      },
+      {
+        category: "Privileged Identity Management",
+        type: "single",
+        prompt: `
+          <p>Global Administrators must not permanently hold the role. They must
+          activate it only when needed, provide justification, complete MFA, and
+          lose the role after one hour.</p>
+          <p>What should be configured?</p>
+        `,
+        options: [
+          "Active permanent assignments",
+          "Eligible role assignments in PIM",
+          "An access package",
+          "A dynamic administrative unit"
+        ],
+        answers: [1],
+        hint: "Temporary privileged activation is the key.",
+        clue: "Eligible assignment allows just-in-time activation.",
+        fluff: "Ordinary user names, departments, and countries would be irrelevant.",
+        explanation:
+          "PIM eligible assignments provide just-in-time access with activation controls such as MFA, justification, approval, and duration."
+      },
+      {
+        category: "Administrative units",
+        type: "single",
+        prompt: `
+          <p>A company has users in New York, New Jersey, and Florida.</p>
+          <p>The New Jersey Help Desk administrator must reset passwords only for
+          New Jersey users and must not manage users in other locations.</p>
+          <p>Which solution follows least privilege?</p>
+        `,
+        options: [
+          "Assign Global Administrator",
+          "Assign User Administrator tenant-wide",
+          "Create an Administrative Unit for New Jersey and scope the appropriate role to it",
+          "Create an Access Package"
+        ],
+        answers: [2],
+        hint: "The administrator needs authority over only a subset of users.",
+        clue: "Administrative Units provide scoped administration.",
+        fluff: "The number of users and their licenses do not determine the answer.",
+        explanation:
+          "Create an Administrative Unit for the New Jersey users and assign a suitable role scoped only to that Administrative Unit."
+      },
+      {
+        category: "Conditional Access",
+        type: "single",
+        prompt: `
+          <p>Users may access SharePoint from unmanaged personal devices.</p>
+          <p>They must be able to view confidential files but must not download,
+          print, or copy them.</p>
+          <p>What is the best solution?</p>
+        `,
+        options: [
+          "Require MFA using a grant control",
+          "Use Conditional Access App Control session controls",
+          "Perform an access review",
+          "Create a PIM assignment"
+        ],
+        answers: [1],
+        hint: "The users are allowed to sign in. Control what happens afterward.",
+        clue: "Download, print, and copy restrictions are session actions.",
+        fluff: "The device being personal does not make MFA the complete answer.",
+        explanation:
+          "Session controls through Conditional Access App Control can restrict user actions after access is granted."
+      },
+      {
+        category: "Conditional Access",
+        type: "single",
+        prompt: `
+          <p>A Conditional Access policy targets all users and requires MFA for
+          Microsoft 365.</p>
+          <p>The company must ensure emergency access accounts remain usable if
+          MFA services are unavailable.</p>
+          <p>What should be done?</p>
+        `,
+        options: [
+          "Delete the policy",
+          "Exclude designated emergency access accounts from the policy",
+          "Assign the accounts to an access package",
+          "Convert the accounts to service principals"
+        ],
+        answers: [1],
+        hint: "Prevent tenant lockout without weakening the policy for everyone.",
+        clue: "Emergency access accounts require an intentional exclusion.",
+        fluff: "Ordinary user departments and licenses are irrelevant.",
+        explanation:
+          "Carefully monitored emergency access accounts should be excluded from policies that could cause tenant-wide lockout."
+      },
+      {
+        category: "Identity Protection",
+        type: "multiple",
+        prompt: `
+          <p>The security team wants the following responses:</p>
+          <ul>
+            <li>When a specific sign-in appears suspicious, require MFA.</li>
+            <li>When a user's account is likely compromised, require a secure password change.</li>
+          </ul>
+          <p>Which TWO configurations should be used?</p>
+        `,
+        options: [
+          "Sign-in risk → Require MFA",
+          "Sign-in risk → Require password change",
+          "User risk → Require MFA only",
+          "User risk → Require password change"
+        ],
+        answers: [0, 3],
+        hint: "Separate risk affecting one login from risk affecting the account.",
+        clue: "Sign-in risk is about one authentication attempt; user risk is about the account.",
+        fluff: "Department and group membership do not matter.",
+        explanation:
+          "Use sign-in risk with MFA for suspicious sign-ins. Use user risk with password change when the account itself is likely compromised."
+      },
+      {
+        category: "Defender for Cloud Apps",
+        type: "single",
+        prompt: `
+          <p>Employees use cloud applications that IT has not approved.</p>
+          <p>Management must identify the applications, review their risk levels,
+          and distinguish sanctioned from unsanctioned apps.</p>
+          <p>What should be configured first?</p>
+        `,
+        options: [
+          "App Discovery in Microsoft Defender for Cloud Apps",
+          "Conditional Access App Control",
+          "Access Reviews",
+          "PIM"
+        ],
+        answers: [0],
+        hint: "The organization first needs visibility into unknown app usage.",
+        clue: "This is a Shadow IT discovery problem.",
+        fluff: "The identities of individual employees do not matter.",
+        explanation:
+          "App Discovery identifies cloud apps in use and provides risk information so they can be sanctioned or unsanctioned."
+      },
+      {
+        category: "Global Secure Access",
+        type: "single",
+        prompt: `
+          <p>Remote employees need access to one internal payroll application.</p>
+          <p>The company does not want users connected to the entire corporate
+          network.</p>
+          <p>Which capability should be used?</p>
+        `,
+        options: [
+          "Microsoft Entra Internet Access",
+          "Microsoft Entra Private Access",
+          "Access Reviews",
+          "App registrations"
+        ],
+        answers: [1],
+        hint: "The target is a private internal application.",
+        clue: "Private Access provides application-specific access to internal resources.",
+        fluff: "The payroll department and license type are irrelevant.",
+        explanation:
+          "Microsoft Entra Private Access provides Zero Trust access to private applications without exposing the full corporate network."
+      },
+      {
+        category: "Global Secure Access",
+        type: "single",
+        prompt: `
+          <p>The company wants to inspect and control employee traffic to public
+          websites and cloud services.</p>
+          <p>Which capability should be used?</p>
+        `,
+        options: [
+          "Microsoft Entra Private Access",
+          "Microsoft Entra Internet Access",
+          "Lifecycle Workflows",
+          "PIM"
+        ],
+        answers: [1],
+        hint: "The destination is the public internet.",
+        clue: "Internet Access secures web and SaaS traffic.",
+        fluff: "No user or group table is required.",
+        explanation:
+          "Microsoft Entra Internet Access is designed to secure access to public internet and SaaS destinations."
+      },
+      {
+        category: "Authentication methods",
+        type: "single",
+        prompt: `
+          <p>A new employee has no password and must securely register Windows Hello
+          for Business during onboarding.</p>
+          <p>The credential should be temporary, time-limited, and suitable for
+          bootstrap authentication.</p>
+          <p>What should you issue?</p>
+        `,
+        options: [
+          "A Temporary Access Pass",
+          "A permanent client secret",
+          "An access package",
+          "A user risk policy"
+        ],
+        answers: [0],
+        hint: "Look for a temporary bootstrap credential.",
+        clue: "Temporary Access Pass supports passwordless onboarding.",
+        fluff: "Department and device model are irrelevant.",
+        explanation:
+          "Temporary Access Pass is a time-limited passcode used to register passwordless authentication methods such as Windows Hello for Business."
+      },
+      {
+        category: "Least privilege",
+        type: "single",
+        prompt: `
+          <p>An administrator must manage enterprise application settings and
+          configure SSO.</p>
+          <p>The administrator must not manage users, groups, or tenant-wide
+          security settings.</p>
+          <p>Which role is the best fit?</p>
+        `,
+        options: [
+          "Global Administrator",
+          "Cloud Application Administrator",
+          "User Administrator",
+          "Security Reader"
+        ],
+        answers: [1],
+        hint: "Choose the narrowest role that completes the task.",
+        clue: "The required tasks are limited to application administration.",
+        fluff: "Licensing and department details would not matter.",
+        explanation:
+          "Cloud Application Administrator is the least-privileged fit for managing enterprise applications and related settings."
+      },
+      {
+        category: "Troubleshooting",
+        type: "multiple",
+        prompt: `
+          <p>User1 is assigned a Microsoft 365 license through Group1 but reports
+          that the license is not active.</p>
+          <p>You verify that Group1 has the license assigned.</p>
+          <p>Which TWO items should you check first?</p>
+        `,
+        options: [
+          "Whether User1 is actually an effective member of Group1",
+          "Whether the per-user group-based license assignment shows an error",
+          "Whether User1 is a Global Administrator",
+          "Whether Group1 has a SharePoint site"
+        ],
+        answers: [0, 1],
+        hint: "Follow the group membership and license-processing path.",
+        clue: "The most likely failure points are membership and assignment processing.",
+        fluff: "Admin role and SharePoint resources do not determine license assignment.",
+        explanation:
+          "Confirm effective group membership and check the user's group-based licensing status for assignment errors or conflicts."
+      },
+      {
+        category: "Service principals",
+        type: "single",
+        prompt: `
+          <p>An application is registered in TenantA. When the application is used
+          in TenantB, Microsoft Entra creates an identity for that application in
+          TenantB.</p>
+          <p>What is that identity called?</p>
+        `,
+        options: [
+          "A user object",
+          "A service principal",
+          "An Administrative Unit",
+          "A managed device"
+        ],
+        answers: [1],
+        hint: "Think of the application's identity inside a tenant.",
+        clue: "The tenant-local application identity is the service principal.",
+        fluff: "The application registration remains the blueprint.",
+        explanation:
+          "A service principal is the identity of an application in a specific tenant and is represented in the Enterprise applications experience."
+      },
+      {
+        category: "Managed identities",
+        type: "single",
+        prompt: `
+          <p>An Azure virtual machine must access Key Vault without storing a client
+          secret in code or configuration.</p>
+          <p>Which identity type should be used?</p>
+        `,
+        options: [
+          "A managed identity",
+          "A shared user account",
+          "An access package",
+          "A dynamic device group"
+        ],
+        answers: [0],
+        hint: "Avoid manually managed credentials.",
+        clue: "Managed identities provide Azure resources with automatically managed credentials.",
+        fluff: "The VM operating system and department are irrelevant.",
+        explanation:
+          "A managed identity allows the VM to obtain tokens without storing and rotating client secrets manually."
+      },
+      {
+        category: "Group rules",
+        type: "single",
+        prompt: `
+          <p>You need a group whose membership updates automatically when a user's
+          Department attribute changes.</p>
+          <p>Which membership type should you use?</p>
+        `,
+        options: [
+          "Assigned",
+          "Dynamic User",
+          "Dynamic Device",
+          "Microsoft 365 assigned only"
+        ],
+        answers: [1],
+        hint: "The rule evaluates user attributes.",
+        clue: "Department is a user attribute.",
+        fluff: "Device details and licenses are irrelevant.",
+        explanation:
+          "Dynamic User membership evaluates user attributes such as Department and updates membership automatically."
+      },
+      {
+        category: "Consent",
+        type: "single",
+        prompt: `
+          <p>An application requests permission to read every user's mailbox.</p>
+          <p>Who must approve this permission?</p>
+        `,
+        options: [
+          "Any signed-in user",
+          "An administrator",
+          "The application owner only",
+          "The Help Desk administrator"
+        ],
+        answers: [1],
+        hint: "Consider the scope and impact of the permission.",
+        clue: "Organization-wide mailbox access is highly privileged.",
+        fluff: "The application name and user department are irrelevant.",
+        explanation:
+          "High-impact organization-wide permissions require administrator consent."
+      },
+      {
+        category: "Conditional Access",
+        type: "single",
+        prompt: `
+          <p>A policy must require MFA before a user can access App1.</p>
+          <p>Which type of Conditional Access control should be configured?</p>
+        `,
+        options: [
+          "Grant control",
+          "Session control",
+          "Access Review",
+          "Lifecycle Workflow"
+        ],
+        answers: [0],
+        hint: "This requirement applies before access is granted.",
+        clue: "MFA is a sign-in requirement.",
+        fluff: "Post-login actions are not part of this question.",
+        explanation:
+          "Grant controls define what must be satisfied before access is granted, including MFA and compliant-device requirements."
+      },
+      {
+        category: "Access reviews",
+        type: "single",
+        prompt: `
+          <p>A manager wants to know whether users who already have access to App1
+          should keep that access.</p>
+          <p>Which feature is designed for this task?</p>
+        `,
+        options: [
+          "Access Review",
+          "Access Package",
+          "Dynamic group",
+          "App registration"
+        ],
+        answers: [0],
+        hint: "Existing access must be revalidated.",
+        clue: "The question asks whether users should continue to have access.",
+        fluff: "No approval flow for new access is being requested.",
+        explanation:
+          "Access Reviews are designed to periodically confirm whether existing access should continue."
+      },
+      {
+        category: "Entitlement management",
+        type: "single",
+        prompt: `
+          <p>A Finance access bundle contains a security group, an enterprise app,
+          and a SharePoint site.</p>
+          <p>What Microsoft Entra feature represents this bundle?</p>
+        `,
+        options: [
+          "Access Package",
+          "Administrative Unit",
+          "Conditional Access policy",
+          "Service principal"
+        ],
+        answers: [0],
+        hint: "Think of a requestable bundle of resources.",
+        clue: "Access packages bundle groups, apps, and SharePoint sites.",
+        fluff: "The department name is not important.",
+        explanation:
+          "An Access Package is a collection of resources users can request through entitlement management."
+      },
+      {
+        category: "Lifecycle Workflows",
+        type: "single",
+        prompt: `
+          <p>An employee leaves the company. The organization wants to automatically
+          disable the account, remove group memberships, and notify the manager.</p>
+          <p>Which feature should be used?</p>
+        `,
+        options: [
+          "Lifecycle Workflow",
+          "Access Package",
+          "Conditional Access App Control",
+          "App Discovery"
+        ],
+        answers: [0],
+        hint: "This is a leaver event.",
+        clue: "Offboarding tasks are part of the identity lifecycle.",
+        fluff: "No access request or cloud app discovery is involved.",
+        explanation:
+          "Lifecycle Workflows automate joiner, mover, and leaver tasks, including offboarding."
+      },
+      {
+        category: "PIM",
+        type: "single",
+        prompt: `
+          <p>User1 is permanently assigned the Global Administrator role.</p>
+          <p>The company wants User1 to activate the role only when needed and lose
+          it automatically after two hours.</p>
+          <p>What change should be made?</p>
+        `,
+        options: [
+          "Convert the assignment to eligible in PIM and configure a two-hour activation duration",
+          "Create an Access Review",
+          "Create a Dynamic User group",
+          "Assign a Microsoft 365 license"
+        ],
+        answers: [0],
+        hint: "Change permanent privilege into just-in-time privilege.",
+        clue: "Eligible PIM assignment plus activation duration meets the requirement.",
+        fluff: "Group membership and licensing are not relevant.",
+        explanation:
+          "PIM eligible assignments support temporary activation and automatic expiration."
+      }
+    ];
+
+    const state = {
+      mode: "practice",
+      sessionQuestions: [],
+      currentIndex: 0,
+      correctCount: 0,
+      answered: false,
+      responses: []
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const setupScreen = $("setupScreen");
+    const quizScreen = $("quizScreen");
+    const resultsScreen = $("resultsScreen");
+    const answerOptions = $("answerOptions");
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
+      }
+      return copy;
     }
-  });
 
-  const counters={};
-  const cycles={
-    2:[0,1],
-    3:[0,2,1],
-    4:[0,2,1,3],       // A,C,B,D repeated
-    5:[0,3,1,4,2]      // A,D,B,E,C repeated
-  };
-  const pairCycles=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
-  let pairCounter=0;
-
-  qs=qs.map(q=>{
-    if(q.type==="single"){
-      const n=q.choices.length;
-      const originalCorrect=q.correct[0];
-      const correctText=q.choices[originalCorrect];
-      const distractors=q.choices.filter((_,i)=>i!==originalCorrect);
-      shuffle(distractors);
-      counters[n]=(counters[n]||0);
-      const cycle=cycles[n]||Array.from({length:n},(_,i)=>i);
-      const target=cycle[counters[n] % cycle.length];
-      counters[n]++;
-      const mixed=[...distractors];
-      mixed.splice(target,0,correctText);
-      return {...q,choices:mixed,correct:[target]};
+    function getSelectedIndexes() {
+      return Array.from(
+        answerOptions.querySelectorAll("input:checked")
+      ).map((input) => Number(input.value));
     }
 
-    if(q.type==="select" && q.selectCount===2 && q.choices.length===4){
-      const correctTexts=q.correct.map(i=>q.choices[i]);
-      const wrongTexts=q.choices.filter((_,i)=>!q.correct.includes(i));
-      shuffle(correctTexts); shuffle(wrongTexts);
-      const targets=pairCycles[pairCounter % pairCycles.length];
-      pairCounter++;
-      const mixed=new Array(4);
-      mixed[targets[0]]=correctTexts[0];
-      mixed[targets[1]]=correctTexts[1];
-      const remaining=[0,1,2,3].filter(i=>!targets.includes(i));
-      mixed[remaining[0]]=wrongTexts[0];
-      mixed[remaining[1]]=wrongTexts[1];
-      return {...q,choices:mixed,correct:targets};
+    function getConfidence() {
+      const selected = document.querySelector(
+        'input[name="confidence"]:checked'
+      );
+      return selected ? selected.value : null;
     }
 
-    if(q.type==="select"){
-      const mapped=q.choices.map((text,i)=>({text,correct:q.correct.includes(i)}));
-      shuffle(mapped);
-      return {...q,choices:mapped.map(x=>x.text),correct:mapped.map((x,i)=>x.correct?i:null).filter(x=>x!==null)};
+    function arraysMatch(first, second) {
+      if (first.length !== second.length) {
+        return false;
+      }
+
+      const a = [...first].sort((x, y) => x - y);
+      const b = [...second].sort((x, y) => x - y);
+
+      return a.every((value, index) => value === b[index]);
     }
 
-    if(q.type==="matrix"){
-      q.rows=q.rows.map(row=>{
-        const mapped=row.options.map((text,i)=>({text,correct:i===row.correct}));
-        shuffle(mapped);
-        return {...row,options:mapped.map(x=>x.text),correct:mapped.findIndex(x=>x.correct)};
+    function resetConfidence() {
+      document
+        .querySelectorAll('input[name="confidence"]')
+        .forEach((input) => {
+          input.checked = false;
+        });
+
+      $("confidenceStat").textContent = "—";
+    }
+
+    function updateStats() {
+      const total = state.sessionQuestions.length || 1;
+      const displayedIndex = Math.min(state.currentIndex + 1, total);
+      const attempted = state.responses.length;
+      const accuracy = attempted
+        ? Math.round((state.correctCount / attempted) * 100)
+        : 0;
+
+      $("questionStat").textContent = `${displayedIndex} / ${total}`;
+      $("correctStat").textContent = String(state.correctCount);
+      $("accuracyStat").textContent = `${accuracy}%`;
+      $("progressBar").style.width = `${(displayedIndex / total) * 100}%`;
+    }
+
+    function setValidation(message) {
+      const element = $("validationMessage");
+      element.textContent = message;
+      element.classList.remove("hidden");
+    }
+
+    function clearValidation() {
+      $("validationMessage").classList.add("hidden");
+      $("validationMessage").textContent = "";
+    }
+
+    function renderQuestion() {
+      state.answered = false;
+      clearValidation();
+      resetConfidence();
+
+      const question = state.sessionQuestions[state.currentIndex];
+
+      $("categoryBadge").textContent = question.category;
+      $("questionNumber").textContent =
+        `Question ${state.currentIndex + 1} of ${state.sessionQuestions.length}`;
+      $("scenario").innerHTML = question.prompt;
+      $("hintText").textContent = ` ${question.hint}`;
+      $("hintBox").classList.toggle(
+        "hidden",
+        !$("showHints").checked
+      );
+
+      $("feedbackBox").className = "feedback-box hidden";
+      $("feedbackTitle").textContent = "";
+      $("keyClue").textContent = "";
+      $("fluffText").textContent = "";
+      $("explanationText").textContent = "";
+
+      $("checkButton").classList.remove("hidden");
+      $("nextButton").classList.add("hidden");
+
+      answerOptions.innerHTML = "";
+
+      const isMultiple = question.type === "multiple";
+
+      question.options.forEach((option, index) => {
+        const label = document.createElement("label");
+        label.className = "answer-option";
+
+        const input = document.createElement("input");
+        input.type = isMultiple ? "checkbox" : "radio";
+        input.name = "answer";
+        input.value = String(index);
+
+        const text = document.createElement("span");
+        text.className = "answer-text";
+        text.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+
+        input.addEventListener("change", () => {
+          answerOptions
+            .querySelectorAll(".answer-option")
+            .forEach((optionElement) => {
+              optionElement.classList.remove("selected");
+            });
+
+          answerOptions
+            .querySelectorAll("input:checked")
+            .forEach((selectedInput) => {
+              selectedInput
+                .closest(".answer-option")
+                .classList.add("selected");
+            });
+        });
+
+        label.append(input, text);
+        answerOptions.appendChild(label);
       });
-      return q;
+
+      updateStats();
     }
-    return q;
-  });
 
-  answers=qs.map(q=>q.type==="matrix"?q.rows.map(()=>null):[]);
-  flags=qs.map(()=>false);
-  checked=qs.map(()=>false);
-}
-function startExam(){prep();document.getElementById('start').classList.add('hidden');document.getElementById('exam').classList.remove('hidden');render();timerId=setInterval(tick,1000)}
-function tick(){timeLeft--;let m=Math.floor(timeLeft/60),s=timeLeft%60;document.getElementById('timer').textContent=`${m}:${String(s).padStart(2,'0')}`;if(timeLeft<=0)submitExam(true)}
-function render(){
- const q=qs[idx];
- const isChecked=checked[idx];
+    function displayFeedback(question, selectedIndexes, isCorrect) {
+      const feedback = $("feedbackBox");
 
- document.getElementById('num').textContent=`Question ${idx+1} of ${qs.length}`;
- document.getElementById('domain').textContent=q.domain;
- document.getElementById('difficulty').textContent=q.difficulty||'Exam';
- document.getElementById('format').textContent=q.type==='select'?`Select ${q.selectCount}`:(q.type==='matrix'?'Hotspot / dropdown':'Single answer');
- document.getElementById('qtext').textContent=q.question+(q.type==='select'?`\n\nSelect ${q.selectCount} answers.`:'');
+      feedback.className = `feedback-box ${
+        isCorrect ? "success" : "error"
+      }`;
 
- const box=document.getElementById('choices');
- box.innerHTML='';
+      $("feedbackTitle").textContent = isCorrect
+        ? "Correct — you identified the controlling requirement."
+        : `Not quite. Correct answer: ${question.answers
+            .map((index) => String.fromCharCode(65 + index))
+            .join(" and ")}`;
 
- if(q.type==="matrix"){
-   q.rows.forEach((row,r)=>{
-     const wrap=document.createElement('div');
-     wrap.style.margin='14px 0';
+      $("keyClue").textContent = question.clue;
+      $("fluffText").textContent = question.fluff;
+      $("explanationText").textContent = question.explanation;
 
-     const lab=document.createElement('div');
-     lab.style.fontWeight='700';
-     lab.style.marginBottom='7px';
-     lab.textContent=row.label;
+      answerOptions.querySelectorAll("input").forEach((input) => {
+        input.disabled = true;
+      });
 
-     const sel=document.createElement('select');
-     sel.style.width='100%';
-     sel.style.padding='12px';
-     sel.style.borderRadius='10px';
-     sel.style.border='1px solid var(--line)';
-     sel.style.background='var(--card)';
-     sel.style.color='var(--text)';
+      answerOptions
+        .querySelectorAll(".answer-option")
+        .forEach((optionElement, index) => {
+          if (question.answers.includes(index)) {
+            optionElement.classList.add("correct");
+          } else if (selectedIndexes.includes(index)) {
+            optionElement.classList.add("incorrect");
+          }
+        });
+    }
 
-     const ph=document.createElement('option');
-     ph.value='';
-     ph.textContent='Select an answer';
-     sel.appendChild(ph);
+    function submitAnswer() {
+      if (state.answered) {
+        return;
+      }
 
-     row.options.forEach((opt,i)=>{
-       const o=document.createElement('option');
-       o.value=i;
-       o.textContent=opt;
-       sel.appendChild(o);
-     });
+      const question = state.sessionQuestions[state.currentIndex];
+      const selectedIndexes = getSelectedIndexes();
+      const confidence = getConfidence();
 
-     if(answers[idx][r]!==null) sel.value=answers[idx][r];
+      if (selectedIndexes.length === 0) {
+        setValidation("Select an answer before continuing.");
+        return;
+      }
 
-     if(isChecked){
-       sel.disabled=true;
-       if(answers[idx][r]===row.correct) sel.classList.add('correctSelect');
-       else sel.classList.add('wrongSelect');
-     } else {
-       sel.onchange=()=>{
-         answers[idx][r]=sel.value===''?null:Number(sel.value);
-         renderNav();
-       };
-     }
+      if (
+        question.type === "multiple" &&
+        selectedIndexes.length !== question.answers.length
+      ) {
+        setValidation(
+          `Select exactly ${question.answers.length} answers.`
+        );
+        return;
+      }
 
-     wrap.appendChild(lab);
-     wrap.appendChild(sel);
+      if (!confidence) {
+        setValidation(
+          "Choose a confidence level before continuing."
+        );
+        return;
+      }
 
-     if(isChecked){
-       const ans=document.createElement('div');
-       ans.style.marginTop='6px';
-       ans.style.fontSize='14px';
-       ans.innerHTML=`<b>Correct:</b> ${row.options[row.correct]}`;
-       wrap.appendChild(ans);
-     }
+      clearValidation();
 
-     box.appendChild(wrap);
-   });
- } else {
-   q.choices.forEach((c,i)=>{
-     let b=document.createElement('button');
-     let cls='choice'+(answers[idx].includes(i)?' selected':'');
-     if(isChecked){
-       cls+=' locked';
-       if(q.correct.includes(i)) cls+=' correctChoice';
-       else if(answers[idx].includes(i)) cls+=' wrongChoice';
-     }
-     b.className=cls;
-     b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}.</span><span>${c}</span>`;
-     if(!isChecked) b.onclick=()=>choose(i);
-     box.appendChild(b);
-   });
- }
+      const isCorrect = arraysMatch(
+        selectedIndexes,
+        question.answers
+      );
 
- document.getElementById('flagBtn').className='btn secondary'+(flags[idx]?' flagged':'');
- document.getElementById('bar').style.width=((idx+1)/qs.length*100)+'%';
+      if (isCorrect) {
+        state.correctCount += 1;
+      }
 
- document.getElementById('checkBtn').disabled=isChecked;
- document.getElementById('clearBtn').disabled=isChecked;
+      state.responses.push({
+        question,
+        selectedIndexes,
+        confidence,
+        isCorrect
+      });
 
- const f=document.getElementById('feedbackBox');
- f.className='feedbackBox';
- f.innerHTML='';
- const s=document.getElementById('checkStatus');
+      state.answered = true;
+      $("confidenceStat").textContent = confidence;
 
- if(isChecked){
-   const ok=isQuestionCorrect(q,answers[idx]);
-   f.className='feedbackBox show '+(ok?'good':'bad');
-   f.innerHTML=buildFeedback(q,answers[idx],ok);
-   s.textContent=ok?'Checked: correct':'Checked: review the explanation below';
- } else {
-   s.textContent='Choose your answer, then check it.';
- }
+      if (state.mode === "practice") {
+        displayFeedback(question, selectedIndexes, isCorrect);
+        $("checkButton").classList.add("hidden");
+        $("nextButton").classList.remove("hidden");
+        $("nextButton").textContent =
+          state.currentIndex === state.sessionQuestions.length - 1
+            ? "See results"
+            : "Next question";
+      } else {
+        goToNextQuestion();
+      }
 
- renderNav();
-}
+      updateStats();
+    }
 
-function isQuestionCorrect(q,a){
-  if(q.type==='matrix'){
-    return q.rows.every((row,r)=>a[r]===row.correct);
-  }
-  return eq(a,q.correct);
-}
+    function goToNextQuestion() {
+      if (state.currentIndex < state.sessionQuestions.length - 1) {
+        state.currentIndex += 1;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
 
-function hasCompleteAnswer(q,a){
-  if(q.type==='matrix') return a.every(x=>x!==null);
-  if(q.type==='select') return a.length===q.selectCount;
-  return a.length===1;
-}
+    function getCategoryStats() {
+      const stats = {};
 
-function answerText(q,a){
-  if(q.type==='matrix'){
-    return q.rows.map((row,r)=>{
-      const yours=a[r]===null?'Unanswered':row.options[a[r]];
-      return `<div style="margin-top:6px"><b>${row.label}</b><br>${yours}</div>`;
-    }).join('');
-  }
-  if(!a.length) return 'Unanswered';
-  return a.map(i=>`${String.fromCharCode(65+i)}. ${q.choices[i]}`).join('<br>');
-}
+      state.responses.forEach((response) => {
+        const category = response.question.category;
 
-function correctText(q){
-  if(q.type==='matrix'){
-    return q.rows.map(row=>`<div style="margin-top:6px"><b>${row.label}</b><br>${row.options[row.correct]}</div>`).join('');
-  }
-  return q.correct.map(i=>`${String.fromCharCode(65+i)}. ${q.choices[i]}`).join('<br>');
-}
+        if (!stats[category]) {
+          stats[category] = {
+            correct: 0,
+            total: 0
+          };
+        }
 
-function buildFeedback(q,a,ok){
-  const headline=ok?'Correct':'Incorrect';
-  const takeaway=q.explanation
-    ? q.explanation.split('. ')[0].replace(/\.$/,'')+'.'
-    : 'Review the identity requirement and eliminate answers that do not satisfy the stated scope or control.';
-  return `
-    <div class="explainTitle">${headline}</div>
-    ${ok?'':`<div><b>Your answer:</b><br>${answerText(q,a)}</div><div style="margin-top:8px"><b>Correct answer:</b><br>${correctText(q)}</div>`}
-    <div style="margin-top:10px"><b>Why:</b> ${q.explanation}</div>
-    <div class="takeaway">Exam takeaway: ${takeaway}</div>
-  `;
-}
+        stats[category].total += 1;
 
-function checkAnswer(){
-  const q=qs[idx];
-  if(!hasCompleteAnswer(q,answers[idx])){
-    const needed=q.type==='select'?`Select exactly ${q.selectCount} answers before checking.`:
-      (q.type==='matrix'?'Complete every dropdown before checking.':'Select an answer before checking.');
-    document.getElementById('checkStatus').textContent=needed;
-    return;
-  }
-  checked[idx]=true;
-  render();
-}
+        if (response.isCorrect) {
+          stats[category].correct += 1;
+        }
+      });
 
-function clearAnswer(){
-  if(checked[idx]) return;
-  const q=qs[idx];
-  answers[idx]=q.type==='matrix'?q.rows.map(()=>null):[];
-  render();
-}
+      return Object.entries(stats).map(([name, value]) => ({
+        name,
+        correct: value.correct,
+        total: value.total,
+        percentage: value.total
+          ? value.correct / value.total
+          : 0
+      }));
+    }
 
-function choose(i){const q=qs[idx];if(q.type==='select'){let a=answers[idx];if(a.includes(i))a.splice(a.indexOf(i),1);else if(a.length<q.selectCount)a.push(i)}else answers[idx]=[i];render()}
-function prev(){if(idx>0){idx--;render()}}function next(){if(idx<qs.length-1){idx++;render()}}
-function flag(){flags[idx]=!flags[idx];render()}
-function renderNav(){const n=document.getElementById('nav');n.innerHTML='';qs.forEach((q,i)=>{let b=document.createElement('button');let done=qs[i].type==='matrix'?answers[i].every(x=>x!==null):answers[i].length>0;b.className='navq'+(done?' answered':'')+(checked[i]?' checked':'')+(i===idx?' current':'')+(flags[i]?' flag':'');b.textContent=i+1;b.onclick=()=>{idx=i;render()};n.appendChild(b)})}
-function eq(a,b){return [...a].sort((x,y)=>x-y).join(',')===[...b].sort((x,y)=>x-y).join(',')}
-function submitExam(auto=false){if(submitted)return;let un=answers.filter((a,i)=>qs[i].type==='matrix'?a.some(x=>x===null):!a.length).length;if(!auto&&!confirm(un?`You have ${un} unanswered questions. Submit anyway?`:'Submit exam?'))return;submitted=true;clearInterval(timerId);document.getElementById('exam').classList.add('hidden');document.getElementById('results').classList.remove('hidden');showResults()}
-function showResults(){
- let right=0,stats={};
- qs.forEach((q,i)=>{
-   let ok=isQuestionCorrect(q,answers[i]);if(ok)right++;
-   stats[q.domain]??={r:0,t:0};stats[q.domain].t++;if(ok)stats[q.domain].r++;
- });
- let pct=Math.round(right/qs.length*100),
- out=`<div class="score">${pct}%</div><h2>${right} / ${qs.length} correct</h2><p class="muted">Practice percentage only; Microsoft uses a scaled certification score.</p><h3>Domain performance</h3>`;
- Object.entries(stats).sort((a,b)=>(a[1].r/a[1].t)-(b[1].r/b[1].t)).forEach(([d,s])=>out+=`<div class="resultrow"><b>${d}</b>: ${Math.round(s.r/s.t*100)}% (${s.r}/${s.t})</div>`);
- out+=`<h3>Review</h3>`;
- qs.forEach((q,i)=>{
-   let ok=isQuestionCorrect(q,answers[i]);
-   let detail='';
-   if(q.type==='matrix'){
-     detail=q.rows.map((row,r)=>{
-       const your=answers[i][r]===null?'Unanswered':row.options[answers[i][r]];
-       const corr=row.options[row.correct];
-       return `<div style="margin-top:6px"><b>${row.label}</b><br>Your answer: ${your}<br>Correct: ${corr}</div>`;
-     }).join('');
-   } else {
-     let yours=answers[i].length?answers[i].map(x=>String.fromCharCode(65+x)).join(', '):'Unanswered';
-     let corr=q.correct.map(x=>String.fromCharCode(65+x)).join(', ');
-     detail=`<div><b>Your answer:</b> ${yours} &nbsp; <b>Correct:</b> ${corr}</div>`;
-   }
-   out+=`<div class="resultrow"><b>Q${i+1} — <span class="${ok?'correct':'wrong'}">${ok?'Correct':'Incorrect'}</span></b><div>${q.question}</div>${detail}<div class="explain">${q.explanation}</div></div>`;
- });
- document.getElementById('resultContent').innerHTML=out;window.scrollTo(0,0);
-}
-function toggleDark(){document.body.classList.toggle('dark')}
-</script>
-</body></html>
+    function showResults() {
+      quizScreen.classList.add("hidden");
+      resultsScreen.classList.remove("hidden");
+
+      const total = state.responses.length;
+      const percentage = total
+        ? Math.round((state.correctCount / total) * 100)
+        : 0;
+
+      $("finalScore").textContent =
+        `${state.correctCount} / ${total}`;
+      $("finalAccuracy").textContent = `${percentage}%`;
+
+      if (percentage >= 90) {
+        $("resultsHeading").textContent = "Excellent performance";
+        $("resultsSummary").textContent =
+          "You are reading the scenarios well. Review low-confidence answers and continue with harder mixed questions.";
+      } else if (percentage >= 75) {
+        $("resultsHeading").textContent = "Strong foundation";
+        $("resultsSummary").textContent =
+          "You understand most concepts. Focus on the questions where Microsoft-style distractions changed your answer.";
+      } else {
+        $("resultsHeading").textContent = "Keep building";
+        $("resultsSummary").textContent =
+          "Review the missed questions, identify the controlling requirement, and retry the missed set.";
+      }
+
+      const categoryStats = getCategoryStats().sort(
+        (first, second) =>
+          second.percentage - first.percentage ||
+          second.total - first.total
+      );
+
+      $("strongestTopic").textContent =
+        categoryStats[0]?.name || "—";
+      $("weakestTopic").textContent =
+        categoryStats[categoryStats.length - 1]?.name || "—";
+
+      renderReview();
+
+      const missedCount = state.responses.filter(
+        (response) => !response.isCorrect
+      ).length;
+
+      $("retryMissedButton").disabled = missedCount === 0;
+      $("retryMissedButton").textContent =
+        missedCount === 0
+          ? "No missed questions"
+          : `Retry ${missedCount} missed ${
+              missedCount === 1 ? "question" : "questions"
+            }`;
+    }
+
+    function renderReview() {
+      const reviewList = $("reviewList");
+      reviewList.innerHTML = "";
+
+      state.responses.forEach((response, index) => {
+        const reviewCard = document.createElement("details");
+        reviewCard.className = `review-card ${
+          response.isCorrect
+            ? "correct-review"
+            : "incorrect-review"
+        }`;
+
+        const summary = document.createElement("summary");
+        summary.textContent =
+          `${index + 1}. ${response.question.category} — ${
+            response.isCorrect ? "Correct" : "Review"
+          }`;
+
+        const selectedText = response.selectedIndexes
+          .map(
+            (answerIndex) =>
+              `${String.fromCharCode(65 + answerIndex)}. ${
+                response.question.options[answerIndex]
+              }`
+          )
+          .join("; ");
+
+        const correctText = response.question.answers
+          .map(
+            (answerIndex) =>
+              `${String.fromCharCode(65 + answerIndex)}. ${
+                response.question.options[answerIndex]
+              }`
+          )
+          .join("; ");
+
+        const content = document.createElement("div");
+        content.className = "muted";
+        content.style.marginTop = "12px";
+        content.innerHTML = `
+          <p><strong>Your answer:</strong> ${selectedText}</p>
+          <p><strong>Correct answer:</strong> ${correctText}</p>
+          <p><strong>Confidence:</strong> ${response.confidence}</p>
+          <p><strong>Key clue:</strong> ${response.question.clue}</p>
+          <p><strong>Ignore:</strong> ${response.question.fluff}</p>
+          <p><strong>Explanation:</strong> ${response.question.explanation}</p>
+        `;
+
+        reviewCard.append(summary, content);
+        reviewList.appendChild(reviewCard);
+      });
+    }
+
+    function startSession(customQuestionSet = null) {
+      state.mode =
+        document.querySelector('input[name="mode"]:checked')
+          ?.value || "practice";
+
+      let selectedQuestions = customQuestionSet
+        ? [...customQuestionSet]
+        : [...questions];
+
+      if (!customQuestionSet && $("shuffleQuestions").checked) {
+        selectedQuestions = shuffle(selectedQuestions);
+      }
+
+      if (!customQuestionSet) {
+        const countValue = $("questionCount").value;
+
+        if (countValue !== "all") {
+          selectedQuestions = selectedQuestions.slice(
+            0,
+            Number(countValue)
+          );
+        }
+      }
+
+      state.sessionQuestions = selectedQuestions;
+      state.currentIndex = 0;
+      state.correctCount = 0;
+      state.responses = [];
+      state.answered = false;
+
+      setupScreen.classList.add("hidden");
+      resultsScreen.classList.add("hidden");
+      quizScreen.classList.remove("hidden");
+
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function restartApp() {
+      resultsScreen.classList.add("hidden");
+      quizScreen.classList.add("hidden");
+      setupScreen.classList.remove("hidden");
+
+      state.sessionQuestions = [];
+      state.currentIndex = 0;
+      state.correctCount = 0;
+      state.responses = [];
+      state.answered = false;
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    $("startButton").addEventListener("click", () => {
+      startSession();
+    });
+
+    $("checkButton").addEventListener("click", submitAnswer);
+    $("nextButton").addEventListener("click", goToNextQuestion);
+
+    $("endButton").addEventListener("click", () => {
+      const shouldEnd = window.confirm(
+        "End this session and view your current results?"
+      );
+
+      if (shouldEnd) {
+        showResults();
+      }
+    });
+
+    $("restartButton").addEventListener("click", restartApp);
+
+    $("retryMissedButton").addEventListener("click", () => {
+      const missedQuestions = state.responses
+        .filter((response) => !response.isCorrect)
+        .map((response) => response.question);
+
+      if (missedQuestions.length > 0) {
+        startSession(missedQuestions);
+      }
+    });
+
+    document
+      .querySelectorAll('input[name="confidence"]')
+      .forEach((input) => {
+        input.addEventListener("change", () => {
+          $("confidenceStat").textContent = input.value;
+        });
+      });
+  </script>
+</body>
+</html>

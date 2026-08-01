@@ -1,108 +1,168 @@
-# 🔐 SC-300 Microsoft Identity and Access Administrator Practice Exam
+# SC-300 Scenario Practice Exam
 
-An interactive SC-300 practice exam built to help prepare for the **Microsoft Identity and Access Administrator (SC-300)** certification exam.
+A GitHub Pages-ready interactive practice exam for the **Microsoft SC-300: Identity and Access Administrator** certification.
 
-This project focuses on scenario-based questions, Microsoft Entra ID concepts, identity governance, authentication, workload identities, and exam-style decision making.
+This project focuses on the part of the exam that is often harder than memorizing definitions: reading Microsoft-style scenarios, identifying the actual requirement, and ignoring irrelevant details such as extra users, groups, departments, roles, and licenses.
 
-## 🎯 Purpose
+## Live Features
 
-I created this project as part of my hands-on preparation for the SC-300 certification and my continued development in Identity and Access Management (IAM).
-
-Rather than relying only on basic multiple-choice questions, the simulator focuses on scenarios that require understanding concepts such as:
-
-- Least privilege
-- Least administrative effort
-- Conditional Access
-- Microsoft Entra Identity Protection
-- Privileged Identity Management (PIM)
-- Identity Governance
-- Access Reviews
-- Entitlement Management
-- Lifecycle Workflows
-- Microsoft Entra roles
-- Administrative Units
-- Hybrid identity
-- Authentication methods
-- Workload identities
-- Managed identities
-- Enterprise applications
+- Practice mode with immediate explanations
+- Exam mode with results shown at the end
+- 10, 20, 30, or all-question sessions
+- Optional question shuffling
+- “Ignore the fluff” reading hints
+- Single-answer and choose-two questions
+- User1, User2, Group1, and license table scenarios
+- Dynamic group membership rules
+- Group-based licensing
+- App registrations and enterprise applications
+- Delegated and application permissions
+- Access packages, access reviews, and lifecycle workflows
+- Privileged Identity Management
+- Administrative Units and least privilege
+- Conditional Access and session controls
+- Identity Protection
 - Global Secure Access
+- Confidence tracking
+- Missed-question retry mode
+- Detailed answer review
+- Mobile-friendly responsive layout
+- No frameworks, packages, APIs, or build tools required
 
-## 🧪 Exam Features
+## Project Structure
 
-- 150+ SC-300 practice questions
-- Scenario-based Microsoft-style questions
-- Single-answer questions
-- Select TWO / multiple-answer questions
-- Hotspot and dropdown-style scenarios
-- Randomized question order
-- Balanced correct-answer positions
-- 100-minute exam timer
-- Previous and Next navigation
-- Flag questions for review
-- Question navigation panel
-- Immediate **Check Answer** option
-- Correct/incorrect feedback
-- Detailed explanations
-- Exam takeaways for important concepts
-- Final score and domain performance breakdown
-- Full post-exam question review
-- Dark mode
-- Responsive desktop and mobile design
+```text
+sc300-practice-exam/
+├── index.html
+└── README.md
+```
 
-## 📚 SC-300 Domains Covered
+The entire application is contained in `index.html`, so it can be hosted directly with GitHub Pages.
 
-The simulator focuses on the major skills measured on the SC-300 exam:
+## Run Locally
 
-### Implement and manage user identities
-Users, groups, administrative units, external identities, licensing, and hybrid identity.
+### Option 1: Open the file directly
 
-### Implement authentication and access management
-Authentication methods, MFA, Conditional Access, Identity Protection, SSPR, and Global Secure Access.
+Download the repository and open `index.html` in a browser.
 
-### Plan and implement workload identities
-App registrations, enterprise applications, service principals, managed identities, permissions, and workload identity federation.
+### Option 2: Use a local web server
 
-### Plan and automate identity governance
-Privileged Identity Management (PIM), Access Reviews, Entitlement Management, access packages, and Lifecycle Workflows.
+With Python installed:
 
-## 💡 Study Mode
+```bash
+python -m http.server 8000
+```
 
-Each question includes a **Check Answer** option.
+Then open:
 
-After committing to an answer, the simulator shows:
+```text
+http://localhost:8000
+```
 
-- Whether the answer is correct or incorrect
-- The correct answer
-- An explanation of the underlying concept
-- An exam takeaway to reinforce the important SC-300 concept
+## Deploy with GitHub Pages
 
-Once an answer is checked, it is locked to encourage committing to a decision before viewing the explanation.
+1. Upload `index.html` and `README.md` to the root of your repository.
+2. Open the repository on GitHub.
+3. Go to **Settings**.
+4. Select **Pages**.
+5. Under **Build and deployment**, choose **Deploy from a branch**.
+6. Select the `main` branch and `/root`.
+7. Save the settings.
+8. GitHub will display the live site URL after deployment finishes.
 
-## 🚀 Running the Project
+## Updating the Question Bank
 
-No installation or backend is required.
+Questions are stored inside the `questions` array near the bottom of `index.html`.
 
-The entire application runs directly in the browser using:
+Each question follows this structure:
 
-- HTML
-- CSS
-- JavaScript
+```javascript
+{
+  category: "Conditional Access",
+  type: "single",
+  prompt: `
+    <p>Your scenario goes here.</p>
+    <p>What should you configure?</p>
+  `,
+  options: [
+    "Option A",
+    "Option B",
+    "Option C",
+    "Option D"
+  ],
+  answers: [1],
+  hint: "What should the learner focus on?",
+  clue: "What wording determines the answer?",
+  fluff: "What information should be ignored?",
+  explanation: "Why is the answer correct?"
+}
+```
 
-Clone the repository or download `index.html` and open it in a browser.
+For a choose-two question:
 
-The project can also be hosted directly using GitHub Pages.
+```javascript
+type: "multiple",
+answers: [0, 2]
+```
 
-## ⚠️ Disclaimer
+The answer indexes start at `0`:
 
-This is an independent study project and is not affiliated with or endorsed by Microsoft.
+```text
+0 = A
+1 = B
+2 = C
+3 = D
+```
 
-The questions are intended for educational and certification-preparation purposes. They are designed around SC-300 concepts and exam objectives rather than representing an official Microsoft exam question bank.
+## Question-Writing Guidelines
 
-Microsoft, Microsoft Entra, Azure, and related product names are trademarks of Microsoft Corporation.
+Good SC-300 practice questions should test both technical knowledge and scenario reading.
 
-## 👨‍💻 Project Goal
+Include:
 
-Beyond certification preparation, this project demonstrates practical knowledge of Identity and Access Management concepts and serves as part of my cybersecurity/IAM portfolio.
+- One clear business requirement
+- Realistic Microsoft Entra terminology
+- Plausible distractors
+- “Least privilege” or “least administrative effort” where appropriate
+- Extra table columns that are irrelevant but fair
+- Explanations that identify the controlling clue
+- A clear reason each wrong answer does not fully satisfy the scenario
 
-The goal is not simply to memorize answers, but to understand **why a particular identity or access control is the best solution for a given business requirement.**
+Avoid:
+
+- Ambiguous wording
+- Multiple correct answers when the question says “Choose one”
+- Unsupported product behavior
+- Trick questions that rely on missing information
+- Answers that differ only through opinion rather than Microsoft functionality
+
+## Suggested Repository Description
+
+> Interactive SC-300 practice exam with Microsoft-style identity, access, governance, Conditional Access, PIM, dynamic group, and application scenarios.
+
+## Suggested GitHub Topics
+
+```text
+sc-300
+microsoft-entra
+azure
+identity-access-management
+iam
+cybersecurity
+microsoft-certification
+conditional-access
+pim
+identity-governance
+javascript
+github-pages
+```
+
+## Disclaimer
+
+This is an unofficial study project and is not affiliated with or endorsed by Microsoft.
+
+The questions are original practice content and are not copied from the live certification exam.
+
+## License
+
+You may use this project for personal learning and portfolio purposes. Add a formal open-source license such as MIT if you plan to invite public contributions.
